@@ -1,0 +1,65 @@
+{
+  "name": "contensis-management-api",
+  "version": "1.0.0-beta.0",
+  "description": "Contensis Javascript Management API",
+  "engines": {
+    "node": ">=8"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "lint": "npx tslint src/**/*.ts",
+    "pretest": "rimraf coverage/*",
+    "test": "npm run lint && karma start",
+    "test:npm": "npm run lint && karma start --test-target npm",
+    "test:watch": "npm run test -- --auto-watch --no-single-run",
+    "build:es5": "rimraf bundle-es5/* && npx tsc -p src",
+    "build:esnext": "rimraf bundle-es2015/* && npx tsc -p src/tsconfig-esnext.json",
+    "build:npm": "rimraf lib/* && npx tsc -p src/tsconfig-npm.json",
+    "all": "npm run build:esnext && npm run test && npm run build:npm && npm run test:npm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contensis/contensis-management-api.git"
+  },
+  "author": "Zengenti Ltd <development@zengenti.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/contensis/contensis-management-api/issues"
+  },
+  "homepage": "https://github.com/contensis/contensis-management-api#readme",
+  "devDependencies": {
+    "@types/jasmine": "^3.3.12",
+    "copy-webpack-plugin": "^4.6.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-jasmine": "^2.0.1",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^3.0.5",
+    "rimraf": "^2.6.3",
+    "ts-loader": "^3.5.0",
+    "tslint": "^5.20.1",
+    "typescript": "3.3.1",
+    "uglify-js": "^3.6.9",
+    "webpack": "3.12.0"
+  },
+  "dependencies": {
+    "contensis-core-api": "^1.0.0-beta.0",
+    "cross-fetch": "^3.0.4",
+    "es6-promise": "^4.2.6",
+    "tslib": "^1.10.0"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [
+    "contensis",
+    "management",
+    "api"
+  ]
+}
