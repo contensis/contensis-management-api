@@ -12,7 +12,11 @@ export class ContentTypeOperations implements IContentTypeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.httpClient.request<ContentType>(url);
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request<ContentType>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 
     list(): Promise<ContentType[]> {
@@ -20,6 +24,11 @@ export class ContentTypeOperations implements IContentTypeOperations {
             { language: null, versionStatus: null, linkDepth: null, order: null, fields: null, pageIndex: null, pageSize: null })
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.httpClient.request<ContentType[]>(url);
+
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request<ContentType[]>(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
 }

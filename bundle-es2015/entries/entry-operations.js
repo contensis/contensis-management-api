@@ -34,7 +34,11 @@ export class EntryOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
             .toUrl();
-        return this.httpClient.request(url);
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
     }
     create(entry) {
         if (!entry) {

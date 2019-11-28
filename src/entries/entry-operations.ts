@@ -3,7 +3,7 @@ import {
 } from '../models';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus, Entry,
-	IHttpClient, isBrowser, isIE, MapperFn, PagedList, UrlBuilder
+	IHttpClient, MapperFn, PagedList, UrlBuilder
 } from 'contensis-core-api';
 
 let getMappers: { [key: string]: MapperFn } = {
@@ -46,7 +46,12 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(this.contensisClient.getParams())
 			.addMappers(listMappers)
 			.toUrl();
-		return this.httpClient.request<PagedList<Entry>>(url);
+
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				headers: this.contensisClient.getHeaders()
+			});
+		});
 	}
 
 	create(entry: Entry): Promise<Entry> {
@@ -85,6 +90,7 @@ export class EntryOperations implements IEntryOperations {
 			.addOptions(entry.sys.id, 'id')
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
+
 		return this.contensisClient.ensureAuthenticationToken().then(() => {
 			return this.httpClient.request<Entry>(url, {
 				headers: this.contensisClient.getHeaders(),
@@ -104,6 +110,7 @@ export class EntryOperations implements IEntryOperations {
 			.addOptions(id, 'id')
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
+
 		return this.contensisClient.ensureAuthenticationToken().then(() => {
 			return this.httpClient.request<void>(url, {
 				headers: this.contensisClient.getHeaders(),
@@ -145,6 +152,7 @@ export class EntryOperations implements IEntryOperations {
 			.addOptions(entry.sys.id, 'id')
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
+
 		return this.contensisClient.ensureAuthenticationToken().then(() => {
 			return this.httpClient.request<Entry>(url, {
 				headers: this.contensisClient.getHeaders(),

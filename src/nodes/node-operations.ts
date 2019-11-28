@@ -90,6 +90,7 @@ export class NodeOperations implements INodeOperations {
             .addOptions(node.parentId, 'parentNodeId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
+
         return this.contensisClient.ensureAuthenticationToken().then(() => {
             return this.httpClient.request<Node>(url, {
                 headers: this.contensisClient.getHeaders(),
@@ -113,6 +114,7 @@ export class NodeOperations implements INodeOperations {
             .addOptions(node.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
+
         return this.contensisClient.ensureAuthenticationToken().then(() => {
             return this.httpClient.request<Node>(url, {
                 headers: this.contensisClient.getHeaders(),
@@ -132,6 +134,7 @@ export class NodeOperations implements INodeOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
+
         return this.contensisClient.ensureAuthenticationToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
