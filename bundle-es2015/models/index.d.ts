@@ -13,4 +13,5 @@ export * from './Node';
 export * from './NodeGetChildrenOptions';
 export * from './NodeGetParentOptions';
 export * from './NodeIdOptions';
+export * from './WorkflowTrigger';
 export * from './ZengentiStatic';

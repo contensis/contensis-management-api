@@ -1,5 +1,5 @@
 import {
-	EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient
+	EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
 } from '../models';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus, Entry,
@@ -47,5 +47,110 @@ export class EntryOperations implements IEntryOperations {
 			.addMappers(listMappers)
 			.toUrl();
 		return this.httpClient.request<PagedList<Entry>>(url);
+	}
+
+	create(entry: Entry): Promise<Entry> {
+		if (!entry) {
+			throw new Error('A valid entry needs to be specified.');
+		}
+
+		if (!entry.sys || !entry.sys.contentTypeId) {
+			throw new Error('A valid entry content type id value needs to be specified.');
+		}
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries',
+			{})
+			.setParams(this.contensisClient.getParams())
+			.toUrl();
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<Entry>(url, {
+				headers: this.contensisClient.getHeaders(),
+				method: 'POST',
+				body: JSON.stringify(entry)
+			});
+		});
+	}
+
+	update(entry: Entry): Promise<Entry> {
+		if (!entry) {
+			throw new Error('A valid entry needs to be specified.');
+		}
+
+		if (!entry.sys || !entry.sys.id) {
+			throw new Error('A valid entry id value needs to be specified.');
+		}
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id',
+			{})
+			.addOptions(entry.sys.id, 'id')
+			.setParams(this.contensisClient.getParams())
+			.toUrl();
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<Entry>(url, {
+				headers: this.contensisClient.getHeaders(),
+				method: 'PUT',
+				body: JSON.stringify(entry)
+			});
+		});
+	}
+
+	delete(id: string): Promise<void> {
+		if (!id) {
+			throw new Error('A valid id needs to be specified.');
+		}
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id',
+			{})
+			.addOptions(id, 'id')
+			.setParams(this.contensisClient.getParams())
+			.toUrl();
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<void>(url, {
+				headers: this.contensisClient.getHeaders(),
+				method: 'DELETE'
+			});
+		});
+	}
+
+	invokeWorkflow(entry: Entry, event: string, data: any = null): Promise<Entry> {
+		if (!entry) {
+			throw new Error('A valid entry needs to be specified.');
+		}
+
+		if (!entry.sys || !entry.sys.id) {
+			throw new Error('A valid entry id value needs to be specified.');
+		}
+
+		if (!entry.sys.language) {
+			throw new Error('A valid entry language value needs to be specified.');
+		}
+
+		if (!entry.sys.version || !entry.sys.version.versionNo) {
+			throw new Error('A valid entry version number value needs to be specified.');
+		}
+
+		if (!event) {
+			throw new Error('A valid event needs to be specified.');
+		}
+
+		let workflowTrigger: WorkflowTrigger = {
+			language: entry.sys.language,
+			version: entry.sys.version.versionNo,
+			event,
+			data
+		};
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/workflow/events',
+			{})
+			.addOptions(entry.sys.id, 'id')
+			.setParams(this.contensisClient.getParams())
+			.toUrl();
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<Entry>(url, {
+				headers: this.contensisClient.getHeaders(),
+				method: 'POST',
+				body: JSON.stringify(workflowTrigger)
+			});
+		});
 	}
 }
