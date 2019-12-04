@@ -30,6 +30,7 @@
   "homepage": "https://github.com/contensis/contensis-management-api#readme",
   "devDependencies": {
     "@types/jasmine": "^3.3.12",
+    "@types/node": "^12.12.14",
     "copy-webpack-plugin": "^4.6.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine-core": "^3.3.0",
@@ -52,6 +53,7 @@
     "contensis-core-api": "^1.0.0-beta.0",
     "cross-fetch": "^3.0.4",
     "es6-promise": "^4.2.6",
+    "form-data": "^3.0.0",
     "tslib": "^1.10.0"
   },
   "directories": {
