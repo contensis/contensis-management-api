@@ -4,6 +4,7 @@ import { ContentTypeOperations } from '../content-types/content-type-operations'
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient } from 'contensis-core-api';
+import { ProjectOperations } from '../projects/project-operations';
 const Scopes = 'Entry_Read Entry_Write Entry_Delete ContentType_Read Project_Read';
 export class Client {
     constructor(config = null) {
@@ -13,6 +14,7 @@ export class Client {
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
         this.entries = new EntryOperations(this.httpClient, this);
         this.nodes = new NodeOperations(this.httpClient, this);
+        this.projects = new ProjectOperations(this.httpClient, this);
     }
     static create(config = null) {
         return new Client(config);
@@ -23,12 +25,15 @@ export class Client {
     getParams() {
         return this.clientConfig.toParams();
     }
-    getHeaders() {
-        return {
+    getHeaders(contentType = 'application/json') {
+        let headers = {
             Authorization: `bearer ${this.token}`,
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: 'application/json'
         };
+        if (!!contentType) {
+            headers['Content-Type'] = contentType;
+        }
+        return headers;
     }
     ensureAuthenticationToken() {
         return (!!this.token ? Promise.resolve(this.token) : this.authenticate().then(() => this.token));

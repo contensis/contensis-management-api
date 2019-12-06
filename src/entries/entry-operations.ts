@@ -2,9 +2,11 @@ import {
 	EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
 } from '../models';
 import {
-	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus, Entry,
-	IHttpClient, MapperFn, PagedList, UrlBuilder
+	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
+	Entry, IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
 } from 'contensis-core-api';
+import * as FormData from 'form-data';
+import * as fs from 'fs';
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
@@ -59,8 +61,8 @@ export class EntryOperations implements IEntryOperations {
 			throw new Error('A valid entry needs to be specified.');
 		}
 
-		if (!entry.sys || !entry.sys.contentTypeId) {
-			throw new Error('A valid entry content type id value needs to be specified.');
+		if (!entry.sys || (!entry.sys.contentTypeId && !entry.sys.dataFormat)) {
+			throw new Error('A valid entry content type id or data format value needs to be specified.');
 		}
 
 		let url = UrlBuilder.create('/api/management/projects/:projectId/entries',
@@ -97,6 +99,91 @@ export class EntryOperations implements IEntryOperations {
 				method: 'PUT',
 				body: JSON.stringify(entry)
 			});
+		});
+	}
+	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry> {
+		if (!asset) {
+			throw new Error('A valid asset needs to be specified.');
+		}
+
+		if (!assetFilePath) {
+			throw new Error('A valid asset file path needs to be specified.');
+		}
+
+		if (!parentNodePath) {
+			throw new Error('A valid parent node path needs to be specified.');
+		}
+
+		if (!asset.sys || !asset.sys.dataFormat) {
+			asset.sys = asset.sys || {};
+			asset.sys.dataFormat = 'asset';
+		}
+
+		let form = new FormData();
+		form.append('file', fs.createReadStream(assetFilePath));
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/assets',
+			{})
+			.setParams(this.contensisClient.getParams())
+			.toUrl();
+
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<AssetUpload[]>(url, {
+				headers: form.getHeaders(this.contensisClient.getHeaders(null)),
+				method: 'POST',
+				body: form as any
+			})
+				.then((assetUploads: AssetUpload[]) => {
+					if (!assetUploads || assetUploads.length === 0) {
+						throw new Error('The asset file could not be uploaded.');
+					}
+
+					let sysAssetFile: SysAssetFile = {
+						fileId: assetUploads[0].fileId,
+						parentNodePath: parentNodePath
+					};
+					asset.sysAssetFile = sysAssetFile;
+
+					return this.create(asset);
+				});
+		});
+	}
+
+	updateAsset(asset: Entry, assetFilePath: string): Promise<Entry> {
+		if (!asset) {
+			throw new Error('A valid asset needs to be specified.');
+		}
+
+		if (!assetFilePath) {
+			return this.update(asset);
+		}
+
+		let form = new FormData();
+		form.append('file', fs.createReadStream(assetFilePath));
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/assets',
+			{})
+			.setParams(this.contensisClient.getParams())
+			.toUrl();
+
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<AssetUpload[]>(url, {
+				headers: form.getHeaders(this.contensisClient.getHeaders(null)),
+				method: 'POST',
+				body: form as any
+			})
+				.then((assetUploads: AssetUpload[]) => {
+					if (!assetUploads || assetUploads.length === 0) {
+						throw new Error('The asset file could not be uploaded.');
+					}
+
+					let sysAssetFile: SysAssetFile = {
+						fileId: assetUploads[0].fileId
+					};
+					asset.sysAssetFile = sysAssetFile;
+
+					return this.update(asset);
+				});
 		});
 	}
 

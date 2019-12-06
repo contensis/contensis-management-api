@@ -1,13 +1,14 @@
 import fetch from 'cross-fetch';
 import {
 	Config, ContensisClient, IContentTypeOperations,
-	IEntryOperations, INodeOperations
+	IEntryOperations, INodeOperations, IProjectOperations
 } from '../models';
 import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { ClientParams, HttpClient, IHttpClient } from 'contensis-core-api';
+import { ProjectOperations } from '../projects/project-operations';
 
 const Scopes = 'Entry_Read Entry_Write Entry_Delete ContentType_Read Project_Read';
 
@@ -19,6 +20,7 @@ export class Client implements ContensisClient {
 	entries: IEntryOperations;
 	contentTypes: IContentTypeOperations;
 	nodes: INodeOperations;
+	projects: IProjectOperations;
 
 	private httpClient: IHttpClient;
 	private token: string;
@@ -38,18 +40,24 @@ export class Client implements ContensisClient {
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);
 		this.entries = new EntryOperations(this.httpClient, this);
 		this.nodes = new NodeOperations(this.httpClient, this);
+		this.projects = new ProjectOperations(this.httpClient, this);
 	}
 
 	public getParams(): ClientParams {
 		return this.clientConfig.toParams();
 	}
 
-	public getHeaders(): { [key: string]: string } {
-		return {
+	public getHeaders(contentType: string = 'application/json'): { [key: string]: string } {
+		let headers = {
 			Authorization: `bearer ${this.token}`,
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
+			Accept: 'application/json'
 		};
+
+		if (!!contentType) {
+			headers['Content-Type'] = contentType;
+		}
+
+		return headers;
 	}
 
 	public ensureAuthenticationToken(): Promise<string> {

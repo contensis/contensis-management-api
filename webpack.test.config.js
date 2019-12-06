@@ -3,9 +3,11 @@ var path = require('path');
 var rootDir = path.resolve(__dirname);
 
 
-module.exports = {
-
-	devtool: 'eval-source-map', 
+module.exports = {	
+	node: {
+		fs: "empty"
+	},
+	devtool: 'eval-source-map',
 
 	resolve: {
 		extensions: ['.ts', '.js']

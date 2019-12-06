@@ -11,4 +11,6 @@ export declare class NodeOperations implements INodeOperations {
     create(node: Node): Promise<Node>;
     update(node: Node): Promise<Node>;
     delete(id: string): Promise<void>;
+    setChildrenOrder(id: string, childrenIds: string[], language?: string): Promise<void>;
+    deleteChildrenOrder(id: string, language?: string): Promise<void>;
 }

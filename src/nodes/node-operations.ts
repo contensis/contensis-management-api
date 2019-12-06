@@ -142,4 +142,47 @@ export class NodeOperations implements INodeOperations {
             });
         });
     }
+
+    setChildrenOrder(id: string, childrenIds: string[], language?: string): Promise<void> {
+        if (!id) {
+            throw new Error('A valid id needs to be specified.');
+        }
+
+        if (!childrenIds || childrenIds.length === 0) {
+            throw new Error('The children ids need to be specified.');
+        }
+
+        let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/:id/children/order',
+            { language: null })
+            .addOptions(id, 'id')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request<void>(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'PUT',
+                body: JSON.stringify(childrenIds)
+            });
+        });
+    }
+
+    deleteChildrenOrder(id: string, language?: string): Promise<void> {
+        if (!id) {
+            throw new Error('A valid id needs to be specified.');
+        }
+
+        let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/:id/children/order',
+            { language: null })
+            .addOptions(id, 'id')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request<void>(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'DELETE'
+            });
+        });
+    }
 }

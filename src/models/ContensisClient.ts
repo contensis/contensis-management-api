@@ -9,6 +9,6 @@ export interface ContensisClient extends IParamsProvider {
 	contentTypes: IContentTypeOperations;
 	nodes: INodeOperations;
 
-	getHeaders: () => { [key: string]: string };
+	getHeaders: (contentType?: string) => { [key: string]: string };
 	ensureAuthenticationToken: () => Promise<string>;
 }
