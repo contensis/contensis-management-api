@@ -1,5 +1,5 @@
 export interface WorkflowTrigger {
-    language: string;
+    language?: string;
     version: string;
     event: string;
     data?: any;
