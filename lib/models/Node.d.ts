@@ -12,4 +12,5 @@ export interface Node {
     restrictedToLanguages: string[];
     childCount: number;
     isCanonical: boolean;
+    includeInMenu: boolean;
 }
