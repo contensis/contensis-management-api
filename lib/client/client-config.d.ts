@@ -6,6 +6,9 @@ export declare class ClientConfig implements Config {
     rootUrl: string;
     clientId: string;
     clientSecret: string;
+    defaultHeaders: {
+        [key: string]: string;
+    };
     projectId: string;
     language: string;
     versionStatus: VersionStatus;

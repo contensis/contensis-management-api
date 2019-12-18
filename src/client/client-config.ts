@@ -5,6 +5,7 @@ export class ClientConfig implements Config {
     rootUrl: string = null;
     clientId: string = null;
     clientSecret: string = null;
+    defaultHeaders: { [key: string]: string } = null;
     projectId: string = null;
     language: string = null;
     versionStatus: VersionStatus = 'latest';
@@ -16,6 +17,7 @@ export class ClientConfig implements Config {
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.clientId = this.getValue((c) => c.clientId);
         this.clientSecret = this.getValue((c) => c.clientSecret);
+        this.defaultHeaders = this.getValue((c) => c.defaultHeaders);
         this.projectId = this.getValue((c) => c.projectId);
         this.language = this.getValue((c) => c.language);
         this.versionStatus = this.getValue((c) => c.versionStatus);
@@ -33,6 +35,7 @@ export class ClientConfig implements Config {
             rootUrl: this.rootUrl,
             clientId: this.clientId,
             clientSecret: this.clientSecret,
+            defaultHeaders: this.defaultHeaders,
             projectId: this.projectId,
             language: this.language,
             versionStatus: this.versionStatus,

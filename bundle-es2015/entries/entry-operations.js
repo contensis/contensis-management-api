@@ -147,12 +147,13 @@ export class EntryOperations {
             });
         });
     }
-    delete(id) {
+    delete(id, languages = null) {
         if (!id) {
             throw new Error('A valid id needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id', {})
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id', { language: null })
             .addOptions(id, 'id')
+            .addOptions(!!languages && languages.length > 0 ? languages.join(',') : null, 'language')
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureAuthenticationToken().then(() => {

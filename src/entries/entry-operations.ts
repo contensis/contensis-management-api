@@ -187,14 +187,15 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	delete(id: string): Promise<void> {
+	delete(id: string, languages: string[] = null): Promise<void> {
 		if (!id) {
 			throw new Error('A valid id needs to be specified.');
 		}
 
 		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id',
-			{})
+			{ language: null })
 			.addOptions(id, 'id')
+			.addOptions(!!languages && languages.length > 0 ? languages.join(',') : null, 'language')
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 

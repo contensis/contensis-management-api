@@ -4,6 +4,9 @@ export interface Config {
     projectId?: string;
     clientId?: string;
     clientSecret?: string;
+    defaultHeaders?: {
+        [key: string]: string;
+    };
     language?: string;
     versionStatus?: VersionStatus;
     pageIndex?: number;
