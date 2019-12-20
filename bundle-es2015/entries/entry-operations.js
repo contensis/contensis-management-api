@@ -185,6 +185,18 @@ export class EntryOperations {
             event,
             data
         };
+        return this.invokeWorkflowByTrigger(entry, workflowTrigger);
+    }
+    invokeWorkflowByTrigger(entry, workflowTrigger) {
+        if (!entry) {
+            throw new Error('A valid entry needs to be specified.');
+        }
+        if (!entry.sys || !entry.sys.id) {
+            throw new Error('A valid entry id value needs to be specified.');
+        }
+        if (!workflowTrigger) {
+            throw new Error('A valid workflow trigger needs to be specified.');
+        }
         let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/workflow/events', {})
             .addOptions(entry.sys.id, 'id')
             .setParams(this.contensisClient.getParams())

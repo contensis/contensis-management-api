@@ -1,4 +1,4 @@
-import { EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient } from '../models';
+import { EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger } from '../models';
 import { Entry, IHttpClient, PagedList } from 'contensis-core-api';
 export declare class EntryOperations implements IEntryOperations {
     private httpClient;
@@ -12,4 +12,5 @@ export declare class EntryOperations implements IEntryOperations {
     updateAsset(asset: Entry, assetFilePath: string): Promise<Entry>;
     delete(id: string, languages?: string[]): Promise<void>;
     invokeWorkflow(entry: Entry, event: string, data?: any): Promise<Entry>;
+    invokeWorkflowByTrigger(entry: Entry, workflowTrigger: WorkflowTrigger): Promise<Entry>;
 }

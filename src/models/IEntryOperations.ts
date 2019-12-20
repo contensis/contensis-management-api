@@ -1,6 +1,7 @@
 import { Entry, PagedList } from 'contensis-core-api';
 import { EntryGetOptions } from './EntryGetOptions';
 import { EntryListOptions } from './EntryListOptions';
+import { WorkflowTrigger } from './WorkflowTrigger';
 
 export interface IEntryOperations {
 	get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
@@ -11,4 +12,5 @@ export interface IEntryOperations {
 	updateAsset(asset: Entry, assetFilePath?: string): Promise<Entry>;
 	delete(id: string, languages?: string[]): Promise<void>;
 	invokeWorkflow(entry: Entry, event: string, data?: any): Promise<Entry>;
+	invokeWorkflowByTrigger(entry: Entry, workflowTrigger: WorkflowTrigger): Promise<Entry>;
 }
