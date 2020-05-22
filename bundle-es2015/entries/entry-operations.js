@@ -42,6 +42,24 @@ export class EntryOperations {
             });
         });
     }
+    search(query) {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+        let params = this.contensisClient.getParams();
+        query.pageSize = query.pageSize || params.pageSize;
+        query.pageIndex = query.pageIndex || 0;
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
+            .setParams(params)
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                method: 'POST',
+                headers: this.contensisClient.getHeaders(),
+                body: JSON.stringify(query)
+            });
+        });
+    }
     create(entry) {
         if (!entry) {
             throw new Error('A valid entry needs to be specified.');

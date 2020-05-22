@@ -1,9 +1,9 @@
 import {
-	EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
+	Entry, EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	Entry, IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
+	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
 } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
@@ -56,6 +56,28 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
+	search(query: any): Promise<PagedList<Entry>> {
+		if (!query) {
+			return new Promise((resolve) => { resolve(null); });
+		}
+
+		let params = this.contensisClient.getParams();
+		query.pageSize = query.pageSize || params.pageSize;
+		query.pageIndex = query.pageIndex || 0;
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
+			.setParams(params)
+			.toUrl();
+
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'POST',
+				headers: this.contensisClient.getHeaders(),
+				body: JSON.stringify(query)
+			});
+		});
+	}
+
 	create(entry: Entry): Promise<Entry> {
 		if (!entry) {
 			throw new Error('A valid entry needs to be specified.');
@@ -101,6 +123,7 @@ export class EntryOperations implements IEntryOperations {
 			});
 		});
 	}
+
 	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry> {
 		if (!asset) {
 			throw new Error('A valid asset needs to be specified.');
