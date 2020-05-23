@@ -11,4 +11,5 @@ export interface Config {
 	pageIndex?: number;
 	pageSize?: number;
 	responseHandler?: ResponseHandler;
+	fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }

@@ -1,6 +1,7 @@
 import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
+import { isString } from 'util';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForLatestVersionStatus,
@@ -31,7 +32,11 @@ export class EntryOperations {
         });
     }
     list(contentTypeIdOrOptions) {
-        let url = UrlBuilder.create('/api/management/projects/:projectId/contentTypes/:contentTypeId/entries', { language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
+        let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
+        if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !contentTypeIdOrOptions.contentTypeId)) {
+            urlTemplate = '/api/management/projects/:projectId/entries';
+        }
+        let url = UrlBuilder.create(urlTemplate, { language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(contentTypeIdOrOptions, 'contentTypeId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

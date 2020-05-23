@@ -5,7 +5,7 @@ export declare class EntryOperations implements IEntryOperations {
     private contensisClient;
     constructor(httpClient: IHttpClient, contensisClient: ContensisClient);
     get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
-    list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>>;
+    list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>>;
     search(query: any): Promise<PagedList<Entry>>;
     create(entry: Entry): Promise<Entry>;
     update(entry: Entry): Promise<Entry>;

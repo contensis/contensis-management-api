@@ -1,42 +1,40 @@
-import { UrlBuilder } from 'contensis-core-api';
 import * as Contensis from '../index';
+import { getDefaultConfig } from '../specs-utils.spec';
+import { UrlBuilder } from 'contensis-core-api';
 
 const Zengenti = { Contensis };
 
 describe('Url Builder', function () {
-    // let client = null;
+	let client = null;
 
-	// beforeEach(() => {
-	// 	client = Zengenti.Contensis.Client.create({
-	// 		projectId: 'myProject',
-	// 		rootUrl: 'http://my-website.com/',
-	// 		accessToken: 'XXXXXX'
-	// 	});
-	// });
+	beforeEach(() => {
+		client = Zengenti.Contensis.Client.create(getDefaultConfig());
+	});
 
-	// it('should populate named values', () => {
-	// 	let url = UrlBuilder.create('/api/delivery/taxomony/:projectId/entries')
-	// 		.setParams(client.getParams())
-	// 		.toUrl();
+	it('should populate named values', () => {
+		let url = UrlBuilder.create('/api/management/projects/:projectId/contenttypes/:contentTypeId/entries')
+			.addOptions({ contentTypeId: 'movie' })
+			.setParams(client.getParams())
+			.toUrl();
 
-	// 	expect(url).toEqual('/api/delivery/taxomony/myProject/entries');
-	// });
+		expect(url).toEqual('/api/management/projects/myProject/contenttypes/movie/entries');
+	});
 
-	// it('should populate multiple named values', () => {
-	// 	let url = UrlBuilder.create('/api/delivery/taxomony/:projectId/:key/:id')
-	// 		.addOptions({ key: 0, id: 1 })
-	// 		.setParams(client.getParams())
-	// 		.toUrl();
+	it('should populate multiple named values', () => {
+		let url = UrlBuilder.create('/api/management/projects/:projectId/someresources/:key/:id')
+			.addOptions({ key: 0, id: 1 })
+			.setParams(client.getParams())
+			.toUrl();
 
-	// 	expect(url).toEqual('/api/delivery/taxomony/myProject/0/1');
-	// });
+		expect(url).toEqual('/api/management/projects/myProject/someresources/0/1');
+	});
 
-	// it('should populate multiple named values in query string', () => {
-	// 	let url = UrlBuilder.create('/api/delivery/taxomony/:projectId', { key: null, id: null })
-	// 		.addOptions({ key: 0, id: 1 })
-	// 		.setParams(client.getParams())
-	// 		.toUrl();
+	it('should populate multiple named values in query string', () => {
+		let url = UrlBuilder.create('/api/management/projects/:projectId/someresources', { key: null, id: null })
+			.addOptions({ key: 0, id: 1 })
+			.setParams(client.getParams())
+			.toUrl();
 
-	// 	expect(url).toEqual('/api/delivery/taxomony/myProject?id=1&key=0');
-	// });
+		expect(url).toEqual('/api/management/projects/myProject/someresources?id=1&key=0');
+	});
 });

@@ -1,4 +1,3 @@
-import fetch from 'cross-fetch';
 import {
 	Config, ContensisClient, IContentTypeOperations,
 	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations
@@ -9,9 +8,11 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { ClientParams, HttpClient, IHttpClient } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
-import { RoleOperations } from '../roles/RolesOperations';
+import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
+
+import fetch from 'cross-fetch';
 
 const Scopes = 'ContentType_Read ContentType_Write ContentType_Delete Entry_Read Entry_Write Entry_Delete Project_Read Project_Write Project_Delete';
 
@@ -20,6 +21,8 @@ export class Client implements ContensisClient {
 	static defaultClientConfig: ClientConfig = null;
 
 	clientConfig: ClientConfig = null;
+	fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+
 	components: IComponentOperations;
 	contentTypes: IContentTypeOperations;
 	entries: IEntryOperations;
@@ -27,6 +30,7 @@ export class Client implements ContensisClient {
 	permissions: IPermissionOperations;
 	projects: IProjectOperations;
 	roles: IRoleOperations;
+
 
 	private httpClient: IHttpClient;
 	private token: string;
@@ -41,7 +45,8 @@ export class Client implements ContensisClient {
 
 	constructor(config: Config = null) {
 		this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-		this.httpClient = new HttpClient(this);
+		this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+		this.httpClient = new HttpClient(this, this.fetchFn);
 
 		this.components = new ComponentOperations(this.httpClient, this);
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);
@@ -87,7 +92,8 @@ export class Client implements ContensisClient {
 			})
 			.join('&');
 
-		return fetch(`${this.clientConfig.rootUrl}/authenticate/connect/token`, {
+		let rootUrl = !!this.clientConfig.rootUrl ? this.clientConfig.rootUrl : '';
+		return this.fetchFn(`${rootUrl}/authenticate/connect/token`, {
 			method: 'POST',
 			// mode: 'cors',
 			// cache: 'no-cache',
@@ -99,7 +105,6 @@ export class Client implements ContensisClient {
 		})
 			.then(response => response.json())
 			.then(response => {
-				// console.log(response);
 				this.token = response.access_token;
 			});
 	}

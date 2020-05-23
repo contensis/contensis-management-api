@@ -7,6 +7,7 @@ import {
 } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
+import { isString } from 'util';
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
@@ -41,8 +42,13 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>> {
-		let url = UrlBuilder.create('/api/management/projects/:projectId/contentTypes/:contentTypeId/entries',
+	list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>> {
+		let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
+		if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !contentTypeIdOrOptions.contentTypeId)) {
+			urlTemplate = '/api/management/projects/:projectId/entries';
+		}
+
+		let url = UrlBuilder.create(urlTemplate,
 			{ language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
 			.addOptions(contentTypeIdOrOptions, 'contentTypeId')
 			.setParams(this.contensisClient.getParams())

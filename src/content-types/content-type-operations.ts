@@ -3,7 +3,7 @@ import { ContentType, defaultMapperForLatestVersionStatus, IHttpClient, MapperFn
 
 let getMappers: { [key: string]: MapperFn } = {
     versionStatus: defaultMapperForLatestVersionStatus,
-    version: (value: number) => (!!value) ? value : null
+    version: (value: string) => (!!value) ? value : null
 };
 
 let listMappers: { [key: string]: MapperFn } = {
