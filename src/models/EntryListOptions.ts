@@ -1,7 +1,7 @@
 import { PageOptions, VersionStatus } from 'contensis-core-api';
 
 export interface EntryListOptions {
-	contentTypeId: string;
+	contentTypeId?: string;
 	language?: string;
 	versionStatus?: VersionStatus;
 	pageOptions?: PageOptions;

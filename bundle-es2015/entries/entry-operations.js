@@ -1,6 +1,7 @@
 import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
+import { isString } from 'util';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForLatestVersionStatus,
@@ -31,7 +32,11 @@ export class EntryOperations {
         });
     }
     list(contentTypeIdOrOptions) {
-        let url = UrlBuilder.create('/api/management/projects/:projectId/contentTypes/:contentTypeId/entries', { language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
+        let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
+        if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !contentTypeIdOrOptions.contentTypeId)) {
+            urlTemplate = '/api/management/projects/:projectId/entries';
+        }
+        let url = UrlBuilder.create(urlTemplate, { language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(contentTypeIdOrOptions, 'contentTypeId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
@@ -39,6 +44,24 @@ export class EntryOperations {
         return this.contensisClient.ensureAuthenticationToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
+            });
+        });
+    }
+    search(query) {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+        let params = this.contensisClient.getParams();
+        query.pageSize = query.pageSize || params.pageSize;
+        query.pageIndex = query.pageIndex || 0;
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
+            .setParams(params)
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                method: 'POST',
+                headers: this.contensisClient.getHeaders(),
+                body: JSON.stringify(query)
             });
         });
     }

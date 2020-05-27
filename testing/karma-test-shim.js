@@ -1,5 +1,9 @@
 require('../src/client/client.spec');
+require('../src/components/component-operations.spec');
 require('../src/content-types/content-type-operations.spec');
 require('../src/entries/entry-operations.spec');
-require('../src/nodes/node-operations.spec');
 require('../src/http/url-builder.spec');
+require('../src/nodes/node-operations.spec');
+require('../src/permissions/permission-operations.spec');
+require('../src/projects/project-operations.spec');
+require('../src/roles/role-operations.spec');

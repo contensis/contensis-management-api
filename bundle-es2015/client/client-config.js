@@ -12,6 +12,7 @@ export class ClientConfig {
         this.pageIndex = 0;
         this.pageSize = 25;
         this.responseHandler = null;
+        this.fetchFn = null;
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.clientId = this.getValue((c) => c.clientId);
         this.clientSecret = this.getValue((c) => c.clientSecret);
@@ -22,6 +23,7 @@ export class ClientConfig {
         this.pageIndex = this.getValue((c) => c.pageIndex);
         this.pageSize = this.getValue((c) => c.pageSize);
         this.responseHandler = this.getValue((c) => c.responseHandler);
+        this.fetchFn = this.getValue((c) => c.fetchFn);
         while (this.rootUrl && this.rootUrl.substr(this.rootUrl.length - 1, 1) === '/') {
             this.rootUrl = this.rootUrl.substr(0, this.rootUrl.length - 1);
         }

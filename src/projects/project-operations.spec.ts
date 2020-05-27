@@ -1,56 +1,88 @@
 import * as Contensis from '../index';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import fetch from 'cross-fetch';
+import { Project } from 'contensis-core-api';
 
 const Zengenti = { Contensis };
-
 const global = window || this;
+global.fetch = fetch;
 
-describe('Project Operations', function () {
+describe('Project Operations', () => {
 
-	// beforeEach(() => {
-	// 	Zengenti.Contensis.Client.defaultClientConfig = null;
+	describe('Get project', () => {
+		beforeEach(() => {
+			setDefaultSpy(global, {
+				name: 'project1'
+			} as Partial<Project>);
 
-	// 	spyOn(global, 'fetch').and.callFake((...args) => {
-	// 		return new Promise((resolve, reject) => {
-	// 			resolve({
-	// 				json: () => {
-	// 					return {
-	// 						items: []
-	// 					};
-	// 				}
-	// 			});
-	// 		});
-	// 	});
-	// });
+			Zengenti.Contensis.Client.defaultClientConfig = null;
+			Zengenti.Contensis.Client.configure({
+				fetchFn: global.fetch
+			});
+		});
 
-	// it('Get with specified root url', () => {
-	// 	let client = Zengenti.Contensis.Client.create({
-	// 		projectId: 'myProject',
-	// 		rootUrl: 'http://my-website.com/',
-	// 		accessToken: 'XXXXXX'
-	// 	});
-	// 	client.project.get();
-	// 	expect(global.fetch).toHaveBeenCalled();
-	// 	expect(global.fetch).toHaveBeenCalledWith('http://my-website.com/api/delivery/projects/myProject', Object({
-	// 		method: 'GET',
-	// 		mode: 'cors',
-	// 		headers: {
-	// 			'accessToken': 'XXXXXX'
-	// 		}
-	// 	}));
-	// });
+		it('With specified root url', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+			let project = await client.projects.get();
 
-	// it('Get without root utl', () => {
-	// 	let client = Zengenti.Contensis.Client.create({
-	// 		projectId: 'myProject',
-	// 		accessToken: 'XXXXXX'
-	// 	});
-	// 	client.project.get();
-	// 	expect(global.fetch).toHaveBeenCalled();
-	// 	expect(global.fetch).toHaveBeenCalledWith('/api/delivery/projects/myProject', Object({
-	// 		method: 'GET',
-	// 		headers: {
-	// 			'accessToken': 'XXXXXX'
-	// 		}
-	// 	}));
-	// });
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/management/projects/myProject',
+				getDefaultResponse()
+			]);
+
+			expect(project).not.toBeNull();
+			expect(project.name).toEqual('project1');
+		});
+
+		it('Without root url (relative)', async () => {
+			const config = getDefaultConfig();
+			delete config.rootUrl;
+
+			let client = Zengenti.Contensis.Client.create(config);
+			let project = await client.projects.get();
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl(true));
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'/api/management/projects/myProject',
+				getDefaultResponse(null, true)
+			]);
+
+			expect(project).not.toBeNull();
+			expect(project.name).toEqual('project1');
+		});
+	});
+
+	describe('List projects', () => {
+		beforeEach(() => {
+			setDefaultSpy(global, [{
+				name: 'project1'
+			}, {
+				name: 'project2'
+			}] as Partial<Project>[]);
+
+			Zengenti.Contensis.Client.defaultClientConfig = null;
+			Zengenti.Contensis.Client.configure({
+				fetchFn: global.fetch
+			});
+		});
+
+		it('With specified root url', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+			let projects = await client.projects.list();
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/management/projects',
+				getDefaultResponse()
+			]);
+
+			expect(projects).not.toBeNull();
+			expect(projects.length).toEqual(2);
+			expect(projects[1].name).toEqual('project2');
+		});
+	});
 });

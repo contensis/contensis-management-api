@@ -1,12 +1,13 @@
 import {
-	EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
+	Entry, EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	Entry, IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
+	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
 } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'fs';
+import { isString } from 'util';
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
@@ -41,8 +42,13 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	list(contentTypeIdOrOptions: string | EntryListOptions): Promise<PagedList<Entry>> {
-		let url = UrlBuilder.create('/api/management/projects/:projectId/contentTypes/:contentTypeId/entries',
+	list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>> {
+		let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
+		if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !contentTypeIdOrOptions.contentTypeId)) {
+			urlTemplate = '/api/management/projects/:projectId/entries';
+		}
+
+		let url = UrlBuilder.create(urlTemplate,
 			{ language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
 			.addOptions(contentTypeIdOrOptions, 'contentTypeId')
 			.setParams(this.contensisClient.getParams())
@@ -52,6 +58,28 @@ export class EntryOperations implements IEntryOperations {
 		return this.contensisClient.ensureAuthenticationToken().then(() => {
 			return this.httpClient.request<PagedList<Entry>>(url, {
 				headers: this.contensisClient.getHeaders()
+			});
+		});
+	}
+
+	search(query: any): Promise<PagedList<Entry>> {
+		if (!query) {
+			return new Promise((resolve) => { resolve(null); });
+		}
+
+		let params = this.contensisClient.getParams();
+		query.pageSize = query.pageSize || params.pageSize;
+		query.pageIndex = query.pageIndex || 0;
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
+			.setParams(params)
+			.toUrl();
+
+		return this.contensisClient.ensureAuthenticationToken().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'POST',
+				headers: this.contensisClient.getHeaders(),
+				body: JSON.stringify(query)
 			});
 		});
 	}
@@ -101,6 +129,7 @@ export class EntryOperations implements IEntryOperations {
 			});
 		});
 	}
+
 	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry> {
 		if (!asset) {
 			throw new Error('A valid asset needs to be specified.');

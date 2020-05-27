@@ -1,5 +1,5 @@
 import { ContensisClient, IRoleOperations, Role } from '../models';
-import { IHttpClient, UrlBuilder, PageOptions, MapperFn, ClientParams } from 'contensis-core-api';
+import { IHttpClient, UrlBuilder, PageOptions, MapperFn, ClientParams, PagedList } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
     pageIndex: (value: number, options: PageOptions, params: ClientParams) => (options && options.pageIndex) || (params.pageIndex),
@@ -25,7 +25,7 @@ export class RoleOperations implements IRoleOperations {
         });
     }
 
-    list(options: PageOptions = null): Promise<Role[]> {
+    list(options: PageOptions = null): Promise<PagedList<Role>> {
         let url = UrlBuilder.create('/api/management/projects/:projectId/security/roles',
             { pageIndex: null, pageSize: null })
             .addOptions(options)
@@ -34,7 +34,7 @@ export class RoleOperations implements IRoleOperations {
             .toUrl();
 
         return this.contensisClient.ensureAuthenticationToken().then(() => {
-            return this.httpClient.request<Role[]>(url, {
+            return this.httpClient.request<PagedList<Role>>(url, {
                 headers: this.contensisClient.getHeaders()
             });
         });
