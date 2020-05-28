@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "npm",
-			"script": "build:npm",
+			"script": "build",
 			"problemMatcher": [
 				"$tsc"
 			],
@@ -11,14 +11,14 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"label": "npm: build:npm",
+			"label": "npm: build",
 			"detail": "rimraf lib/* && npx tsc -p src/tsconfig-npm.json && npm run lint"
 		},
 		{
 			"type": "npm",
-			"script": "test:npm",
+			"script": "test",
 			"problemMatcher": [],
-			"label": "npm: test:npm",
+			"label": "npm: test",
 			"detail": "karma start --test-target npm",
 			"group": {
 				"kind": "test",

@@ -13,7 +13,7 @@ export class NodeOperations implements INodeOperations {
 
     constructor(private httpClient: IHttpClient, private contensisClient: ContensisClient) {
         if (!this.httpClient || !this.contensisClient) {
-            throw new Error('The class was not initialised correctly.');
+            throw new Error('The class NodeOperations was not initialised correctly.');
         }
     }
 

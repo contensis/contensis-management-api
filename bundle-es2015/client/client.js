@@ -7,6 +7,8 @@ import { ProjectOperations } from '../projects/project-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
+import { GroupOperations } from '../groups/group-operations';
+import { UserOperations } from '../users/user-operations';
 import fetch from 'cross-fetch';
 const Scopes = 'ContentType_Read ContentType_Write ContentType_Delete Entry_Read Entry_Write Entry_Delete Project_Read Project_Write Project_Delete';
 export class Client {
@@ -18,10 +20,12 @@ export class Client {
         this.components = new ComponentOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
         this.entries = new EntryOperations(this.httpClient, this);
+        this.groups = new GroupOperations(this.httpClient, this);
         this.nodes = new NodeOperations(this.httpClient, this);
         this.permissions = new PermissionOperations(this.httpClient, this);
         this.projects = new ProjectOperations(this.httpClient, this);
         this.roles = new RoleOperations(this.httpClient, this);
+        this.users = new UserOperations(this.httpClient, this);
     }
     static create(config = null) {
         return new Client(config);

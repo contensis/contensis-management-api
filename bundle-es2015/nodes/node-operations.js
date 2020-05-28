@@ -7,7 +7,7 @@ export class NodeOperations {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;
         if (!this.httpClient || !this.contensisClient) {
-            throw new Error('The class was not initialised correctly.');
+            throw new Error('The class NodeOperations was not initialised correctly.');
         }
     }
     getRoot() {

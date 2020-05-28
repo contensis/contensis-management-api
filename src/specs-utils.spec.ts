@@ -1,6 +1,26 @@
-import { Config } from './models';
+import { Config, User, Group } from './models';
 
 const defaultRootUrl = 'http://my-website.com/';
+
+export const defaultUsers = [{
+    id: 'IIIIII1',
+    username: 'UUUUUU1',
+    email: 'EEEEEE1@test.com'
+},
+{
+    id: 'IIIIII2',
+    username: 'UUUUUU2',
+    email: 'EEEEEE2@test.com'
+}] as Partial<User>[];
+
+export const defaultGroups = [{
+    id: 'IIIIII1',
+    name: 'NNNNNN1'
+},
+{
+    id: 'IIIIII2',
+    name: 'NNNNNN2'
+}] as Partial<Group>[];
 
 export function getDefaultAuthenticateUrl(isRelative: boolean = false): string {
     let authenticatePath = 'authenticate/connect/token';
