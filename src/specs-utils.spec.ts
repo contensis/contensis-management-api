@@ -41,9 +41,9 @@ export function getDefaultConfig(): Config {
     };
 }
 
-export function getDefaultResponse(method: string = 'GET', isRelative: boolean = false): Object {
-    let response = Object({
-        method: 'GET',
+export function getDefaultRequest(method?: string, isRelativeUrl?: boolean, body?: string): Object {
+    let request = Object({
+        method: !method ? 'GET' : method,
         mode: 'cors',
         headers: {
             Authorization: 'bearer ZZZZZZ',
@@ -54,14 +54,18 @@ export function getDefaultResponse(method: string = 'GET', isRelative: boolean =
         }
     });
 
-    if (isRelative) {
-        delete response.mode;
+    if (!!isRelativeUrl) {
+        delete request.mode;
     }
 
-    return response;
+    if (!!body) {
+        request.body = body;
+    }
+
+    return request;
 }
 
-export function setDefaultSpy(global: any, returnValueForApi: any): void {
+export function setDefaultSpy(global: any, returnValueForApi: any, rejectRequest?: boolean): void {
     spyOn(global, 'fetch').and.returnValues(
         new Promise((resolve, reject) => {
             const returnValueForAuthenticate = {
@@ -74,11 +78,16 @@ export function setDefaultSpy(global: any, returnValueForApi: any): void {
             } as any);
         }),
         new Promise((resolve, reject) => {
-            resolve({
-                ok: true,
-                json: () => Promise.resolve(returnValueForApi),
-                text: () => Promise.resolve(JSON.stringify(returnValueForApi))
-            } as any);
+            if (rejectRequest === true) {
+                reject();
+            } else {
+
+                resolve({
+                    ok: true,
+                    json: () => Promise.resolve(returnValueForApi),
+                    text: () => Promise.resolve(JSON.stringify(returnValueForApi))
+                } as any);
+            }
         })
     );
 }

@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 // import { toQuery } from 'contensis-core-api';
 import fetch from 'cross-fetch';
 import { Entry } from '../models';
@@ -35,7 +35,7 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/entries/1?language=en-US&versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(entry).not.toBeNull();
@@ -58,7 +58,7 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/entries/1?language=en-GB&version=2.1',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(entry).not.toBeNull();
@@ -95,7 +95,7 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/entries?language=en-US&pageIndex=0&pageSize=25&versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(entries).not.toBeNull();
@@ -116,7 +116,7 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/entries?language=fr-FR&order=title&pageIndex=1&pageSize=50',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(entries).not.toBeNull();
@@ -132,7 +132,7 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes/movie/entries?language=en-US&pageIndex=0&pageSize=25&versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(entries).not.toBeNull();
@@ -154,7 +154,7 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes/movie/entries?language=fr-FR&order=title&pageIndex=1&pageSize=50',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(entries).not.toBeNull();

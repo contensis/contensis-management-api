@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { ContentType } from 'contensis-core-api';
 
@@ -33,7 +33,7 @@ describe('Content Type Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes/movie?versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(contentType).not.toBeNull();
@@ -55,7 +55,7 @@ describe('Content Type Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes/movie?version=2.3',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(contentType).not.toBeNull();
@@ -85,7 +85,7 @@ describe('Content Type Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes?versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(contentTypes).not.toBeNull();
@@ -104,7 +104,7 @@ describe('Content Type Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes?dataFormat=entry',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(contenttypes).not.toBeNull();

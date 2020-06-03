@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -21,7 +21,7 @@ describe('Nodes Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/root',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(node).not.toBeNull();
             expect(node.slug['en-GB']).toEqual('node1');
@@ -32,7 +32,7 @@ describe('Nodes Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/NNNNNN',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(node).not.toBeNull();
             expect(node.slug['en-GB']).toEqual('node1');
@@ -57,7 +57,7 @@ describe('Nodes Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes?entryId=EEEEEE',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(nodes).not.toBeNull();
             expect(nodes.length).toEqual(2);
@@ -69,7 +69,7 @@ describe('Nodes Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children?language=en-US',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(nodes).not.toBeNull();
             expect(nodes.length).toEqual(2);
@@ -84,7 +84,7 @@ describe('Nodes Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children?language=fr-FR',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(nodes).not.toBeNull();
             expect(nodes.length).toEqual(2);

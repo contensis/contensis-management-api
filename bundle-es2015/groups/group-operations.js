@@ -9,13 +9,19 @@ export class GroupOperations {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;
         if (!this.httpClient || !this.contensisClient) {
-            throw new Error('The class UserOperations was not initialised correctly.');
+            throw new Error('The class GroupOperations was not initialised correctly.');
         }
     }
     getById(groupId) {
+        if (!groupId) {
+            throw new Error('A valid group id value needs to be specified.');
+        }
         return this.getGroup(groupId);
     }
     getByName(groupName) {
+        if (!groupName) {
+            throw new Error('A valid group name value needs to be specified.');
+        }
         return this.getGroup(groupName);
     }
     list(options) {
@@ -30,8 +36,198 @@ export class GroupOperations {
             });
         });
     }
+    create(group) {
+        if (!group) {
+            throw new Error('A valid group needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups', {})
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify(group)
+            });
+        });
+    }
+    update(group) {
+        if (!group) {
+            throw new Error('A valid group needs to be specified.');
+        }
+        if (!group.id) {
+            throw new Error('A valid group id value needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:id', {})
+            .addOptions(group.id, 'id')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'PUT',
+                body: JSON.stringify(group)
+            });
+        });
+    }
+    delete(id) {
+        if (!id) {
+            throw new Error('A valid id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:id', {})
+            .addOptions(id, 'id')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'DELETE'
+            });
+        });
+    }
+    addUser(groupId, userId) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!userId) {
+            throw new Error('A valid user id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users/:userId', {})
+            .addOptions(groupId, 'groupId')
+            .addOptions(userId, 'userId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'PUT'
+            });
+        });
+    }
+    removeUser(groupId, userId) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!userId) {
+            throw new Error('A valid user id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users/:userId', {})
+            .addOptions(groupId, 'groupId')
+            .addOptions(userId, 'userId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'DELETE'
+            });
+        });
+    }
+    hasUser(groupId, userId) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!userId) {
+            throw new Error('A valid users id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users/:userId', {})
+            .addOptions(groupId, 'groupId')
+            .addOptions(userId, 'userId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'HEAD'
+            }).then(() => true, () => false);
+        });
+    }
+    addChildGroup(groupId, childGroupId) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!childGroupId) {
+            throw new Error('A valid child group id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/childGroups/:childGroupId', {})
+            .addOptions(groupId, 'groupId')
+            .addOptions(childGroupId, 'childGroupId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'PUT'
+            });
+        });
+    }
+    removeChildGroup(groupId, childGroupId) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!childGroupId) {
+            throw new Error('A valid child group id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/childGroups/:childGroupId', {})
+            .addOptions(groupId, 'groupId')
+            .addOptions(childGroupId, 'childGroupId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'DELETE'
+            });
+        });
+    }
+    getUsersByGroupId(groupId) {
+        if (!groupId) {
+            throw new Error('A valid group id value needs to be specified.');
+        }
+        return this.getUsersInGroup(groupId);
+    }
+    getUsersByGroupName(groupName) {
+        if (!groupName) {
+            throw new Error('A valid group name value needs to be specified.');
+        }
+        return this.getUsersInGroup(groupName);
+    }
+    getChildGroupsByGroupId(groupId) {
+        if (!groupId) {
+            throw new Error('A valid group id value needs to be specified.');
+        }
+        return this.getChildGroups(groupId);
+    }
+    getChildGroupsByGroupName(groupName) {
+        if (!groupName) {
+            throw new Error('A valid group name value needs to be specified.');
+        }
+        return this.getChildGroups(groupName);
+    }
     getGroup(idOrName) {
         let url = UrlBuilder.create('/api/management/security/groups/:idOrName', {})
+            .addOptions(idOrName, 'idOrName')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
+    }
+    getUsersInGroup(idOrName) {
+        let url = UrlBuilder.create('/api/management/security/groups/:idOrName/users', {})
+            .addOptions(idOrName, 'idOrName')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureAuthenticationToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
+            });
+        });
+    }
+    getChildGroups(idOrName) {
+        let url = UrlBuilder.create('/api/management/security/groups/:idOrName/groups', {})
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();

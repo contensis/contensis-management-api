@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { Project } from 'contensis-core-api';
 
@@ -29,7 +29,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(project).not.toBeNull();
@@ -47,7 +47,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'/api/management/projects/myProject',
-				getDefaultResponse(null, true)
+				getDefaultRequest(null, true)
 			]);
 
 			expect(project).not.toBeNull();
@@ -77,7 +77,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(projects).not.toBeNull();
