@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { Component } from 'contensis-core-api';
 
@@ -33,7 +33,7 @@ describe('Component Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/components/movie?versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(component).not.toBeNull();
@@ -55,7 +55,7 @@ describe('Component Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/components/movie?version=0.1',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(component).not.toBeNull();
@@ -85,7 +85,7 @@ describe('Component Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/components?versionStatus=published',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(components).not.toBeNull();
@@ -101,7 +101,7 @@ describe('Component Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/components',
-				getDefaultResponse()
+				getDefaultRequest()
 			]);
 
 			expect(components).not.toBeNull();

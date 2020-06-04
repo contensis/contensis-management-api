@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -21,7 +21,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(project).not.toBeNull();
             expect(project.name).toEqual('project1');
@@ -34,7 +34,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl(true));
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 '/api/management/projects/myProject',
-                getDefaultResponse(null, true)
+                getDefaultRequest(null, true)
             ]);
             expect(project).not.toBeNull();
             expect(project.name).toEqual('project1');
@@ -58,7 +58,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(projects).not.toBeNull();
             expect(projects.length).toEqual(2);

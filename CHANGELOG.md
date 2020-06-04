@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-beta.11] - 2020-06-04
+### Added
+- full users and groups api implementation;
+
+## [1.0.0-beta.10] - 2020-05-29
+### Added
+- initial users api for get and list methods;
+- initial groups api for get and list methods;
 
 ## [1.0.0-beta.9] - 2020-05-26
 ### Changed

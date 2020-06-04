@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultResponse, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -28,7 +28,7 @@ describe('Permission Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries/RRRRRR?language=en-GB&userId=UUUUUU',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(permissions).not.toBeNull();
             expect(permissions.actions).not.toBeNull();
@@ -47,7 +47,7 @@ describe('Permission Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries?language=en-GB&userId=UUUUUU',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(permissions).not.toBeNull();
             expect(permissions.actions).not.toBeNull();
@@ -79,7 +79,7 @@ describe('Permission Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries/RRRRRR/actions/sys.create?language=en-GB&userId=UUUUUU',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(authorization).not.toBeNull();
             expect(authorization.authorized).toBeTrue();
@@ -97,7 +97,7 @@ describe('Permission Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries/actions/sys.create?language=en-GB&userId=UUUUUU',
-                getDefaultResponse()
+                getDefaultRequest()
             ]);
             expect(authorization).not.toBeNull();
             expect(authorization.authorized).toBeTrue();
