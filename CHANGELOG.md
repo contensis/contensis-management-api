@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0-beta.10] - 2020-06-10
 ### Changes
-- users api: changed *isInGroup/isinGroups* to *userIsMemberOf*, changed *getGroup* to *getUserGroups*;
+- users api: changed *isInGroup/isinGroups* to *userIsMemberOf*, changed *getGroups* to *getUserGroups*;
 
 ## [1.0.0-beta.11] - 2020-06-04
 ### Added
