@@ -3,16 +3,13 @@ export interface UserCredentials {
 }
 export interface UserStatus {
     active: boolean;
-    deactivationReason: string;
     locked: boolean;
     passwordExpired: boolean;
-    passwordExpiry: Date;
 }
 export interface User {
     id: string;
     username: string;
     email: string;
-    title: string;
     firstname: string;
     lastname: string;
     avatarUrl: string;
@@ -25,7 +22,6 @@ export interface User {
     status: UserStatus;
     created: Date;
     modified: Date;
-    activated: Date;
     lastLogin: Date;
     passwordChanged: Date;
 }

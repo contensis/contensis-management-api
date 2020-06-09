@@ -42,7 +42,7 @@ export class UserOperations {
             });
         });
     }
-    getGroups(userIdOrOptions) {
+    getUserGroups(userIdOrOptions) {
         let url = UrlBuilder.create('/api/management/security/users/:userId/groups', { includeInherited: null })
             .addOptions(userIdOrOptions, 'userId')
             .setParams(this.contensisClient.getParams())
@@ -126,35 +126,16 @@ export class UserOperations {
             });
         });
     }
-    isInGroup(userId, groupId) {
+    userIsMemberOf(userId, ...groupIdsOrNames) {
         if (!userId) {
             throw new Error('A valid users id needs to be specified.');
         }
-        if (!groupId) {
-            throw new Error('A valid group id needs to be specified.');
+        if (!groupIdsOrNames || groupIdsOrNames.length === 0) {
+            throw new Error('At least a valid group id or name needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/management/security/users/:userId/groups/:groupId', {})
+        let url = UrlBuilder.create('/api/management/security/users/:userId/groups/:groupIdsOrNamesCsv', {})
             .addOptions(userId, 'userId')
-            .addOptions(groupId, 'groupId')
-            .setParams(this.contensisClient.getParams())
-            .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
-            return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders(),
-                method: 'HEAD'
-            }).then(() => true, () => false);
-        });
-    }
-    isInGroups(userId, groupIds) {
-        if (!userId) {
-            throw new Error('A valid users id needs to be specified.');
-        }
-        if (!groupIds || groupIds.length === 0) {
-            throw new Error('At least a valid group id needs to be specified.');
-        }
-        let url = UrlBuilder.create('/api/management/security/users/:userId/groups/:groupIdCsv', {})
-            .addOptions(userId, 'userId')
-            .addOptions(groupIds.join(','), 'groupIdCsv')
+            .addOptions(groupIdsOrNames.join(','), 'groupIdsOrNamesCsv')
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureAuthenticationToken().then(() => {

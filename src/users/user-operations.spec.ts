@@ -271,7 +271,7 @@ describe('User Operations', () => {
 
     });
 
-    describe('Is user in group', () => {
+    describe('Is user member of group', () => {
 
         describe('for a positive result', () => {
             beforeEach(() => {
@@ -286,7 +286,7 @@ describe('User Operations', () => {
             it('and valid user and group', async () => {
                 let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-                let result = await client.users.isInGroup(defaultUsers[0].id, defaultGroups[0].id);
+                let result = await client.users.userIsMemberOf(defaultUsers[0].id, defaultGroups[0].id);
 
                 expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -315,7 +315,7 @@ describe('User Operations', () => {
             it('and valid user and group', async () => {
                 let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-                let result = await client.users.isInGroup(defaultUsers[0].id, defaultGroups[0].id);
+                let result = await client.users.userIsMemberOf(defaultUsers[0].id, defaultGroups[0].id);
 
                 expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -346,7 +346,7 @@ describe('User Operations', () => {
             it('and valid user and group', async () => {
                 let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-                let result = await client.users.isInGroups(defaultUsers[0].id, [defaultGroups[0].id, defaultGroups[1].id]);
+                let result = await client.users.userIsMemberOf(defaultUsers[0].id, defaultGroups[0].id, defaultGroups[1].id);
 
                 expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -375,7 +375,7 @@ describe('User Operations', () => {
             it('and valid user and group', async () => {
                 let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-                let result = await client.users.isInGroups(defaultUsers[0].id, [defaultGroups[0].id, defaultGroups[1].id]);
+                let result = await client.users.userIsMemberOf(defaultUsers[0].id, defaultGroups[0].id, defaultGroups[1].id);
 
                 expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -408,7 +408,7 @@ describe('User Operations', () => {
 
         it('with default options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let groups = await client.users.getGroups(defaultUsers[0].id);
+            let groups = await client.users.getUserGroups(defaultUsers[0].id);
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
@@ -424,7 +424,7 @@ describe('User Operations', () => {
 
         it('with specific options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let groups = await client.users.getGroups({
+            let groups = await client.users.getUserGroups({
                 userId: defaultUsers[0].id,
                 includeInherited: true
             });

@@ -8,12 +8,11 @@ export declare class UserOperations implements IUserOperations {
     getByUsername(username: string): Promise<User>;
     getByEmail(email: string): Promise<User>;
     list(options?: UserListOptions): Promise<PagedList<User>>;
-    getGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>>;
+    getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>>;
     create(user: User): Promise<User>;
     update(user: User): Promise<User>;
     updatePassword(options: UserUpdatePasswordOptions): Promise<void>;
     delete(id: string): Promise<void>;
-    isInGroup(userId: string, groupId: string): Promise<boolean>;
-    isInGroups(userId: string, groupIds: string[]): Promise<boolean>;
+    userIsMemberOf(userId: string, ...groupIdsOrNames: string[]): Promise<boolean>;
     private getUser;
 }
