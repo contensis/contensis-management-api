@@ -30,8 +30,11 @@ export function getDefaultConfig() {
         rootUrl: defaultRootUrl,
         language: 'en-US',
         versionStatus: 'published',
-        clientId: 'XXXXXX',
-        clientSecret: 'YYYYYY'
+        clientType: 'client_credentials',
+        clientDetails: {
+            clientId: 'XXXXXX',
+            clientSecret: 'YYYYYY'
+        }
     };
 }
 export function getDefaultRequest(method, isRelativeUrl, body) {
@@ -41,9 +44,7 @@ export function getDefaultRequest(method, isRelativeUrl, body) {
         headers: {
             Authorization: 'bearer ZZZZZZ',
             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            clientId: 'XXXXXX',
-            clientSecret: 'YYYYYY'
+            'Content-Type': 'application/json'
         }
     });
     if (!!isRelativeUrl) {

@@ -36,8 +36,11 @@ export function getDefaultConfig(): Config {
         rootUrl: defaultRootUrl,
         language: 'en-US',
         versionStatus: 'published',
-        clientId: 'XXXXXX',
-        clientSecret: 'YYYYYY'
+        clientType: 'client_credentials',
+        clientDetails: {
+            clientId: 'XXXXXX',
+            clientSecret: 'YYYYYY'
+        }
     };
 }
 
@@ -48,9 +51,7 @@ export function getDefaultRequest(method?: string, isRelativeUrl?: boolean, body
         headers: {
             Authorization: 'bearer ZZZZZZ',
             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            clientId: 'XXXXXX',
-            clientSecret: 'YYYYYY'
+            'Content-Type': 'application/json'
         }
     });
 

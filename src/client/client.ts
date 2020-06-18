@@ -6,7 +6,7 @@ import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
-import { ClientParams, HttpClient, IHttpClient } from 'contensis-core-api';
+import { ClientParams, HttpClient, IHttpClient, ClientTokenGrant, ClientPasswordGrant, ClientCredentialsGrant } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
@@ -84,12 +84,7 @@ export class Client implements ContensisClient {
 	}
 
 	private authenticate(): Promise<void> {
-		const AuthPayload = {
-			grant_type: 'client_credentials',
-			client_id: this.clientConfig.clientId,
-			client_secret: this.clientConfig.clientSecret,
-			scope: Scopes,
-		};
+		const AuthPayload = this.getAuthenticatePayload();
 
 		const AuthData = Object.keys(AuthPayload)
 			.map(key => {
@@ -108,9 +103,45 @@ export class Client implements ContensisClient {
 			},
 			body: AuthData,
 		})
-			.then(response => response.json())
-			.then(response => {
-				this.token = response.access_token;
+			.then(async response => {
+				let responseData = await response.json();
+				return { response, responseData };
+			})
+			.then(responseAndData => {
+				let { response, responseData } = responseAndData;
+				if (!response.ok) {
+					throw new Error('Authentication error: ' +
+						(!!responseData.error ? responseData.error : JSON.stringify(responseData)));
+				}
+
+				this.token = responseData.access_token;
 			});
+	}
+
+	private getAuthenticatePayload() {
+		let payload = {
+			scope: Scopes,
+		};
+
+		if (this.clientConfig.clientType !== 'none') {
+			payload['grant_type'] = this.clientConfig.clientType;
+		}
+
+		if (this.clientConfig.clientType === 'token') {
+			payload['token_value'] = (this.clientConfig.clientDetails as ClientTokenGrant).tokenValue;
+		} else if (this.clientConfig.clientType === 'password') {
+			let clientDetails = this.clientConfig.clientDetails as ClientPasswordGrant;
+			payload['client_id'] = clientDetails.clientId;
+			payload['username'] = clientDetails.username;
+			payload['password'] = clientDetails.password;
+			if (!!clientDetails.clientSecret) {
+				payload['client_secret'] = clientDetails.clientSecret;
+			}
+		} else if (this.clientConfig.clientType === 'client_credentials') {
+			let clientDetails = this.clientConfig.clientDetails as ClientCredentialsGrant;
+			payload['client_id'] = clientDetails.clientId;
+		}
+
+		return payload;
 	}
 }

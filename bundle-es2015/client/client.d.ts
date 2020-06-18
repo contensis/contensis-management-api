@@ -25,4 +25,5 @@ export declare class Client implements ContensisClient {
     };
     ensureAuthenticationToken(): Promise<string>;
     private authenticate;
+    private getAuthenticatePayload;
 }
