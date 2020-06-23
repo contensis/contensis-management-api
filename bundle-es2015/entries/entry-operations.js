@@ -1,6 +1,7 @@
 import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder } from 'contensis-core-api';
 import * as FormData from 'form-data';
-import * as fs from 'fs';
+import * as fs from 'graceful-fs';
+import * as isNode from 'detect-node';
 import { isString } from 'util';
 let getMappers = {
     language: defaultMapperForLanguage,
@@ -103,6 +104,7 @@ export class EntryOperations {
         });
     }
     createAsset(asset, assetFilePath, parentNodePath) {
+        this.ensureIsNode('createAsset');
         if (!asset) {
             throw new Error('A valid asset needs to be specified.');
         }
@@ -141,6 +143,7 @@ export class EntryOperations {
         });
     }
     updateAsset(asset, assetFilePath) {
+        this.ensureIsNode('updateAsset');
         if (!asset) {
             throw new Error('A valid asset needs to be specified.');
         }
@@ -231,5 +234,10 @@ export class EntryOperations {
                 body: JSON.stringify(workflowTrigger)
             });
         });
+    }
+    ensureIsNode(functionName) {
+        if (!isNode) {
+            throw new Error(`The function entry-operations.${functionName} can only be called in a Node.js process.`);
+        }
     }
 }

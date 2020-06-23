@@ -37,6 +37,7 @@ export class Client implements ContensisClient {
 
 	private httpClient: IHttpClient;
 	private token: string;
+	private tokenExpiryDate: Date;
 
 	static create(config: Config = null): Client {
 		return new Client(config);
@@ -80,7 +81,14 @@ export class Client implements ContensisClient {
 	}
 
 	public ensureAuthenticationToken(): Promise<string> {
-		return (!!this.token ? Promise.resolve(this.token) : this.authenticate().then(() => this.token));
+		if (!!this.token && !!this.tokenExpiryDate) {
+			const approxCurrentDate = new Date((new Date()).getTime() + 60 * 1000);
+			if (approxCurrentDate < this.tokenExpiryDate) {
+				return Promise.resolve(this.token);
+			}
+		}
+		return this.authenticate()
+			.then(() => this.token);
 	}
 
 	private authenticate(): Promise<void> {
@@ -108,9 +116,21 @@ export class Client implements ContensisClient {
 			},
 			body: AuthData,
 		})
-			.then(response => response.json())
-			.then(response => {
-				this.token = response.access_token;
+			.then(async response => {
+				let responseData = await response.json();
+				return { response, responseData };
+			})
+			.then(responseAndData => {
+				let { response, responseData } = responseAndData;
+				if (!response.ok) {
+					throw new Error('Authentication error: ' +
+						(!!responseData.error ? responseData.error : JSON.stringify(responseData)));
+				}
+
+				this.token = responseData.access_token;
+				const expiresInSeconds = responseData.expires_in;
+				const currentDate = new Date();
+				this.tokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
 			});
 	}
 }

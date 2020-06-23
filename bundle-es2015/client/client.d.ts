@@ -16,6 +16,7 @@ export declare class Client implements ContensisClient {
     users: IUserOperations;
     private httpClient;
     private token;
+    private tokenExpiryDate;
     static create(config?: Config): Client;
     static configure(config: Config): void;
     constructor(config?: Config);
