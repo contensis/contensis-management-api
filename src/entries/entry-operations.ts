@@ -6,7 +6,8 @@ import {
 	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
 } from 'contensis-core-api';
 import * as FormData from 'form-data';
-import * as fs from 'fs';
+import * as fs from 'graceful-fs';
+import * as isNode from 'detect-node';
 import { isString } from 'util';
 
 let getMappers: { [key: string]: MapperFn } = {
@@ -131,6 +132,7 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry> {
+		this.ensureIsNode('createAsset');
 		if (!asset) {
 			throw new Error('A valid asset needs to be specified.');
 		}
@@ -179,6 +181,7 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	updateAsset(asset: Entry, assetFilePath: string): Promise<Entry> {
+		this.ensureIsNode('updateAsset');
 		if (!asset) {
 			throw new Error('A valid asset needs to be specified.');
 		}
@@ -293,5 +296,11 @@ export class EntryOperations implements IEntryOperations {
 				body: JSON.stringify(workflowTrigger)
 			});
 		});
+	}
+
+	private ensureIsNode(functionName: string): void {
+		if (!isNode) {
+			throw new Error(`The function entry-operations.${functionName} can only be called in a Node.js process.`);
+		}
 	}
 }

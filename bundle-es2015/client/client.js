@@ -47,7 +47,14 @@ export class Client {
         return headers;
     }
     ensureAuthenticationToken() {
-        return (!!this.token ? Promise.resolve(this.token) : this.authenticate().then(() => this.token));
+        if (!!this.token && !!this.tokenExpiryDate) {
+            const approxCurrentDate = new Date((new Date()).getTime() + 60 * 1000);
+            if (approxCurrentDate < this.tokenExpiryDate) {
+                return Promise.resolve(this.token);
+            }
+        }
+        return this.authenticate()
+            .then(() => this.token);
     }
     authenticate() {
         const AuthPayload = this.getAuthenticatePayload();
@@ -78,6 +85,9 @@ export class Client {
                     (!!responseData.error ? responseData.error : JSON.stringify(responseData)));
             }
             this.token = responseData.access_token;
+            const expiresInSeconds = responseData.expires_in;
+            const currentDate = new Date();
+            this.tokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
         });
     }
     getAuthenticatePayload() {

@@ -4,9 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0-beta.13] - 2020-06-18
+## [1.0.0-beta.next] - 2020-07-01
 ### Changed
-- added suport for multiple client types and how a client is created;
+- added suport for multiple client types and changed how a client is created;
+
+## [1.0.0-beta.13] - 2020-06-23
+### Changed
+- check if running in Node.js when calling specific functions;
+- use graceful-fs instead of Node.js module fs for better cross platform support;
+- corrected access token expiry check; 
 
 ## [1.0.0-beta.12] - 2020-06-10
 ### Changed
