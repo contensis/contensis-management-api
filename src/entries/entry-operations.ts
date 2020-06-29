@@ -3,12 +3,10 @@ import {
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder
+	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isNodejs, isString
 } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'graceful-fs';
-import * as isNode from 'detect-node';
-import { isString } from 'util';
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
@@ -45,7 +43,7 @@ export class EntryOperations implements IEntryOperations {
 
 	list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>> {
 		let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
-		if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !contentTypeIdOrOptions.contentTypeId)) {
+		if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !(contentTypeIdOrOptions as EntryListOptions).contentTypeId)) {
 			urlTemplate = '/api/management/projects/:projectId/entries';
 		}
 
@@ -299,7 +297,7 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	private ensureIsNode(functionName: string): void {
-		if (!isNode) {
+		if (!isNodejs()) {
 			throw new Error(`The function entry-operations.${functionName} can only be called in a Node.js process.`);
 		}
 	}

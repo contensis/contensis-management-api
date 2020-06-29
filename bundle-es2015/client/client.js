@@ -9,8 +9,8 @@ import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations } from '../groups/group-operations';
 import { UserOperations } from '../users/user-operations';
+import * as Scopes from './scopes';
 import fetch from 'cross-fetch';
-const Scopes = 'ContentType_Read ContentType_Write ContentType_Delete Entry_Read Entry_Write Entry_Delete Project_Read Project_Write Project_Delete';
 export class Client {
     constructor(config = null) {
         this.clientConfig = null;
@@ -92,26 +92,20 @@ export class Client {
     }
     getAuthenticatePayload() {
         let payload = {
-            scope: Scopes,
+            scope: Scopes.getAllScopes(),
         };
         if (this.clientConfig.clientType !== 'none') {
             payload['grant_type'] = this.clientConfig.clientType;
         }
-        if (this.clientConfig.clientType === 'token') {
-            payload['token_value'] = this.clientConfig.clientDetails.tokenValue;
-        }
-        else if (this.clientConfig.clientType === 'password') {
+        if (this.clientConfig.clientType === 'contensis_classic') {
             let clientDetails = this.clientConfig.clientDetails;
-            payload['client_id'] = clientDetails.clientId;
             payload['username'] = clientDetails.username;
             payload['password'] = clientDetails.password;
-            if (!!clientDetails.clientSecret) {
-                payload['client_secret'] = clientDetails.clientSecret;
-            }
         }
         else if (this.clientConfig.clientType === 'client_credentials') {
             let clientDetails = this.clientConfig.clientDetails;
             payload['client_id'] = clientDetails.clientId;
+            payload['client_secret'] = clientDetails.clientSecret;
         }
         return payload;
     }

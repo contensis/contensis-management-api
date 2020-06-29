@@ -6,16 +6,17 @@ import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
-import { ClientParams, HttpClient, IHttpClient, ClientTokenGrant, ClientPasswordGrant, ClientCredentialsGrant } from 'contensis-core-api';
+import { ClientParams, HttpClient, IHttpClient, ContensisClassicGrant, ClientCredentialsGrant } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations } from '../groups/group-operations';
 import { UserOperations } from '../users/user-operations';
+import * as Scopes from './scopes';
+
 import fetch from 'cross-fetch';
 
-const Scopes = 'ContentType_Read ContentType_Write ContentType_Delete Entry_Read Entry_Write Entry_Delete Project_Read Project_Write Project_Delete';
 
 export class Client implements ContensisClient {
 
@@ -131,26 +132,22 @@ export class Client implements ContensisClient {
 
 	private getAuthenticatePayload() {
 		let payload = {
-			scope: Scopes,
+			scope: Scopes.getAllScopes(),
 		};
 
 		if (this.clientConfig.clientType !== 'none') {
 			payload['grant_type'] = this.clientConfig.clientType;
 		}
 
-		if (this.clientConfig.clientType === 'token') {
-			payload['token_value'] = (this.clientConfig.clientDetails as ClientTokenGrant).tokenValue;
-		} else if (this.clientConfig.clientType === 'password') {
-			let clientDetails = this.clientConfig.clientDetails as ClientPasswordGrant;
-			payload['client_id'] = clientDetails.clientId;
+		if (this.clientConfig.clientType === 'contensis_classic') {
+			let clientDetails = this.clientConfig.clientDetails as ContensisClassicGrant;
 			payload['username'] = clientDetails.username;
 			payload['password'] = clientDetails.password;
-			if (!!clientDetails.clientSecret) {
-				payload['client_secret'] = clientDetails.clientSecret;
-			}
+
 		} else if (this.clientConfig.clientType === 'client_credentials') {
 			let clientDetails = this.clientConfig.clientDetails as ClientCredentialsGrant;
 			payload['client_id'] = clientDetails.clientId;
+			payload['client_secret'] = clientDetails.clientSecret;
 		}
 
 		return payload;

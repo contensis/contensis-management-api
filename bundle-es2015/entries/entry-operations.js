@@ -1,8 +1,6 @@
-import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder } from 'contensis-core-api';
+import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder, isNodejs, isString } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'graceful-fs';
-import * as isNode from 'detect-node';
-import { isString } from 'util';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForLatestVersionStatus,
@@ -236,7 +234,7 @@ export class EntryOperations {
         });
     }
     ensureIsNode(functionName) {
-        if (!isNode) {
+        if (!isNodejs()) {
             throw new Error(`The function entry-operations.${functionName} can only be called in a Node.js process.`);
         }
     }
