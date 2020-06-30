@@ -6,7 +6,7 @@ import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
-import { ClientParams, HttpClient, IHttpClient, ContensisClassicGrant, ClientCredentialsGrant } from 'contensis-core-api';
+import { ClientParams, HttpClient, IHttpClient, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicResfreshTokenGrant } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
@@ -35,10 +35,11 @@ export class Client implements ContensisClient {
 	roles: IRoleOperations;
 	users: IUserOperations;
 
+	bearerToken: string;
+	bearerTokenExpiryDate: Date;
+	refreshToken?: string;
 
 	private httpClient: IHttpClient;
-	private token: string;
-	private tokenExpiryDate: Date;
 
 	static create(config: Config = null): Client {
 		return new Client(config);
@@ -70,7 +71,7 @@ export class Client implements ContensisClient {
 
 	public getHeaders(contentType: string = 'application/json'): { [key: string]: string } {
 		let headers = {
-			Authorization: `bearer ${this.token}`,
+			Authorization: `bearer ${this.bearerToken}`,
 			Accept: 'application/json'
 		};
 
@@ -82,14 +83,14 @@ export class Client implements ContensisClient {
 	}
 
 	public ensureAuthenticationToken(): Promise<string> {
-		if (!!this.token && !!this.tokenExpiryDate) {
+		if (!!this.bearerToken && !!this.bearerTokenExpiryDate) {
 			const approxCurrentDate = new Date((new Date()).getTime() + 60 * 1000);
-			if (approxCurrentDate < this.tokenExpiryDate) {
-				return Promise.resolve(this.token);
+			if (approxCurrentDate < this.bearerTokenExpiryDate) {
+				return Promise.resolve(this.bearerToken);
 			}
 		}
 		return this.authenticate()
-			.then(() => this.token);
+			.then(() => this.bearerToken);
 	}
 
 	private authenticate(): Promise<void> {
@@ -123,31 +124,39 @@ export class Client implements ContensisClient {
 						(!!responseData.error ? responseData.error : JSON.stringify(responseData)));
 				}
 
-				this.token = responseData.access_token;
+				this.bearerToken = responseData.access_token;
 				const expiresInSeconds = responseData.expires_in;
 				const currentDate = new Date();
-				this.tokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
+				this.bearerTokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
+				if (!!responseData.refresh_token) {
+					this.refreshToken = responseData.refresh_token;
+				} else {
+					this.refreshToken = null;
+				}
 			});
 	}
 
 	private getAuthenticatePayload() {
 		let payload = {
-			scope: Scopes.getAllScopes(),
+			scope: this.clientConfig.clientType === 'client_credentials' ? Scopes.getResourcesScopes() : Scopes.getAllScopes(),
 		};
 
 		if (this.clientConfig.clientType !== 'none') {
 			payload['grant_type'] = this.clientConfig.clientType;
 		}
 
-		if (this.clientConfig.clientType === 'contensis_classic') {
+		if (this.clientConfig.clientType === 'client_credentials') {
+			let clientDetails = this.clientConfig.clientDetails as ClientCredentialsGrant;
+			payload['client_id'] = clientDetails.clientId;
+			payload['client_secret'] = clientDetails.clientSecret;
+		} else if (this.clientConfig.clientType === 'contensis_classic') {
 			let clientDetails = this.clientConfig.clientDetails as ContensisClassicGrant;
 			payload['username'] = clientDetails.username;
 			payload['password'] = clientDetails.password;
 
-		} else if (this.clientConfig.clientType === 'client_credentials') {
-			let clientDetails = this.clientConfig.clientDetails as ClientCredentialsGrant;
-			payload['client_id'] = clientDetails.clientId;
-			payload['client_secret'] = clientDetails.clientSecret;
+		} else if (this.clientConfig.clientType === 'contensis_classic_refresh_token') {
+			let clientDetails = this.clientConfig.clientDetails as ContensisClassicResfreshTokenGrant;
+			payload['refresh_token'] = clientDetails.refreshToken;
 		}
 
 		return payload;

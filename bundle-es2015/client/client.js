@@ -38,7 +38,7 @@ export class Client {
     }
     getHeaders(contentType = 'application/json') {
         let headers = {
-            Authorization: `bearer ${this.token}`,
+            Authorization: `bearer ${this.bearerToken}`,
             Accept: 'application/json'
         };
         if (!!contentType) {
@@ -47,14 +47,14 @@ export class Client {
         return headers;
     }
     ensureAuthenticationToken() {
-        if (!!this.token && !!this.tokenExpiryDate) {
+        if (!!this.bearerToken && !!this.bearerTokenExpiryDate) {
             const approxCurrentDate = new Date((new Date()).getTime() + 60 * 1000);
-            if (approxCurrentDate < this.tokenExpiryDate) {
-                return Promise.resolve(this.token);
+            if (approxCurrentDate < this.bearerTokenExpiryDate) {
+                return Promise.resolve(this.bearerToken);
             }
         }
         return this.authenticate()
-            .then(() => this.token);
+            .then(() => this.bearerToken);
     }
     authenticate() {
         const AuthPayload = this.getAuthenticatePayload();
@@ -84,28 +84,38 @@ export class Client {
                 throw new Error('Authentication error: ' +
                     (!!responseData.error ? responseData.error : JSON.stringify(responseData)));
             }
-            this.token = responseData.access_token;
+            this.bearerToken = responseData.access_token;
             const expiresInSeconds = responseData.expires_in;
             const currentDate = new Date();
-            this.tokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
+            this.bearerTokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
+            if (!!responseData.refresh_token) {
+                this.refreshToken = responseData.refresh_token;
+            }
+            else {
+                this.refreshToken = null;
+            }
         });
     }
     getAuthenticatePayload() {
         let payload = {
-            scope: Scopes.getAllScopes(),
+            scope: this.clientConfig.clientType === 'client_credentials' ? Scopes.getResourcesScopes() : Scopes.getAllScopes(),
         };
         if (this.clientConfig.clientType !== 'none') {
             payload['grant_type'] = this.clientConfig.clientType;
         }
-        if (this.clientConfig.clientType === 'contensis_classic') {
+        if (this.clientConfig.clientType === 'client_credentials') {
+            let clientDetails = this.clientConfig.clientDetails;
+            payload['client_id'] = clientDetails.clientId;
+            payload['client_secret'] = clientDetails.clientSecret;
+        }
+        else if (this.clientConfig.clientType === 'contensis_classic') {
             let clientDetails = this.clientConfig.clientDetails;
             payload['username'] = clientDetails.username;
             payload['password'] = clientDetails.password;
         }
-        else if (this.clientConfig.clientType === 'client_credentials') {
+        else if (this.clientConfig.clientType === 'contensis_classic_refresh_token') {
             let clientDetails = this.clientConfig.clientDetails;
-            payload['client_id'] = clientDetails.clientId;
-            payload['client_secret'] = clientDetails.clientSecret;
+            payload['refresh_token'] = clientDetails.refreshToken;
         }
         return payload;
     }

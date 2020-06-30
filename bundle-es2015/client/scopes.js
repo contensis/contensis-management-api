@@ -1,4 +1,4 @@
-const Resource = [
+const Resources = [
     'Security_Administrator',
     'ContentType_Read',
     'ContentType_Write',
@@ -13,5 +13,8 @@ const Resource = [
 const OfflineAccess = 'offline_access';
 const OpenId = 'openid';
 export function getAllScopes() {
-    return [OpenId, OfflineAccess, ...Resource].join(' ');
+    return [OpenId, OfflineAccess, ...Resources].join(' ');
+}
+export function getResourcesScopes() {
+    return Resources.join(' ');
 }

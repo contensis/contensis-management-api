@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0-beta.next] - 2020-07-01
 ### Changed
-- added suport for 'contensis_classic' flow and changed how a client is created;
+- added suport for 'contensis_classic' and 'contensis_classic_refresh_token' flows and changed how a client is created;
 
 ## [1.0.0-beta.13] - 2020-06-23
 ### Changed
