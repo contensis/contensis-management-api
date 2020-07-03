@@ -1,11 +1,11 @@
 import { Config } from '../models';
-import { ClientParams, ResponseHandler, VersionStatus } from 'contensis-core-api';
+import { ClientGrants, ClientGrantType, ClientParams, ResponseHandler, VersionStatus } from 'contensis-core-api';
 export declare class ClientConfig implements Config {
     private currentConfig;
     private previousConfig;
     rootUrl: string;
-    clientId: string;
-    clientSecret: string;
+    clientType: ClientGrantType;
+    clientDetails: ClientGrants;
     defaultHeaders: {
         [key: string]: string;
     };

@@ -1,6 +1,6 @@
 {
   "name": "contensis-management-api",
-  "version": "1.0.0-beta.13",
+  "version": "1.0.0-beta.next",
   "description": "Contensis Javascript Management API",
   "engines": {
     "node": ">=8"
@@ -50,11 +50,9 @@
     "webpack": "3.12.0"
   },
   "dependencies": {
-    "@types/detect-node": "^2.0.0",
     "@types/graceful-fs": "^4.1.3",
-    "contensis-core-api": "^1.0.0-beta.6",
+    "contensis-core-api": "file:../contensis-core-api",
     "cross-fetch": "^3.0.4",
-    "detect-node": "^2.0.4",
     "es6-promise": "^4.2.8",
     "form-data": "^3.0.0",
     "graceful-fs": "^4.2.4",

@@ -1,10 +1,10 @@
 import { Config } from '../models';
-import { ClientParams, ResponseHandler, VersionStatus } from 'contensis-core-api';
+import { ClientGrants, ClientGrantType, ClientParams, ResponseHandler, VersionStatus } from 'contensis-core-api';
 
 export class ClientConfig implements Config {
     rootUrl: string = null;
-    clientId: string = null;
-    clientSecret: string = null;
+    clientType: ClientGrantType = null;
+    clientDetails: ClientGrants = null;
     defaultHeaders: { [key: string]: string } = null;
     projectId: string = null;
     language: string = null;
@@ -16,8 +16,8 @@ export class ClientConfig implements Config {
 
     constructor(private currentConfig: Config, private previousConfig: Config) {
         this.rootUrl = this.getValue((c) => c.rootUrl);
-        this.clientId = this.getValue((c) => c.clientId);
-        this.clientSecret = this.getValue((c) => c.clientSecret);
+        this.clientType = this.getValue((c) => c.clientType);
+        this.clientDetails = this.getValue((c) => c.clientDetails);
         this.defaultHeaders = this.getValue((c) => c.defaultHeaders);
         this.projectId = this.getValue((c) => c.projectId);
         this.language = this.getValue((c) => c.language);
@@ -35,8 +35,8 @@ export class ClientConfig implements Config {
     toParams(): ClientParams {
         return {
             rootUrl: this.rootUrl,
-            clientId: this.clientId,
-            clientSecret: this.clientSecret,
+            clientType: this.clientType,
+            clientDetails: this.clientDetails,
             defaultHeaders: this.defaultHeaders,
             projectId: this.projectId,
             language: this.language,
