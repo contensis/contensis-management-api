@@ -20,6 +20,24 @@ describe('User Operations', () => {
             });
         });
 
+        it('current', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            let user = await client.users.getCurrent();
+
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/management/security/users/@current`,
+                getDefaultRequest()
+            ]);
+
+            expect(user).not.toBeNull();
+            expect(user.id).toEqual(defaultUsers[0].id);
+        });
+
         it('by id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 

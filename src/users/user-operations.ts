@@ -15,6 +15,10 @@ export class UserOperations implements IUserOperations {
         }
     }
 
+    getCurrent(): Promise<User> {
+        return this.getUser('@current');
+    }
+
     getById(userId: string): Promise<User> {
         if (!userId) {
             throw new Error('A valid user id needs to be specified.');

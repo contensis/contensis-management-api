@@ -6,6 +6,7 @@ import { UserGroupsOptions } from './UserGroupsOptions';
 import { UserUpdatePasswordOptions } from './UserUpdatePasswordOptions';
 export interface IUserOperations {
     getById(userId: string): Promise<User>;
+    getCurrent(): Promise<User>;
     getByUsername(username: string): Promise<User>;
     getByEmail(email: string): Promise<User>;
     list(options?: UserListOptions): Promise<PagedList<User>>;

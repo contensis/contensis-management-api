@@ -12,6 +12,9 @@ export class UserOperations {
             throw new Error('The class UserOperations was not initialised correctly.');
         }
     }
+    getCurrent() {
+        return this.getUser('@current');
+    }
     getById(userId) {
         if (!userId) {
             throw new Error('A valid user id needs to be specified.');
