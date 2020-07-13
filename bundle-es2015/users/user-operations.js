@@ -85,8 +85,8 @@ export class UserOperations {
             .toUrl();
         return this.contensisClient.ensureAuthenticationToken().then(() => {
             return this.httpClient.request(url, {
-                headers: this.contensisClient.getHeaders(),
-                method: 'PUT',
+                headers: this.contensisClient.getHeaders('application/merge-patch+json; charset=utf-8'),
+                method: 'PATCH',
                 body: JSON.stringify(user)
             });
         });

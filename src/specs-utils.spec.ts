@@ -4,12 +4,12 @@ const defaultRootUrl = 'http://my-website.com/';
 
 export const defaultUsers = [{
     id: 'IIIIII1',
-    username: 'UUUUUU1',
+    userName: 'UUUUUU1',
     email: 'EEEEEE1@test.com'
 },
 {
     id: 'IIIIII2',
-    username: 'UUUUUU2',
+    userName: 'UUUUUU2',
     email: 'EEEEEE2@test.com'
 }] as Partial<User>[];
 
@@ -51,7 +51,7 @@ export function getDefaultRequest(method?: string, isRelativeUrl?: boolean, body
         headers: {
             Authorization: 'bearer ZZZZZZ',
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
         }
     });
 

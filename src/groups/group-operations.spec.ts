@@ -421,7 +421,7 @@ describe('Group Operations', () => {
 
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
         });
 
         it('by group name', async () => {
@@ -437,7 +437,7 @@ describe('Group Operations', () => {
 
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
         });
     });
 

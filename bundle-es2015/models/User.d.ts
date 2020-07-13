@@ -1,17 +1,22 @@
+export interface CredentialsProvider {
+    type: string;
+    name: string;
+}
 export interface UserCredentials {
     password: string;
+    provider: CredentialsProvider;
 }
 export interface UserStatus {
-    active: boolean;
+    suspended: boolean;
     locked: boolean;
-    passwordExpired: boolean;
+    passwordResetRequired: boolean;
 }
 export interface User {
     id: string;
-    username: string;
+    userName: string;
     email: string;
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
     avatarUrl: string;
     timezone: string;
     language: string;

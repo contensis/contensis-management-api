@@ -59,19 +59,19 @@ describe('User Operations', () => {
         it('by username', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let user = await client.users.getByUsername(defaultUsers[0].username);
+            let user = await client.users.getByUsername(defaultUsers[0].userName);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].username}`,
+                `http://my-website.com/api/management/security/users/${defaultUsers[0].userName}`,
                 getDefaultRequest()
             ]);
 
             expect(user).not.toBeNull();
-            expect(user.username).toEqual(defaultUsers[0].username);
+            expect(user.userName).toEqual(defaultUsers[0].userName);
         });
 
         it('by email', async () => {
@@ -121,7 +121,7 @@ describe('User Operations', () => {
 
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
         });
 
         it('with specific options', async () => {
@@ -141,7 +141,7 @@ describe('User Operations', () => {
 
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
         });
 
         it('with specific options and no query', async () => {
@@ -160,7 +160,7 @@ describe('User Operations', () => {
 
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
         });
     });
 
@@ -215,7 +215,7 @@ describe('User Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/security/users/${defaultUsers[0].id}`,
-                getDefaultRequest('PUT', null, JSON.stringify(defaultUsers[0]))
+                getDefaultRequest('PATCH', null, JSON.stringify(defaultUsers[0]))
             ]);
 
             expect(user).not.toBeNull();
