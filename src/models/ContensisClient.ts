@@ -23,5 +23,5 @@ export interface ContensisClient extends IParamsProvider {
 	users: IUserOperations;
 
 	getHeaders: (contentType?: string) => { [key: string]: string };
-	ensureAuthenticationToken: () => Promise<string>;
+	ensureBearerToken: () => Promise<string>;
 }

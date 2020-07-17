@@ -34,7 +34,7 @@ export class EntryOperations implements IEntryOperations {
 			.addMappers(getMappers)
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<Entry>(url, {
 				headers: this.contensisClient.getHeaders()
 			});
@@ -54,7 +54,7 @@ export class EntryOperations implements IEntryOperations {
 			.addMappers(listMappers)
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<PagedList<Entry>>(url, {
 				headers: this.contensisClient.getHeaders()
 			});
@@ -74,7 +74,7 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(params)
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<PagedList<Entry>>(url, {
 				method: 'POST',
 				headers: this.contensisClient.getHeaders(),
@@ -96,7 +96,7 @@ export class EntryOperations implements IEntryOperations {
 			{})
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<Entry>(url, {
 				headers: this.contensisClient.getHeaders(),
 				method: 'POST',
@@ -120,7 +120,7 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<Entry>(url, {
 				headers: this.contensisClient.getHeaders(),
 				method: 'PUT',
@@ -156,7 +156,7 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<AssetUpload[]>(url, {
 				headers: form.getHeaders(this.contensisClient.getHeaders(null)),
 				method: 'POST',
@@ -196,7 +196,7 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<AssetUpload[]>(url, {
 				headers: form.getHeaders(this.contensisClient.getHeaders(null)),
 				method: 'POST',
@@ -229,7 +229,7 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<void>(url, {
 				headers: this.contensisClient.getHeaders(),
 				method: 'DELETE'
@@ -287,7 +287,7 @@ export class EntryOperations implements IEntryOperations {
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 
-		return this.contensisClient.ensureAuthenticationToken().then(() => {
+		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<Entry>(url, {
 				headers: this.contensisClient.getHeaders(),
 				method: 'POST',

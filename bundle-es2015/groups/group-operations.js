@@ -30,7 +30,7 @@ export class GroupOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -43,7 +43,7 @@ export class GroupOperations {
         let url = UrlBuilder.create('/api/management/security/groups', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -62,7 +62,7 @@ export class GroupOperations {
             .addOptions(group.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -78,7 +78,7 @@ export class GroupOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -97,7 +97,7 @@ export class GroupOperations {
             .addOptions(userId, 'userId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT'
@@ -116,7 +116,7 @@ export class GroupOperations {
             .addOptions(userId, 'userId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -135,7 +135,7 @@ export class GroupOperations {
             .addOptions(userId, 'userId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'HEAD'
@@ -154,7 +154,7 @@ export class GroupOperations {
             .addOptions(childGroupId, 'childGroupId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT'
@@ -173,7 +173,7 @@ export class GroupOperations {
             .addOptions(childGroupId, 'childGroupId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -209,7 +209,7 @@ export class GroupOperations {
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -220,7 +220,7 @@ export class GroupOperations {
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -231,7 +231,7 @@ export class GroupOperations {
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });

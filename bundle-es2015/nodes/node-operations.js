@@ -14,7 +14,7 @@ export class NodeOperations {
         let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/root', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -25,7 +25,7 @@ export class NodeOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -36,7 +36,7 @@ export class NodeOperations {
             .addOptions(entryId, 'entryId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -48,7 +48,7 @@ export class NodeOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -65,7 +65,7 @@ export class NodeOperations {
             .addOptions(node.parentId, 'parentNodeId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -84,7 +84,7 @@ export class NodeOperations {
             .addOptions(node.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -100,7 +100,7 @@ export class NodeOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -118,7 +118,7 @@ export class NodeOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -134,7 +134,7 @@ export class NodeOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'

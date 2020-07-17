@@ -24,7 +24,7 @@ export class EntryOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(getMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -40,7 +40,7 @@ export class EntryOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -56,7 +56,7 @@ export class EntryOperations {
         let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
             .setParams(params)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 method: 'POST',
                 headers: this.contensisClient.getHeaders(),
@@ -74,7 +74,7 @@ export class EntryOperations {
         let url = UrlBuilder.create('/api/management/projects/:projectId/entries', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -93,7 +93,7 @@ export class EntryOperations {
             .addOptions(entry.sys.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -121,7 +121,7 @@ export class EntryOperations {
         let url = UrlBuilder.create('/api/management/projects/:projectId/assets', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: form.getHeaders(this.contensisClient.getHeaders(null)),
                 method: 'POST',
@@ -153,7 +153,7 @@ export class EntryOperations {
         let url = UrlBuilder.create('/api/management/projects/:projectId/assets', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: form.getHeaders(this.contensisClient.getHeaders(null)),
                 method: 'POST',
@@ -180,7 +180,7 @@ export class EntryOperations {
             .addOptions(!!languages && languages.length > 0 ? languages.join(',') : null, 'language')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -225,7 +225,7 @@ export class EntryOperations {
             .addOptions(entry.sys.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',

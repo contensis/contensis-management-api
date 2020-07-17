@@ -51,7 +51,7 @@ export class UserOperations implements IUserOperations {
             .addMappers(listMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<PagedList<User>>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -66,7 +66,7 @@ export class UserOperations implements IUserOperations {
             .addMappers(listMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<PagedList<Group>>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -82,7 +82,7 @@ export class UserOperations implements IUserOperations {
             {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<User>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -106,7 +106,7 @@ export class UserOperations implements IUserOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<User>(url, {
                 headers: this.contensisClient.getHeaders('application/merge-patch+json; charset=utf-8'),
                 method: 'PATCH',
@@ -135,7 +135,7 @@ export class UserOperations implements IUserOperations {
             requestObject['existing'] = options.existing;
         }
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -155,7 +155,7 @@ export class UserOperations implements IUserOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -179,7 +179,7 @@ export class UserOperations implements IUserOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'HEAD'
@@ -192,7 +192,7 @@ export class UserOperations implements IUserOperations {
             .addOptions(idOrNameOrEmail, 'idOrNameOrEmail')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<User>(url, {
                 headers: this.contensisClient.getHeaders()
             });

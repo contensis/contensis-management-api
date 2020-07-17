@@ -37,7 +37,7 @@ export class PermissionOperations implements IPermissionOperations {
             .addMappers(getPermissionsMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<AllowedPermissions>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -73,7 +73,7 @@ export class PermissionOperations implements IPermissionOperations {
             .addMappers(getPermissionsMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Authorization>(url, {
                 headers: this.contensisClient.getHeaders()
             });

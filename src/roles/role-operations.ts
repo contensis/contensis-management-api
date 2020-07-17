@@ -18,7 +18,7 @@ export class RoleOperations implements IRoleOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Role>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -33,7 +33,7 @@ export class RoleOperations implements IRoleOperations {
             .addMappers(listMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<PagedList<Role>>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -49,7 +49,7 @@ export class RoleOperations implements IRoleOperations {
             {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Role>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -73,7 +73,7 @@ export class RoleOperations implements IRoleOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Role>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -93,7 +93,7 @@ export class RoleOperations implements IRoleOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'

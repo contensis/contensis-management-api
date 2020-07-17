@@ -17,6 +17,7 @@ export declare class Client implements ContensisClient {
     bearerToken: string;
     bearerTokenExpiryDate: Date;
     refreshToken?: string;
+    refreshTokenExpiryDate?: Date;
     private httpClient;
     static create(config?: Config): Client;
     static configure(config: Config): void;
@@ -25,7 +26,9 @@ export declare class Client implements ContensisClient {
     getHeaders(contentType?: string): {
         [key: string]: string;
     };
-    ensureAuthenticationToken(): Promise<string>;
+    isBearerTokenExpired(): boolean;
+    isRefreshTokenExpired(): boolean;
+    ensureBearerToken(): Promise<string>;
     private authenticate;
     private getAuthenticatePayload;
 }

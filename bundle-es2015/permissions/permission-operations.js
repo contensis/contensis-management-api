@@ -27,7 +27,7 @@ export class PermissionOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(getPermissionsMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -55,7 +55,7 @@ export class PermissionOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(getPermissionsMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });

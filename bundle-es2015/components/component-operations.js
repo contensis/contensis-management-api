@@ -18,7 +18,7 @@ export class ComponentOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(getMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -30,7 +30,7 @@ export class ComponentOperations {
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -43,7 +43,7 @@ export class ComponentOperations {
         let url = UrlBuilder.create('/api/management/projects/:projectId/components', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -62,7 +62,7 @@ export class ComponentOperations {
             .addOptions(component.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -78,7 +78,7 @@ export class ComponentOperations {
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -107,7 +107,7 @@ export class ComponentOperations {
             .addOptions(component.id, 'id')
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',

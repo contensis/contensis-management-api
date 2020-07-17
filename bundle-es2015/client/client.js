@@ -46,12 +46,27 @@ export class Client {
         }
         return headers;
     }
-    ensureAuthenticationToken() {
+    isBearerTokenExpired() {
         if (!!this.bearerToken && !!this.bearerTokenExpiryDate) {
             const approxCurrentDate = new Date((new Date()).getTime() + 60 * 1000);
             if (approxCurrentDate < this.bearerTokenExpiryDate) {
-                return Promise.resolve(this.bearerToken);
+                return false;
             }
+        }
+        return true;
+    }
+    isRefreshTokenExpired() {
+        if (!!this.refreshToken && !!this.refreshTokenExpiryDate) {
+            const approxCurrentDate = new Date((new Date()).getTime() + 60 * 1000);
+            if (approxCurrentDate < this.refreshTokenExpiryDate) {
+                return false;
+            }
+        }
+        return true;
+    }
+    ensureBearerToken() {
+        if (!this.isBearerTokenExpired()) {
+            return Promise.resolve(this.bearerToken);
         }
         return this.authenticate()
             .then(() => this.bearerToken);
@@ -90,9 +105,11 @@ export class Client {
             this.bearerTokenExpiryDate = new Date(currentDate.getTime() + expiresInSeconds * 1000);
             if (!!responseData.refresh_token) {
                 this.refreshToken = responseData.refresh_token;
+                this.refreshTokenExpiryDate = new Date(currentDate.getTime() + 15 * 24 * 3600 * 1000); // 15 days
             }
             else {
                 this.refreshToken = null;
+                this.refreshTokenExpiryDate = null;
             }
         });
     }

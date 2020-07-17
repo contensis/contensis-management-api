@@ -24,7 +24,7 @@ export class ContentTypeOperations implements IContentTypeOperations {
             .addMappers(getMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<ContentType>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -39,7 +39,7 @@ export class ContentTypeOperations implements IContentTypeOperations {
             .addMappers(listMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<ContentType[]>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -55,7 +55,7 @@ export class ContentTypeOperations implements IContentTypeOperations {
             {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<ContentType>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -79,7 +79,7 @@ export class ContentTypeOperations implements IContentTypeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<ContentType>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -99,7 +99,7 @@ export class ContentTypeOperations implements IContentTypeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -141,7 +141,7 @@ export class ContentTypeOperations implements IContentTypeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<ContentType>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',

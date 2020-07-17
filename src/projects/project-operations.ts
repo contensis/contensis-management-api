@@ -12,7 +12,7 @@ export class ProjectOperations implements IProjectOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Project>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -25,7 +25,7 @@ export class ProjectOperations implements IProjectOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Project[]>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -41,7 +41,7 @@ export class ProjectOperations implements IProjectOperations {
             {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Project>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -65,7 +65,7 @@ export class ProjectOperations implements IProjectOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Project>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -85,7 +85,7 @@ export class ProjectOperations implements IProjectOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'

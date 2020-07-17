@@ -24,7 +24,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Node>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -39,7 +39,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Node>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -54,7 +54,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Node[]>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -69,7 +69,7 @@ export class NodeOperations implements INodeOperations {
             .addMappers(nodeDefaultOptionsMappers)
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Node[]>(url, {
                 headers: this.contensisClient.getHeaders()
             });
@@ -91,7 +91,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Node>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
@@ -115,7 +115,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<Node>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -135,7 +135,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
@@ -158,7 +158,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
@@ -178,7 +178,7 @@ export class NodeOperations implements INodeOperations {
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
-        return this.contensisClient.ensureAuthenticationToken().then(() => {
+        return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<void>(url, {
                 headers: this.contensisClient.getHeaders(),
                 method: 'DELETE'
