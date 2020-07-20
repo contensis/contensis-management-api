@@ -17,8 +17,11 @@ import * as Scopes from './scopes';
 
 import fetch from 'cross-fetch';
 
+const ContensisClassicTokenKey = 'x-contensis-classic-token';
 
 export class Client implements ContensisClient {
+
+
 
 	static defaultClientConfig: ClientConfig = null;
 
@@ -39,6 +42,8 @@ export class Client implements ContensisClient {
 	bearerTokenExpiryDate: Date;
 	refreshToken?: string;
 	refreshTokenExpiryDate?: Date;
+
+	private contensisClassicToken: string;
 
 	private httpClient: IHttpClient;
 
@@ -155,6 +160,12 @@ export class Client implements ContensisClient {
 				} else {
 					this.refreshToken = null;
 					this.refreshTokenExpiryDate = null;
+				}
+
+				if (!!response.headers && response.headers.has(ContensisClassicTokenKey)) {
+					this.contensisClassicToken = response.headers.get(ContensisClassicTokenKey);
+				} else {
+					this.contensisClassicToken = null;
 				}
 			});
 	}

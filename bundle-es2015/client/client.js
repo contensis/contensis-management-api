@@ -11,6 +11,7 @@ import { GroupOperations } from '../groups/group-operations';
 import { UserOperations } from '../users/user-operations';
 import * as Scopes from './scopes';
 import fetch from 'cross-fetch';
+const ContensisClassicTokenKey = 'x-contensis-classic-token';
 export class Client {
     constructor(config = null) {
         this.clientConfig = null;
@@ -110,6 +111,12 @@ export class Client {
             else {
                 this.refreshToken = null;
                 this.refreshTokenExpiryDate = null;
+            }
+            if (!!response.headers && response.headers.has(ContensisClassicTokenKey)) {
+                this.contensisClassicToken = response.headers.get(ContensisClassicTokenKey);
+            }
+            else {
+                this.contensisClassicToken = null;
             }
         });
     }

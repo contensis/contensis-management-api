@@ -18,6 +18,7 @@ export declare class Client implements ContensisClient {
     bearerTokenExpiryDate: Date;
     refreshToken?: string;
     refreshTokenExpiryDate?: Date;
+    private contensisClassicToken;
     private httpClient;
     static create(config?: Config): Client;
     static configure(config: Config): void;
