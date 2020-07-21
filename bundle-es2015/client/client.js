@@ -2,7 +2,7 @@ import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
 import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
-import { HttpClient } from 'contensis-core-api';
+import { HttpClient, ContensisAuthenticationError, ContensisApplicationError } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
@@ -70,7 +70,13 @@ export class Client {
             return Promise.resolve(this.bearerToken);
         }
         return this.authenticate()
-            .then(() => this.bearerToken);
+            .then(() => this.bearerToken)
+            .catch((error) => {
+            if (error instanceof ContensisAuthenticationError) {
+                throw error;
+            }
+            throw new ContensisApplicationError(error.message);
+        });
     }
     authenticate() {
         const AuthPayload = this.getAuthenticatePayload();
@@ -97,8 +103,7 @@ export class Client {
             .then(responseAndData => {
             let { response, responseData } = responseAndData;
             if (!response.ok) {
-                throw new Error('Authentication error: ' +
-                    (!!responseData.error ? responseData.error : JSON.stringify(responseData)));
+                throw new ContensisAuthenticationError(!!responseData.error ? responseData.error : JSON.stringify(responseData));
             }
             this.bearerToken = responseData.access_token;
             const expiresInSeconds = responseData.expires_in;
