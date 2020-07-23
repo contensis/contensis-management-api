@@ -9,18 +9,18 @@ import { IPermissionOperations } from './IPermissionOperations';
 import { IComponentOperations } from './IComponentOperations';
 import { IGroupOperations } from './IGroupOperations';
 import { IUserOperations } from './IUserOperations';
+import { ISecurityOperations } from './ISecurityOperations';
 
 export interface ContensisClient extends IParamsProvider {
 
 	components: IComponentOperations;
 	contentTypes: IContentTypeOperations;
 	entries: IEntryOperations;
-	groups: IGroupOperations;
 	nodes: INodeOperations;
 	permissions: IPermissionOperations;
 	projects: IProjectOperations;
 	roles: IRoleOperations;
-	users: IUserOperations;
+	security: ISecurityOperations;
 
 	getHeaders: (contentType?: string) => { [key: string]: string };
 	ensureBearerToken: () => Promise<string>;

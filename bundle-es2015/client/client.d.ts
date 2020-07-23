@@ -1,4 +1,4 @@
-import { Config, ContensisClient, IContentTypeOperations, IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations } from '../models';
+import { Config, ContensisClient, IContentTypeOperations, IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, ISecurityOperations } from '../models';
 import { ClientConfig } from './client-config';
 import { ClientParams } from 'contensis-core-api';
 export declare class Client implements ContensisClient {
@@ -8,12 +8,11 @@ export declare class Client implements ContensisClient {
     components: IComponentOperations;
     contentTypes: IContentTypeOperations;
     entries: IEntryOperations;
-    groups: IGroupOperations;
     nodes: INodeOperations;
     permissions: IPermissionOperations;
     projects: IProjectOperations;
     roles: IRoleOperations;
-    users: IUserOperations;
+    security: ISecurityOperations;
     bearerToken: string;
     bearerTokenExpiryDate: Date;
     refreshToken?: string;

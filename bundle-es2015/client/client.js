@@ -7,8 +7,7 @@ import { ProjectOperations } from '../projects/project-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
-import { GroupOperations } from '../groups/group-operations';
-import { UserOperations } from '../users/user-operations';
+import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
 import fetch from 'cross-fetch';
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
@@ -21,12 +20,11 @@ export class Client {
         this.components = new ComponentOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
         this.entries = new EntryOperations(this.httpClient, this);
-        this.groups = new GroupOperations(this.httpClient, this);
         this.nodes = new NodeOperations(this.httpClient, this);
         this.permissions = new PermissionOperations(this.httpClient, this);
         this.projects = new ProjectOperations(this.httpClient, this);
         this.roles = new RoleOperations(this.httpClient, this);
-        this.users = new UserOperations(this.httpClient, this);
+        this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
     }
     static create(config = null) {
         return new Client(config);

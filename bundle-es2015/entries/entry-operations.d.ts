@@ -14,5 +14,6 @@ export declare class EntryOperations implements IEntryOperations {
     delete(id: string, languages?: string[]): Promise<void>;
     invokeWorkflow(entry: Entry, event: string, data?: any): Promise<Entry>;
     invokeWorkflowByTrigger(entry: Entry, workflowTrigger: WorkflowTrigger): Promise<Entry>;
+    private searchUsingPost;
     private ensureIsNode;
 }
