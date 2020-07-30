@@ -1,7 +1,7 @@
-import * as Contensis from '../index';
-import { defaultGroups, getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy, defaultUsers } from '../specs-utils.spec';
+import * as Contensis from '../../index';
+import { defaultGroups, getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy, defaultUsers } from '../../specs-utils.spec';
 import fetch from 'cross-fetch';
-import { Group, User } from '../models';
+import { Group, User } from '../../models';
 import { PagedList } from 'contensis-core-api';
 
 const Zengenti = { Contensis };
@@ -23,7 +23,7 @@ describe('Group Operations', () => {
         it('by id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let group = await client.groups.getById(defaultGroups[0].id);
+            let group = await client.security.groups.getById(defaultGroups[0].id);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -41,7 +41,7 @@ describe('Group Operations', () => {
         it('by name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let group = await client.groups.getByName(defaultGroups[0].name);
+            let group = await client.security.groups.getByName(defaultGroups[0].name);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -74,7 +74,7 @@ describe('Group Operations', () => {
 
         it('with default options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let groups = await client.groups.list();
+            let groups = await client.security.groups.list();
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
@@ -90,7 +90,7 @@ describe('Group Operations', () => {
 
         it('with specific options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let groups = await client.groups.list({
+            let groups = await client.security.groups.list({
                 q: 'content',
                 pageOptions: { pageIndex: 1, pageSize: 50 },
                 order: ['name']
@@ -110,7 +110,7 @@ describe('Group Operations', () => {
 
         it('with specific options and no query', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let groups = await client.groups.list({
+            let groups = await client.security.groups.list({
                 pageOptions: { pageIndex: 1, pageSize: 50 },
                 order: ['name']
             });
@@ -141,7 +141,7 @@ describe('Group Operations', () => {
         it('for valid group', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let group = await client.groups.create(defaultGroups[0] as Group);
+            let group = await client.security.groups.create(defaultGroups[0] as Group);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -171,7 +171,7 @@ describe('Group Operations', () => {
         it('for valid group', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let group = await client.groups.update(defaultGroups[0] as Group);
+            let group = await client.security.groups.update(defaultGroups[0] as Group);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -201,7 +201,7 @@ describe('Group Operations', () => {
         it('for valid group', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let result = await client.groups.delete(defaultGroups[0].id);
+            let result = await client.security.groups.delete(defaultGroups[0].id);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -230,7 +230,7 @@ describe('Group Operations', () => {
         it('for valid group and user', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let result = await client.groups.addUser(defaultGroups[0].id, defaultUsers[0].id);
+            let result = await client.security.groups.addUser(defaultGroups[0].id, defaultUsers[0].id);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -259,7 +259,7 @@ describe('Group Operations', () => {
         it('for valid group and user', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let result = await client.groups.removeUser(defaultGroups[0].id, defaultUsers[0].id);
+            let result = await client.security.groups.removeUser(defaultGroups[0].id, defaultUsers[0].id);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -290,7 +290,7 @@ describe('Group Operations', () => {
             it('and valid group and user', async () => {
                 let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-                let result = await client.groups.hasUser(defaultGroups[0].id, defaultUsers[0].id);
+                let result = await client.security.groups.hasUser(defaultGroups[0].id, defaultUsers[0].id);
 
                 expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -319,7 +319,7 @@ describe('Group Operations', () => {
             it('and valid group and user', async () => {
                 let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-                let result = await client.groups.hasUser(defaultGroups[0].id, defaultUsers[0].id);
+                let result = await client.security.groups.hasUser(defaultGroups[0].id, defaultUsers[0].id);
 
                 expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -348,7 +348,7 @@ describe('Group Operations', () => {
         it('for valid group and child group', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let result = await client.groups.addChildGroup(defaultGroups[0].id, defaultGroups[1].id);
+            let result = await client.security.groups.addChildGroup(defaultGroups[0].id, defaultGroups[1].id);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -377,7 +377,7 @@ describe('Group Operations', () => {
         it('for valid group and child group', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
-            let result = await client.groups.removeChildGroup(defaultGroups[0].id, defaultGroups[1].id);
+            let result = await client.security.groups.removeChildGroup(defaultGroups[0].id, defaultGroups[1].id);
 
             expect(global.fetch).toHaveBeenCalledTimes(2);
 
@@ -410,7 +410,7 @@ describe('Group Operations', () => {
 
         it('by group id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let users = await client.groups.getUsersByGroupId(defaultGroups[0].id);
+            let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id);
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
@@ -426,7 +426,7 @@ describe('Group Operations', () => {
 
         it('by group name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let users = await client.groups.getUsersByGroupName(defaultGroups[0].name);
+            let users = await client.security.groups.getUsersByGroupName(defaultGroups[0].name);
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
@@ -458,7 +458,7 @@ describe('Group Operations', () => {
 
         it('by group id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let groups = await client.groups.getChildGroupsByGroupId(defaultGroups[0].id);
+            let groups = await client.security.groups.getChildGroupsByGroupId(defaultGroups[0].id);
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
@@ -474,7 +474,7 @@ describe('Group Operations', () => {
 
         it('by group name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let users = await client.groups.getChildGroupsByGroupName(defaultGroups[0].name);
+            let users = await client.security.groups.getChildGroupsByGroupName(defaultGroups[0].name);
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 

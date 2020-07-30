@@ -1,4 +1,4 @@
-import { ContensisClient, Group, GroupListOptions, IGroupOperations, User } from '../models';
+import { ContensisClient, Group, GroupListOptions, IGroupOperations, User } from '../../models';
 import { IHttpClient, PagedList, UrlBuilder, MapperFn, ClientParams } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -6,6 +6,7 @@ let listMappers: { [key: string]: MapperFn } = {
     pageSize: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value: string[]) => (value && value.length > 0) ? value : null,
 };
+
 
 export class GroupOperations implements IGroupOperations {
 

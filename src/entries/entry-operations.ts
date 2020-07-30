@@ -3,7 +3,7 @@ import {
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isNodejs, isString
+	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isNodejs, isString, isBrowser, isIE
 } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'graceful-fs';
@@ -67,18 +67,37 @@ export class EntryOperations implements IEntryOperations {
 		}
 
 		let params = this.contensisClient.getParams();
-		query.pageSize = query.pageSize || params.pageSize;
-		query.pageIndex = query.pageIndex || 0;
+		let pageSize = query.pageSize || params.pageSize;
+		let pageIndex = query.pageIndex || 0;
 
-		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
-			.setParams(params)
+		let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
+
+		let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+
+		let payload = {
+			...requestParams,
+			pageSize,
+			pageIndex,
+			where: JSON.stringify(query.where),
+		};
+
+		if (orderBy && orderBy.length > 0) {
+			payload['orderBy'] = JSON.stringify(orderBy);
+		}
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search', { ...payload })
+			.setParams({ ...(payload as any), projectId })
 			.toUrl();
+
+		let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
+		if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
+			return this.searchUsingPost(query);
+		}
 
 		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<PagedList<Entry>>(url, {
-				method: 'POST',
+				method: 'GET',
 				headers: this.contensisClient.getHeaders(),
-				body: JSON.stringify(query)
 			});
 		});
 	}
@@ -292,6 +311,28 @@ export class EntryOperations implements IEntryOperations {
 				headers: this.contensisClient.getHeaders(),
 				method: 'POST',
 				body: JSON.stringify(workflowTrigger)
+			});
+		});
+	}
+
+	private searchUsingPost(query: any): Promise<PagedList<Entry>> {
+		if (!query) {
+			return new Promise((resolve) => { resolve(null); });
+		}
+
+		let params = this.contensisClient.getParams();
+		query.pageSize = query.pageSize || params.pageSize;
+		query.pageIndex = query.pageIndex || 0;
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search')
+			.setParams(params)
+			.toUrl();
+
+		return this.contensisClient.ensureBearerToken().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'POST',
+				headers: this.contensisClient.getHeaders(),
+				body: JSON.stringify(query)
 			});
 		});
 	}

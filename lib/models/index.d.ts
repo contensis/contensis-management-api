@@ -24,6 +24,7 @@ export * from './INodeOperations';
 export * from './IPermissionOperations';
 export * from './IProjectOperations';
 export * from './IRoleOperations';
+export * from './ISecurityOperations';
 export * from './IUserOperations';
 export * from './ManagementApiScope';
 export * from './Node';

@@ -1,4 +1,4 @@
-import { ContensisClient, Group, GroupListOptions, IGroupOperations, User } from '../models';
+import { ContensisClient, Group, GroupListOptions, IGroupOperations, User } from '../../models';
 import { IHttpClient, PagedList } from 'contensis-core-api';
 export declare class GroupOperations implements IGroupOperations {
     private httpClient;

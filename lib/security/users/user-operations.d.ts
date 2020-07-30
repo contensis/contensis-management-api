@@ -1,4 +1,4 @@
-import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions } from '../models';
+import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions } from '../../models';
 import { IHttpClient, PagedList } from 'contensis-core-api';
 export declare class UserOperations implements IUserOperations {
     private httpClient;
