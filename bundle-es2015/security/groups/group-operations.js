@@ -104,6 +104,25 @@ export class GroupOperations {
             });
         });
     }
+    addUsers(groupId, userIds) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!userIds || userIds.length === 0) {
+            throw new Error('At least one valid user id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users', {})
+            .addOptions(groupId, 'groupId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify(userIds)
+            });
+        });
+    }
     removeUser(groupId, userId) {
         if (!groupId) {
             throw new Error('A valid group id needs to be specified.');

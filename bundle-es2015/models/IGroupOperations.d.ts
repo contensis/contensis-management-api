@@ -10,6 +10,7 @@ export interface IGroupOperations {
     update(user: Group): Promise<Group>;
     delete(id: string): Promise<void>;
     addUser(groupId: string, userId: string): Promise<void>;
+    addUsers(groupId: string, userIds: string[]): Promise<void>;
     removeUser(groupId: string, userId: string): Promise<void>;
     hasUser(groupId: string, userId: string): Promise<boolean>;
     addChildGroup(groupId: string, childGroupId: string): Promise<void>;

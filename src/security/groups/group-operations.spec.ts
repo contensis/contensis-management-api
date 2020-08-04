@@ -246,6 +246,36 @@ describe('Group Operations', () => {
 
     });
 
+    describe('Add users to group', () => {
+        beforeEach(() => {
+            setDefaultSpy(global, null);
+
+            Zengenti.Contensis.Client.defaultClientConfig = null;
+            Zengenti.Contensis.Client.configure({
+                fetchFn: global.fetch
+            });
+        });
+
+        it('for valid group and users', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            const userIds = [defaultUsers[0].id, defaultUsers[1].id];
+            let result = await client.security.groups.addUsers(defaultGroups[0].id, userIds);
+
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/management/security/groups/${defaultGroups[0].id}/users`,
+                getDefaultRequest('POST', false, JSON.stringify(userIds))
+            ]);
+
+            expect(result).toEqual(null);
+        });
+
+    });
+
     describe('Remove user from group', () => {
         beforeEach(() => {
             setDefaultSpy(global, null);
