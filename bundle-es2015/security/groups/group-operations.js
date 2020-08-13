@@ -168,7 +168,7 @@ export class GroupOperations {
         if (!childGroupId) {
             throw new Error('A valid child group id needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/childGroups/:childGroupId', {})
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/groups/:childGroupId', {})
             .addOptions(groupId, 'groupId')
             .addOptions(childGroupId, 'childGroupId')
             .setParams(this.contensisClient.getParams())
@@ -187,7 +187,7 @@ export class GroupOperations {
         if (!childGroupId) {
             throw new Error('A valid child group id needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/childGroups/:childGroupId', {})
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/groups/:childGroupId', {})
             .addOptions(groupId, 'groupId')
             .addOptions(childGroupId, 'childGroupId')
             .setParams(this.contensisClient.getParams())

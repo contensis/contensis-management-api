@@ -385,7 +385,7 @@ describe('Group Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/groups/${defaultGroups[0].id}/childGroups/${defaultGroups[1].id}`,
+                `http://my-website.com/api/management/security/groups/${defaultGroups[0].id}/groups/${defaultGroups[1].id}`,
                 getDefaultRequest('PUT')
             ]);
 
@@ -414,7 +414,7 @@ describe('Group Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/groups/${defaultGroups[0].id}/childGroups/${defaultGroups[1].id}`,
+                `http://my-website.com/api/management/security/groups/${defaultGroups[0].id}/groups/${defaultGroups[1].id}`,
                 getDefaultRequest('DELETE')
             ]);
 

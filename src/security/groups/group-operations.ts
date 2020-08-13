@@ -213,7 +213,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid child group id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/childGroups/:childGroupId',
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/groups/:childGroupId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(childGroupId, 'childGroupId')
@@ -237,7 +237,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid child group id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/childGroups/:childGroupId',
+        let url = UrlBuilder.create('/api/management/security/groups/:groupId/groups/:childGroupId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(childGroupId, 'childGroupId')
