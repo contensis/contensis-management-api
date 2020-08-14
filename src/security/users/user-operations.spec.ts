@@ -30,7 +30,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/@current`,
+                `http://my-website.com/api/security/users/@current`,
                 getDefaultRequest()
             ]);
 
@@ -48,7 +48,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].id}`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}`,
                 getDefaultRequest()
             ]);
 
@@ -66,7 +66,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].userName}`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].userName}`,
                 getDefaultRequest()
             ]);
 
@@ -84,7 +84,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].email}`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].email}`,
                 getDefaultRequest()
             ]);
 
@@ -115,7 +115,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                'http://my-website.com/api/management/security/users',
+                'http://my-website.com/api/security/users',
                 getDefaultRequest()
             ]);
 
@@ -135,7 +135,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                'http://my-website.com/api/management/security/users?order=username&pageIndex=1&pageSize=50&q=content',
+                'http://my-website.com/api/security/users?order=username&pageIndex=1&pageSize=50&q=content',
                 getDefaultRequest()
             ]);
 
@@ -154,7 +154,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                'http://my-website.com/api/management/security/users?order=username&pageIndex=1&pageSize=50',
+                'http://my-website.com/api/security/users?order=username&pageIndex=1&pageSize=50',
                 getDefaultRequest()
             ]);
 
@@ -184,7 +184,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users`,
+                `http://my-website.com/api/security/users`,
                 getDefaultRequest('POST', null, JSON.stringify(defaultUsers[0]))
             ]);
 
@@ -214,7 +214,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].id}`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}`,
                 getDefaultRequest('PATCH', null, JSON.stringify(defaultUsers[0]))
             ]);
 
@@ -251,7 +251,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/credentials/password`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/credentials/password`,
                 getDefaultRequest('POST', null, JSON.stringify(requestBody))
             ]);
 
@@ -280,7 +280,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].id}`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}`,
                 getDefaultRequest('DELETE')
             ]);
 
@@ -311,7 +311,7 @@ describe('User Operations', () => {
                 expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
                 expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                    `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id}`,
+                    `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id}`,
                     getDefaultRequest('HEAD')
                 ]);
 
@@ -340,7 +340,7 @@ describe('User Operations', () => {
                 expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
                 expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                    `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id}`,
+                    `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id}`,
                     getDefaultRequest('HEAD')
                 ]);
 
@@ -371,7 +371,7 @@ describe('User Operations', () => {
                 expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
                 expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                    `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id},${defaultGroups[1].id}`,
+                    `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id},${defaultGroups[1].id}`,
                     getDefaultRequest('HEAD')
                 ]);
 
@@ -400,7 +400,7 @@ describe('User Operations', () => {
                 expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
                 expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                    `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id},${defaultGroups[1].id}`,
+                    `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups/${defaultGroups[0].id},${defaultGroups[1].id}`,
                     getDefaultRequest('HEAD')
                 ]);
 
@@ -431,7 +431,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/groups`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups`,
                 getDefaultRequest()
             ]);
 
@@ -450,7 +450,7 @@ describe('User Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/management/security/users/${defaultUsers[0].id}/groups?includeInherited=true`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?includeInherited=true`,
                 getDefaultRequest()
             ]);
 

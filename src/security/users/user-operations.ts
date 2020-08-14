@@ -44,7 +44,7 @@ export class UserOperations implements IUserOperations {
     }
 
     list(options?: UserListOptions): Promise<PagedList<User>> {
-        let url = UrlBuilder.create('/api/management/security/users',
+        let url = UrlBuilder.create('/api/security/users',
             !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -59,7 +59,7 @@ export class UserOperations implements IUserOperations {
     }
 
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>> {
-        let url = UrlBuilder.create('/api/management/security/users/:userId/groups',
+        let url = UrlBuilder.create('/api/security/users/:userId/groups',
             { includeInherited: null })
             .addOptions(userIdOrOptions, 'userId')
             .setParams(this.contensisClient.getParams())
@@ -78,7 +78,7 @@ export class UserOperations implements IUserOperations {
             throw new Error('A valid user needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/users',
+        let url = UrlBuilder.create('/api/security/users',
             {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
@@ -100,7 +100,7 @@ export class UserOperations implements IUserOperations {
             throw new Error('A valid user id value needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/users/:id',
+        let url = UrlBuilder.create('/api/security/users/:id',
             {})
             .addOptions(user.id, 'id')
             .setParams(this.contensisClient.getParams())
@@ -124,7 +124,7 @@ export class UserOperations implements IUserOperations {
             throw new Error('A valid new password value needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/users/:userId/credentials/password',
+        let url = UrlBuilder.create('/api/security/users/:userId/credentials/password',
             {})
             .addOptions(options, 'userId')
             .setParams(this.contensisClient.getParams())
@@ -149,7 +149,7 @@ export class UserOperations implements IUserOperations {
             throw new Error('A valid id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/users/:id',
+        let url = UrlBuilder.create('/api/security/users/:id',
             {})
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
@@ -172,7 +172,7 @@ export class UserOperations implements IUserOperations {
             throw new Error('At least a valid group id or name needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/users/:userId/groups/:groupIdsOrNamesCsv',
+        let url = UrlBuilder.create('/api/security/users/:userId/groups/:groupIdsOrNamesCsv',
             {})
             .addOptions(userId, 'userId')
             .addOptions(groupIdsOrNames.join(','), 'groupIdsOrNamesCsv')
@@ -188,7 +188,7 @@ export class UserOperations implements IUserOperations {
     }
 
     private getUser(idOrNameOrEmail: string) {
-        let url = UrlBuilder.create('/api/management/security/users/:idOrNameOrEmail', {})
+        let url = UrlBuilder.create('/api/security/users/:idOrNameOrEmail', {})
             .addOptions(idOrNameOrEmail, 'idOrNameOrEmail')
             .setParams(this.contensisClient.getParams())
             .toUrl();
