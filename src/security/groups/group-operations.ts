@@ -33,7 +33,7 @@ export class GroupOperations implements IGroupOperations {
     }
 
     list(options?: GroupListOptions): Promise<PagedList<Group>> {
-        let url = UrlBuilder.create('/api/management/security/groups',
+        let url = UrlBuilder.create('/api/security/groups',
             !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -52,7 +52,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid group needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups',
+        let url = UrlBuilder.create('/api/security/groups',
             {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
@@ -74,7 +74,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid group id value needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:id',
+        let url = UrlBuilder.create('/api/security/groups/:id',
             {})
             .addOptions(group.id, 'id')
             .setParams(this.contensisClient.getParams())
@@ -94,7 +94,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:id',
+        let url = UrlBuilder.create('/api/security/groups/:id',
             {})
             .addOptions(id, 'id')
             .setParams(this.contensisClient.getParams())
@@ -117,7 +117,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid user id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users/:userId',
+        let url = UrlBuilder.create('/api/security/groups/:groupId/users/:userId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(userId, 'userId')
@@ -141,7 +141,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('At least one valid user id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users',
+        let url = UrlBuilder.create('/api/security/groups/:groupId/users',
             {})
             .addOptions(groupId, 'groupId')
             .setParams(this.contensisClient.getParams())
@@ -165,7 +165,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid user id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users/:userId',
+        let url = UrlBuilder.create('/api/security/groups/:groupId/users/:userId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(userId, 'userId')
@@ -189,7 +189,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid users id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/users/:userId',
+        let url = UrlBuilder.create('/api/security/groups/:groupId/users/:userId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(userId, 'userId')
@@ -213,7 +213,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid child group id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/groups/:childGroupId',
+        let url = UrlBuilder.create('/api/security/groups/:groupId/groups/:childGroupId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(childGroupId, 'childGroupId')
@@ -237,7 +237,7 @@ export class GroupOperations implements IGroupOperations {
             throw new Error('A valid child group id needs to be specified.');
         }
 
-        let url = UrlBuilder.create('/api/management/security/groups/:groupId/groups/:childGroupId',
+        let url = UrlBuilder.create('/api/security/groups/:groupId/groups/:childGroupId',
             {})
             .addOptions(groupId, 'groupId')
             .addOptions(childGroupId, 'childGroupId')
@@ -283,7 +283,7 @@ export class GroupOperations implements IGroupOperations {
     }
 
     private getGroup(idOrName: string) {
-        let url = UrlBuilder.create('/api/management/security/groups/:idOrName', {})
+        let url = UrlBuilder.create('/api/security/groups/:idOrName', {})
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();
@@ -295,7 +295,7 @@ export class GroupOperations implements IGroupOperations {
     }
 
     private getUsersInGroup(idOrName: string) {
-        let url = UrlBuilder.create('/api/management/security/groups/:idOrName/users', {})
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', {})
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();
@@ -307,7 +307,7 @@ export class GroupOperations implements IGroupOperations {
     }
 
     private getChildGroups(idOrName: string) {
-        let url = UrlBuilder.create('/api/management/security/groups/:idOrName/groups', {})
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', {})
             .addOptions(idOrName, 'idOrName')
             .setParams(this.contensisClient.getParams())
             .toUrl();
