@@ -3,10 +3,8 @@ import {
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isNodejs, isString, isBrowser, isIE
+	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isString, isBrowser, isIE
 } from 'contensis-core-api';
-import * as FormData from 'form-data';
-import * as fs from 'graceful-fs';
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
@@ -23,7 +21,7 @@ let listMappers: { [key: string]: MapperFn } = {
 };
 
 export class EntryOperations implements IEntryOperations {
-	constructor(private httpClient: IHttpClient, private contensisClient: ContensisClient) {
+	constructor(protected httpClient: IHttpClient, protected contensisClient: ContensisClient) {
 	}
 
 	get(idOrOptions: string | EntryGetOptions): Promise<Entry> {
@@ -149,91 +147,11 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry> {
-		this.ensureIsNode('createAsset');
-		if (!asset) {
-			throw new Error('A valid asset needs to be specified.');
-		}
-
-		if (!assetFilePath) {
-			throw new Error('A valid asset file path needs to be specified.');
-		}
-
-		if (!parentNodePath) {
-			throw new Error('A valid parent node path needs to be specified.');
-		}
-
-		if (!asset.sys || !asset.sys.dataFormat) {
-			asset.sys = asset.sys || {};
-			asset.sys.dataFormat = 'asset';
-		}
-
-		let form = new FormData();
-		form.append('file', fs.createReadStream(assetFilePath));
-
-		let url = UrlBuilder.create('/api/management/projects/:projectId/assets',
-			{})
-			.setParams(this.contensisClient.getParams())
-			.toUrl();
-
-		return this.contensisClient.ensureBearerToken().then(() => {
-			return this.httpClient.request<AssetUpload[]>(url, {
-				headers: form.getHeaders(this.contensisClient.getHeaders(null)),
-				method: 'POST',
-				body: form as any
-			})
-				.then((assetUploads: AssetUpload[]) => {
-					if (!assetUploads || assetUploads.length === 0) {
-						throw new Error('The asset file could not be uploaded.');
-					}
-
-					let sysAssetFile: SysAssetFile = {
-						fileId: assetUploads[0].fileId,
-						parentNodePath: parentNodePath
-					};
-					asset.sysAssetFile = sysAssetFile;
-
-					return this.create(asset);
-				});
-		});
+		throw new Error('This function can only be called in class EntryOperationsForServer.');
 	}
 
 	updateAsset(asset: Entry, assetFilePath: string): Promise<Entry> {
-		this.ensureIsNode('updateAsset');
-		if (!asset) {
-			throw new Error('A valid asset needs to be specified.');
-		}
-
-		if (!assetFilePath) {
-			return this.update(asset);
-		}
-
-		let form = new FormData();
-		form.append('file', fs.createReadStream(assetFilePath));
-
-		let url = UrlBuilder.create('/api/management/projects/:projectId/assets',
-			{})
-			.setParams(this.contensisClient.getParams())
-			.toUrl();
-
-		return this.contensisClient.ensureBearerToken().then(() => {
-			return this.httpClient.request<AssetUpload[]>(url, {
-				headers: form.getHeaders(this.contensisClient.getHeaders(null)),
-				method: 'POST',
-				body: form as any
-			})
-				.then((assetUploads: AssetUpload[]) => {
-					if (!assetUploads || assetUploads.length === 0) {
-						throw new Error('The asset file could not be uploaded.');
-					}
-
-					let sysAssetFile: SysAssetFile = {
-						fileId: assetUploads[0].fileId
-					};
-					asset.sysAssetFile = sysAssetFile;
-
-					return this.update(asset);
-				});
-		});
+		throw new Error('This function can only be called in class EntryOperationsForServer.');
 	}
 
 	delete(id: string, languages: string[] = null): Promise<void> {
@@ -337,9 +255,4 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	private ensureIsNode(functionName: string): void {
-		if (!isNodejs()) {
-			throw new Error(`The function entry-operations.${functionName} can only be called in a Node.js process.`);
-		}
-	}
 }
