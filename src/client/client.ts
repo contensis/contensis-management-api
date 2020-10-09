@@ -14,16 +14,20 @@ import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
 
-import fetch from 'cross-fetch';
-
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 
+/**
+ * The core client class is designed to be used in modern browsers with minimal dpendencies, optimised for bundling.
+ *
+ * It can also be used on Node.js with a fetch module like 'node-fetch'.
+ *
+ * If no fetchFn value is provided it will assume it runs in a modern browser and fetch is already available.
+ */
 export class Client implements ContensisClient {
 
 	static defaultClientConfig: ClientConfig = null;
 
 	clientConfig: ClientConfig = null;
-	fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
 	components: IComponentOperations;
 	contentTypes: IContentTypeOperations;
@@ -39,21 +43,29 @@ export class Client implements ContensisClient {
 	refreshToken?: string;
 	refreshTokenExpiryDate?: Date;
 
+	protected httpClient: IHttpClient;
+
 	private contensisClassicToken: string;
 
-	private httpClient: IHttpClient;
-
-	static create(config: Config = null): Client {
-		return new Client(config);
+	static create(config: Config = null, fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null): Client {
+		return new Client(config, fetchFn);
 	}
 
 	static configure(config: Config) {
 		Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
 	}
 
-	constructor(config: Config = null) {
+	constructor(config: Config = null, protected fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null) {
+		if (!this.fetchFn && !!window) {
+			this.fetchFn = window.fetch.bind(window);
+		}
+
 		this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-		this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+
+		if (!!this.clientConfig.fetchFn) {
+			this.fetchFn = this.clientConfig.fetchFn;
+		}
+
 		this.httpClient = new HttpClient(this, this.fetchFn);
 
 		this.components = new ComponentOperations(this.httpClient, this);
@@ -197,3 +209,5 @@ export class Client implements ContensisClient {
 		return payload;
 	}
 }
+
+

@@ -9,13 +9,25 @@ import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
-import fetch from 'cross-fetch';
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
+/**
+ * The core client class is designed to be used in modern browsers with minimal dpendencies, optimised for bundling.
+ *
+ * It can also be used on Node.js with a fetch module like 'node-fetch'.
+ *
+ * If no fetchFn value is provided it will assume it runs in a modern browser and fetch is already available.
+ */
 export class Client {
-    constructor(config = null) {
+    constructor(config = null, fetchFn = null) {
+        this.fetchFn = fetchFn;
         this.clientConfig = null;
+        if (!this.fetchFn && !!window) {
+            this.fetchFn = window.fetch.bind(window);
+        }
         this.clientConfig = new ClientConfig(config, Client.defaultClientConfig);
-        this.fetchFn = !this.clientConfig.fetchFn ? fetch : this.clientConfig.fetchFn;
+        if (!!this.clientConfig.fetchFn) {
+            this.fetchFn = this.clientConfig.fetchFn;
+        }
         this.httpClient = new HttpClient(this, this.fetchFn);
         this.components = new ComponentOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
@@ -26,8 +38,8 @@ export class Client {
         this.roles = new RoleOperations(this.httpClient, this);
         this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
     }
-    static create(config = null) {
-        return new Client(config);
+    static create(config = null, fetchFn = null) {
+        return new Client(config, fetchFn);
     }
     static configure(config) {
         Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
