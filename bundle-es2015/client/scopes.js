@@ -8,7 +8,8 @@ const Resources = [
     'Entry_Delete',
     'Project_Read',
     'Project_Write',
-    'Project_Delete'
+    'Project_Delete',
+    'Workflow_Administrator'
 ];
 const OfflineAccess = 'offline_access';
 const OpenId = 'openid';

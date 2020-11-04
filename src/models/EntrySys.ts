@@ -2,19 +2,19 @@ import { VersionInfo } from 'contensis-core-api';
 import { Workflow } from './Workflow';
 
 export interface EntrySys {
-	id: string;
-	projectId: string;
+	availableLanguages: string[];
 	contentTypeId: string;
 	dataFormat: string;
+	id: string;
+	isPublished: boolean;
 	language: string;
-	availableLanguages: string[];
-	unavailableLanguages: string[];
-	uri: string;
 	metadata: {
 		[key: string]: any;
 	};
-	workflow: Workflow;
-	isPublished: boolean;
+	projectId: string;
 	translationState: string;
+	unavailableLanguages: string[];
+	uri: string;
 	version: VersionInfo;
+	workflow: Workflow;
 }

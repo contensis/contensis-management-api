@@ -40,5 +40,7 @@ export * from './User';
 export * from './UserGroupsOptions';
 export * from './UserListOptions';
 export * from './UserUpdatePasswordOptions';
+export * from './Workflow';
+export * from './WorkflowTransition';
 export * from './WorkflowTrigger';
 export * from './ZengentiStatic';
