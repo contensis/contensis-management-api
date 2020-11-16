@@ -131,7 +131,7 @@ export class UserOperations {
     }
     userIsMemberOf(userId, ...groupIdsOrNames) {
         if (!userId) {
-            throw new Error('A valid users id needs to be specified.');
+            throw new Error('A valid user id needs to be specified.');
         }
         if (!groupIdsOrNames || groupIdsOrNames.length === 0) {
             throw new Error('At least a valid group id or name needs to be specified.');
@@ -146,6 +146,31 @@ export class UserOperations {
                 headers: this.contensisClient.getHeaders(),
                 method: 'HEAD'
             }).then(() => true, () => false);
+        });
+    }
+    suspendUser(userId) {
+        return this.performUserAction(userId, 'suspend');
+    }
+    unlockUser(userId) {
+        return this.performUserAction(userId, 'unlock');
+    }
+    unsuspendUser(userId) {
+        return this.performUserAction(userId, 'unsuspend');
+    }
+    performUserAction(userId, userActionType) {
+        if (!userId) {
+            throw new Error('A valid user id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/security/users/:id/actions', {})
+            .addOptions(userId, 'id')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify({ type: userActionType })
+            });
         });
     }
     getUser(idOrNameOrEmail) {

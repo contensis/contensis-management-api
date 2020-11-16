@@ -16,4 +16,7 @@ export interface IUserOperations {
     updatePassword(options: UserUpdatePasswordOptions): Promise<void>;
     delete(userId: string): Promise<void>;
     userIsMemberOf(userId: string, ...groupIdsOrNames: string[]): Promise<boolean>;
+    suspendUser(userId: string): Promise<void>;
+    unlockUser(userId: string): Promise<void>;
+    unsuspendUser(userId: string): Promise<void>;
 }

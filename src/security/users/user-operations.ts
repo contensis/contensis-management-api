@@ -7,6 +7,8 @@ let listMappers: { [key: string]: MapperFn } = {
     order: (value: string[]) => (value && value.length > 0) ? value : null,
 };
 
+type UserActionType = 'suspend' | 'unlock' | 'unsuspend';
+
 export class UserOperations implements IUserOperations {
 
     constructor(private httpClient: IHttpClient, private contensisClient: ContensisClient) {
@@ -165,7 +167,7 @@ export class UserOperations implements IUserOperations {
 
     userIsMemberOf(userId: string, ...groupIdsOrNames: string[]): Promise<boolean> {
         if (!userId) {
-            throw new Error('A valid users id needs to be specified.');
+            throw new Error('A valid user id needs to be specified.');
         }
 
         if (!groupIdsOrNames || groupIdsOrNames.length === 0) {
@@ -184,6 +186,38 @@ export class UserOperations implements IUserOperations {
                 headers: this.contensisClient.getHeaders(),
                 method: 'HEAD'
             }).then(() => true, () => false);
+        });
+    }
+
+    suspendUser(userId: string): Promise<void> {
+        return this.performUserAction(userId, 'suspend');
+    }
+
+    unlockUser(userId: string): Promise<void> {
+        return this.performUserAction(userId, 'unlock');
+    }
+
+    unsuspendUser(userId: string): Promise<void> {
+        return this.performUserAction(userId, 'unsuspend');
+    }
+
+    private performUserAction(userId: string, userActionType: UserActionType): Promise<void> {
+        if (!userId) {
+            throw new Error('A valid user id needs to be specified.');
+        }
+
+        let url = UrlBuilder.create('/api/security/users/:id/actions',
+            {})
+            .addOptions(userId, 'id')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request<void>(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify({ type: userActionType })
+            });
         });
     }
 
