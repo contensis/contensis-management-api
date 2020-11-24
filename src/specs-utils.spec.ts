@@ -44,7 +44,7 @@ export function getDefaultConfig(): Config {
     };
 }
 
-export function getDefaultRequest(method?: string, isRelativeUrl?: boolean, body?: string): Object {
+export function getDefaultRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): Object {
     let request = Object({
         method: !method ? 'GET' : method,
         mode: 'cors',
