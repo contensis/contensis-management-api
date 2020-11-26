@@ -332,4 +332,46 @@ describe('User Operations', () => {
             expect(groups.items[1].name).toEqual(defaultGroups[1].name);
         });
     });
+    describe('Perform user actions', () => {
+        beforeEach(() => {
+            setDefaultSpy(global, null);
+            Zengenti.Contensis.Client.defaultClientConfig = null;
+            Zengenti.Contensis.Client.configure({
+                fetchFn: global.fetch
+            });
+        });
+        it('suspend', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let result = await client.security.users.suspendUser(defaultUsers[0].id);
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/actions`,
+                getDefaultRequest('POST', false, JSON.stringify({ type: 'suspend' }))
+            ]);
+            expect(result).toEqual(null);
+        });
+        it('unsuspend', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let result = await client.security.users.unsuspendUser(defaultUsers[0].id);
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/actions`,
+                getDefaultRequest('POST', false, JSON.stringify({ type: 'unsuspend' }))
+            ]);
+            expect(result).toEqual(null);
+        });
+        it('unlock', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let result = await client.security.users.unlockUser(defaultUsers[0].id);
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/actions`,
+                getDefaultRequest('POST', false, JSON.stringify({ type: 'unlock' }))
+            ]);
+            expect(result).toEqual(null);
+        });
+    });
 });

@@ -85,4 +85,50 @@ describe('Project Operations', () => {
 			expect(projects[1].name).toEqual('project2');
 		});
 	});
+
+	describe('Create project', () => {
+
+		const newProject = {
+			id: 'project2',
+			name: 'Project 2',
+			description: 'Project 2 description',
+			primaryLanguage: 'en-GB',
+			supportedLanguages: ['fr-FR', 'de-DE']
+		};
+
+		beforeEach(() => {
+			setDefaultSpy(global,
+				newProject as Partial<Project>);
+
+			Zengenti.Contensis.Client.defaultClientConfig = null;
+			Zengenti.Contensis.Client.configure({
+				fetchFn: global.fetch
+			});
+		});
+
+		it('With specified root url', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			const newProject = {
+				id: 'project2',
+				name: 'Project 2',
+				description: 'Project 2 description',
+				primaryLanguage: 'en-GB',
+				supportedLanguages: ['fr-FR', 'de-DE']
+			};
+			let project = await client.projects.create(newProject);
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/management/projects',
+				getDefaultRequest('POST', null, JSON.stringify(newProject))
+			]);
+
+			expect(project).not.toBeNull();
+			expect(project.id).toEqual(newProject.id);
+			expect(project.name).toEqual(newProject.name);
+		});
+	});
+
 });
