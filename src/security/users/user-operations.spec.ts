@@ -192,6 +192,41 @@ describe('User Operations', () => {
             expect(user.id).toEqual(defaultUsers[0].id);
         });
 
+        it('for valid suspended user', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            let user = await client.security.users.create(defaultUsers[0] as User, true);
+
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users?suspended=true`,
+                getDefaultRequest('POST', null, JSON.stringify(defaultUsers[0]))
+            ]);
+
+            expect(user).not.toBeNull();
+            expect(user.id).toEqual(defaultUsers[0].id);
+        });
+
+        it('for valid unsuspended user', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            let user = await client.security.users.create(defaultUsers[0] as User, false);
+
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users`,
+                getDefaultRequest('POST', null, JSON.stringify(defaultUsers[0]))
+            ]);
+
+            expect(user).not.toBeNull();
+            expect(user.id).toEqual(defaultUsers[0].id);
+        });
     });
 
     describe('Update user', () => {

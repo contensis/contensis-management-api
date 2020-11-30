@@ -75,13 +75,14 @@ export class UserOperations implements IUserOperations {
         });
     }
 
-    create(user: User): Promise<User> {
+    create(user: User, suspended?: boolean): Promise<User> {
         if (!user) {
             throw new Error('A valid user needs to be specified.');
         }
 
         let url = UrlBuilder.create('/api/security/users',
-            {})
+            { suspended: null })
+            .addOptions({ suspended: suspended === true ? true : null })
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {

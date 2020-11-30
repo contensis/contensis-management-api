@@ -1,71 +1,71 @@
 {
-  "name": "contensis-management-api",
-  "version": "1.0.2-beta.1",
-  "description": "Contensis Javascript Management API",
-  "engines": {
-    "node": ">=8"
-  },
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "scripts": {
-    "lint": "npx tslint src/**/*.ts",
-    "pretest": "rimraf coverage/*",
-    "build": "rimraf lib/* && npx tsc -p src/tsconfig-npm.json && npm run lint",
-    "test": "karma start --test-target npm",
-    "test:watch": "karma start --test-target npm --auto-watch --no-single-run",
-    "build:es5": "rimraf bundle-es5/* && npx tsc -p src",
-    "build:esnext": "rimraf bundle-es2015/* && npx tsc -p src/tsconfig-esnext.json && npm run lint",
-    "test:esnext": "karma start",
-    "all": "npm run build && npm run test && npm run build:esnext && npm run test:esnext"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/contensis/contensis-management-api.git"
-  },
-  "author": "Zengenti Ltd <development@zengenti.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/contensis/contensis-management-api/issues"
-  },
-  "homepage": "https://github.com/contensis/contensis-management-api#readme",
-  "devDependencies": {
-    "@types/jasmine": "^3.5.14",
-    "@types/node": "^12.12.54",
-    "copy-webpack-plugin": "^4.6.0",
-    "istanbul-instrumenter-loader": "^3.0.1",
-    "jasmine-core": "^3.6.0",
-    "karma": "^4.4.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.2",
-    "karma-jasmine": "^2.0.1",
-    "karma-jasmine-html-reporter": "^1.5.4",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "karma-webpack": "^3.0.5",
-    "rimraf": "^2.7.1",
-    "ts-loader": "^3.5.0",
-    "tslint": "^5.20.1",
-    "typescript": "3.3.1",
-    "uglify-js": "^3.10.3",
-    "webpack": "3.12.0"
-  },
-  "dependencies": {
-    "@types/graceful-fs": "^4.1.3",
-    "contensis-core-api": "^1.0.1",
-    "cross-fetch": "^3.0.6",
-    "es6-promise": "^4.2.8",
-    "form-data": "^3.0.0",
-    "graceful-fs": "^4.2.4",
-    "node-fetch": "^2.6.1",
-    "tslib": "^1.13.0",
-    "whatwg-fetch": "^3.4.0"
-  },
-  "directories": {
-    "lib": "lib"
-  },
-  "keywords": [
-    "contensis",
-    "management",
-    "api"
-  ]
+    "name": "contensis-management-api",
+    "version": "1.0.2-beta.2",
+    "description": "Contensis Javascript Management API",
+    "engines": {
+        "node": ">=8"
+    },
+    "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
+    "scripts": {
+        "lint": "npx tslint src/**/*.ts",
+        "pretest": "rimraf coverage/*",
+        "build": "rimraf lib/* && npx tsc -p src/tsconfig-npm.json && npm run lint",
+        "test": "karma start --test-target npm",
+        "test:watch": "karma start --test-target npm --auto-watch --no-single-run",
+        "build:es5": "rimraf bundle-es5/* && npx tsc -p src",
+        "build:esnext": "rimraf bundle-es2015/* && npx tsc -p src/tsconfig-esnext.json && npm run lint",
+        "test:esnext": "karma start",
+        "all": "npm run build && npm run test && npm run build:esnext && npm run test:esnext"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/contensis/contensis-management-api.git"
+    },
+    "author": "Zengenti Ltd <development@zengenti.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/contensis/contensis-management-api/issues"
+    },
+    "homepage": "https://github.com/contensis/contensis-management-api#readme",
+    "devDependencies": {
+        "@types/jasmine": "^3.5.14",
+        "@types/node": "^12.12.54",
+        "copy-webpack-plugin": "^4.6.0",
+        "istanbul-instrumenter-loader": "^3.0.1",
+        "jasmine-core": "^3.6.0",
+        "karma": "^4.4.1",
+        "karma-chrome-launcher": "^2.2.0",
+        "karma-coverage": "^1.1.2",
+        "karma-jasmine": "^2.0.1",
+        "karma-jasmine-html-reporter": "^1.5.4",
+        "karma-mocha-reporter": "^2.2.5",
+        "karma-sourcemap-loader": "^0.3.8",
+        "karma-webpack": "^3.0.5",
+        "rimraf": "^2.7.1",
+        "ts-loader": "^3.5.0",
+        "tslint": "^5.20.1",
+        "typescript": "3.3.1",
+        "uglify-js": "^3.10.3",
+        "webpack": "3.12.0"
+    },
+    "dependencies": {
+        "@types/graceful-fs": "^4.1.3",
+        "contensis-core-api": "^1.0.1",
+        "cross-fetch": "^3.0.6",
+        "es6-promise": "^4.2.8",
+        "form-data": "^3.0.0",
+        "graceful-fs": "^4.2.4",
+        "node-fetch": "^2.6.1",
+        "tslib": "^1.13.0",
+        "whatwg-fetch": "^3.4.0"
+    },
+    "directories": {
+        "lib": "lib"
+    },
+    "keywords": [
+        "contensis",
+        "management",
+        "api"
+    ]
 }

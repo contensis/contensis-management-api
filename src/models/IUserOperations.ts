@@ -12,7 +12,7 @@ export interface IUserOperations {
     getByEmail(email: string): Promise<User>;
     list(options?: UserListOptions): Promise<PagedList<User>>;
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>>;
-    create(user: User): Promise<User>;
+    create(user: User, suspended?: boolean): Promise<User>;
     update(user: User): Promise<User>;
     updatePassword(options: UserUpdatePasswordOptions): Promise<void>;
     delete(userId: string): Promise<void>;

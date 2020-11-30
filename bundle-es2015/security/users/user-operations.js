@@ -57,11 +57,12 @@ export class UserOperations {
             });
         });
     }
-    create(user) {
+    create(user, suspended) {
         if (!user) {
             throw new Error('A valid user needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/security/users', {})
+        let url = UrlBuilder.create('/api/security/users', { suspended: null })
+            .addOptions({ suspended: suspended === true ? true : null })
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
