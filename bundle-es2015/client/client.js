@@ -9,6 +9,7 @@ import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
+import { EventOperations } from '../events/events-operations';
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 /**
  * The core client class is designed to be used in modern browsers with minimal dpendencies, optimised for bundling.
@@ -32,6 +33,7 @@ export class Client {
         this.components = new ComponentOperations(this.httpClient, this);
         this.contentTypes = new ContentTypeOperations(this.httpClient, this);
         this.entries = new EntryOperations(this.httpClient, this);
+        this.events = new EventOperations(this.httpClient, this);
         this.nodes = new NodeOperations(this.httpClient, this);
         this.permissions = new PermissionOperations(this.httpClient, this);
         this.projects = new ProjectOperations(this.httpClient, this);

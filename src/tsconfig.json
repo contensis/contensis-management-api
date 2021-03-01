@@ -10,8 +10,8 @@
 			"es2015.promise"
 		],
 		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
+		"experimentalDecorators": true,		
+		"allowSyntheticDefaultImports": true,		
 		"sourceMap": true,
 		"importHelpers": true,
 		"removeComments": false,

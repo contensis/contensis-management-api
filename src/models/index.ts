@@ -19,6 +19,7 @@ export * from './GroupListOptions';
 export * from './IComponentOperations';
 export * from './IContentTypeOperations';
 export * from './IEntryOperations';
+export * from './IEventOperations';
 export * from './IGroupOperations';
 export * from './INodeOperations';
 export * from './IPermissionOperations';
