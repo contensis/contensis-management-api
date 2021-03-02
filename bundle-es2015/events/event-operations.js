@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const contensis_core_api_1 = require("contensis-core-api");
-const sse_1 = require("../vendor/sse");
-class EventOperations {
+import { isBrowser, UrlBuilder } from 'contensis-core-api';
+import { SSE } from '../vendor/sse';
+export class EventOperations {
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;
@@ -10,37 +8,22 @@ class EventOperations {
     connectToEventsStream(eventsSubscription, eventsCallback) {
         this.ensureIsBrowser('connectToEventsStream');
         if (!eventsSubscription) {
-            throw new Error('A valid subscription needs to be specified specified.');
+            throw new Error('A valid events subscription needs to be specified.');
         }
-        if (!eventsSubscription.topicsJSON) {
-            throw new Error('Valid subscription topics need to be specified.');
+        if (!eventsSubscription.topics || eventsSubscription.topics.length === 0) {
+            throw new Error('Valid events subscription topics need to be specified.');
         }
         if (!eventsCallback) {
             throw new Error('A valid events callback needs to be specified.');
         }
-        let subscription = new Object();
-        try {
-            subscription.topics = JSON.parse(eventsSubscription.topicsJSON);
-        }
-        catch (error) {
-            throw new Error('Invalid topics JSON !');
-        }
-        if (!!eventsSubscription.templatesJSON) {
-            try {
-                subscription.templates = JSON.parse(eventsSubscription.templatesJSON);
-            }
-            catch (error) {
-                throw new Error('Invalid templates JSON !');
-            }
-        }
         let params = this.contensisClient.getParams();
-        let url = contensis_core_api_1.UrlBuilder.create('/api/management/projects/:projectId/events/sse/stream')
+        let url = UrlBuilder.create('/api/management/projects/:projectId/events/sse/stream')
             .setParams(params)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
-            EventSource = sse_1.SSE;
-            let eventSource = new sse_1.SSE(`${params.rootUrl}${url}`, {
-                payload: JSON.stringify(subscription),
+            EventSource = SSE;
+            let eventSource = new SSE(`${params.rootUrl}${url}`, {
+                payload: JSON.stringify(eventsSubscription),
                 method: 'POST',
                 headers: this.contensisClient.getHeaders()
             });
@@ -65,9 +48,8 @@ class EventOperations {
         });
     }
     ensureIsBrowser(functionName) {
-        if (!contensis_core_api_1.isBrowser()) {
+        if (!isBrowser()) {
             throw new Error(`The function IEventOperations.${functionName} can only be called in a browser context.`);
         }
     }
 }
-exports.EventOperations = EventOperations;

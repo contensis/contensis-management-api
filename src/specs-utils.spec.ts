@@ -44,7 +44,7 @@ export function getDefaultConfig(): Config {
     };
 }
 
-export function getDefaultRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): Object {
+export function getDefaultFetchRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): Object {
     let request = Object({
         method: !method ? 'GET' : method,
         mode: 'cors',
@@ -65,6 +65,24 @@ export function getDefaultRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'H
 
     return request;
 }
+
+export function getDefaultXMLHttpRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', body?: string): Object {
+    let request = Object({
+        method: !method ? 'GET' : method,
+        requestHeaders: {
+            Authorization: 'bearer ZZZZZZ',
+            Accept: 'application/json',
+            'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
+        }
+    });
+
+    if (!!body) {
+        request.params = body;
+    }
+
+    return request;
+}
+
 
 export function setDefaultSpy(global: any, returnValueForApi: any, rejectRequest?: boolean): void {
     spyOn(global, 'fetch').and.returnValues(

@@ -33,6 +33,7 @@
         "@types/node": "^12.12.54",
         "copy-webpack-plugin": "^4.6.0",
         "istanbul-instrumenter-loader": "^3.0.1",
+        "jasmine-ajax": "^4.0.0",
         "jasmine-core": "^3.6.0",
         "karma": "^4.4.1",
         "karma-chrome-launcher": "^2.2.0",

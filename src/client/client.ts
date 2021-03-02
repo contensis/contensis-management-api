@@ -13,7 +13,7 @@ import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
-import { EventOperations } from '../events/events-operations';
+import { EventOperations } from '../events/event-operations';
 
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 

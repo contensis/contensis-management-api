@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -22,7 +22,7 @@ describe('Component Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/components/movie?versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(component).not.toBeNull();
             expect(component.name['en-GB']).toEqual('component1');
@@ -38,7 +38,7 @@ describe('Component Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/components/movie?version=0.1',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(component).not.toBeNull();
             expect(component.name['en-GB']).toEqual('component1');
@@ -62,7 +62,7 @@ describe('Component Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/components?versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(components).not.toBeNull();
             expect(components.length).toEqual(2);
@@ -74,7 +74,7 @@ describe('Component Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/components',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(components).not.toBeNull();
             expect(components.length).toEqual(2);

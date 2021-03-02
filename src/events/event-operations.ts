@@ -1,5 +1,5 @@
 import { IHttpClient, isBrowser, UrlBuilder } from 'contensis-core-api';
-import { ContensisClient, IEventOperations } from '../models';
+import { ContensisClient, EventsSubscription, IEventOperations } from '../models';
 import { SSE } from '../vendor/sse';
 
 export class EventOperations implements IEventOperations {
@@ -7,36 +7,20 @@ export class EventOperations implements IEventOperations {
     }
 
     connectToEventsStream(
-        eventsSubscription: { topicsJSON: string; templatesJSON?: string; },
+        eventsSubscription: EventsSubscription,
         eventsCallback: (eventsJSON: string, subscriptionId: string) => void): Promise<EventSource> {
 
         this.ensureIsBrowser('connectToEventsStream');
         if (!eventsSubscription) {
-            throw new Error('A valid subscription needs to be specified specified.');
+            throw new Error('A valid events subscription needs to be specified.');
         }
 
-        if (!eventsSubscription.topicsJSON) {
-            throw new Error('Valid subscription topics need to be specified.');
+        if (!eventsSubscription.topics || eventsSubscription.topics.length === 0) {
+            throw new Error('Valid events subscription topics need to be specified.');
         }
 
         if (!eventsCallback) {
             throw new Error('A valid events callback needs to be specified.');
-        }
-
-        let subscription: any = new Object();
-
-        try {
-            subscription.topics = JSON.parse(eventsSubscription.topicsJSON);
-        } catch (error) {
-            throw new Error('Invalid topics JSON !');
-        }
-
-        if (!!eventsSubscription.templatesJSON) {
-            try {
-                subscription.templates = JSON.parse(eventsSubscription.templatesJSON);
-            } catch (error) {
-                throw new Error('Invalid templates JSON !');
-            }
         }
 
         let params = this.contensisClient.getParams();
@@ -49,7 +33,7 @@ export class EventOperations implements IEventOperations {
             EventSource = SSE as any;
             let eventSource = new SSE(`${params.rootUrl}${url}`,
                 {
-                    payload: JSON.stringify(subscription),
+                    payload: JSON.stringify(eventsSubscription),
                     method: 'POST',
                     headers: this.contensisClient.getHeaders()
                 });

@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { Project } from 'contensis-core-api';
 
@@ -29,7 +29,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject',
-				getDefaultRequest()
+				getDefaultFetchRequest()
 			]);
 
 			expect(project).not.toBeNull();
@@ -47,7 +47,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'/api/management/projects/myProject',
-				getDefaultRequest(null, true)
+				getDefaultFetchRequest(null, true)
 			]);
 
 			expect(project).not.toBeNull();
@@ -77,7 +77,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects',
-				getDefaultRequest()
+				getDefaultFetchRequest()
 			]);
 
 			expect(projects).not.toBeNull();
@@ -122,7 +122,7 @@ describe('Project Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects',
-				getDefaultRequest('POST', null, JSON.stringify(newProject))
+				getDefaultFetchRequest('POST', null, JSON.stringify(newProject))
 			]);
 
 			expect(project).not.toBeNull();

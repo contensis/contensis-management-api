@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 // import { toQuery } from 'contensis-core-api';
 import fetch from 'cross-fetch';
 import { toQuery } from 'contensis-core-api';
@@ -24,7 +24,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/entries/1?language=en-US&versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entry).not.toBeNull();
             expect(entry['title']).toEqual('Entry1');
@@ -41,7 +41,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/entries/1?language=en-GB&version=2.1',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entry).not.toBeNull();
             expect(entry['title']).toEqual('Entry1');
@@ -72,7 +72,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/entries?language=en-US&pageIndex=0&pageSize=25&versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -89,7 +89,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/entries?language=fr-FR&order=title&pageIndex=1&pageSize=50',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -101,7 +101,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/contenttypes/movie/entries?language=en-US&pageIndex=0&pageSize=25&versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -119,7 +119,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/contenttypes/movie/entries?language=fr-FR&order=title&pageIndex=1&pageSize=50',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -174,7 +174,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -192,7 +192,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -219,7 +219,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -253,7 +253,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -284,7 +284,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -339,7 +339,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 url,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -366,7 +366,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search`,
-                getDefaultRequest('POST', false, JSON.stringify(query))
+                getDefaultFetchRequest('POST', false, JSON.stringify(query))
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -398,7 +398,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 url,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);
@@ -417,7 +417,7 @@ describe('Entry Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/management/projects/myProject/entries/search`,
-                getDefaultRequest('POST', false, JSON.stringify(query))
+                getDefaultFetchRequest('POST', false, JSON.stringify(query))
             ]);
             expect(entries).not.toBeNull();
             expect(entries.items.length).toEqual(2);

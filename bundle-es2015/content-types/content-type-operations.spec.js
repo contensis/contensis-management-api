@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -22,7 +22,7 @@ describe('Content Type Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/contenttypes/movie?versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(contentType).not.toBeNull();
             expect(contentType.name['en-GB']).toEqual('contentType1');
@@ -38,7 +38,7 @@ describe('Content Type Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/contenttypes/movie?version=2.3',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(contentType).not.toBeNull();
             expect(contentType.name['en-GB']).toEqual('contentType1');
@@ -62,7 +62,7 @@ describe('Content Type Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/contenttypes?versionStatus=published',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(contentTypes).not.toBeNull();
             expect(contentTypes.length).toEqual(2);
@@ -77,7 +77,7 @@ describe('Content Type Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/contenttypes?dataFormat=entry',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(contenttypes).not.toBeNull();
             expect(contenttypes.length).toEqual(2);
