@@ -5,16 +5,16 @@ export class EventOperations {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;
     }
-    connectToEventsStream(eventsSubscription, eventsCallback) {
+    connectToEventsStream(eventSubscription, eventCallback) {
         this.ensureIsBrowser('connectToEventsStream');
-        if (!eventsSubscription) {
-            throw new Error('A valid events subscription needs to be specified.');
+        if (!eventSubscription) {
+            throw new Error('A valid event subscription needs to be specified.');
         }
-        if (!eventsSubscription.topics || eventsSubscription.topics.length === 0) {
-            throw new Error('Valid events subscription topics need to be specified.');
+        if (!eventSubscription.topics || eventSubscription.topics.length === 0) {
+            throw new Error('Valid event subscription topics need to be specified.');
         }
-        if (!eventsCallback) {
-            throw new Error('A valid events callback needs to be specified.');
+        if (!eventCallback) {
+            throw new Error('A valid event callback needs to be specified.');
         }
         let params = this.contensisClient.getParams();
         let url = UrlBuilder.create('/api/management/projects/:projectId/events/sse/stream')
@@ -23,7 +23,7 @@ export class EventOperations {
         return this.contensisClient.ensureBearerToken().then(() => {
             EventSource = SSE;
             let eventSource = new SSE(`${params.rootUrl}${url}`, {
-                payload: JSON.stringify(eventsSubscription),
+                payload: JSON.stringify(eventSubscription),
                 method: 'POST',
                 headers: this.contensisClient.getHeaders()
             });
@@ -40,7 +40,7 @@ export class EventOperations {
                     doCallback = true;
                 }
                 if (doCallback) {
-                    eventsCallback(data, subscriptionId);
+                    eventCallback(data, subscriptionId);
                 }
             });
             eventSource.stream();

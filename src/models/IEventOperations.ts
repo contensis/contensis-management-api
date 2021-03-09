@@ -1,5 +1,5 @@
-import { EventsSubscription } from './EventsSubscription';
+import { EventSubscription } from './EventSubscription';
 
 export interface IEventOperations {
-	connectToEventsStream(eventsSubscription: EventsSubscription, eventsFn: (eventsJSON: string, subscriptionId: string) => void): Promise<EventSource>;
+	connectToEventsStream(eventsSubscription: EventSubscription, eventsFn: (message: any, subscriptionId: string) => void): Promise<EventSource>;
 }

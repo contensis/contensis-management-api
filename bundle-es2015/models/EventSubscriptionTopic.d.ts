@@ -1,4 +1,4 @@
-export interface EventsSubscriptionTopic {
+export interface EventSubscriptionTopic {
     id?: string;
     resourceType?: string;
     event?: string[];

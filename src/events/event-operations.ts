@@ -1,5 +1,5 @@
 import { IHttpClient, isBrowser, UrlBuilder } from 'contensis-core-api';
-import { ContensisClient, EventsSubscription, IEventOperations } from '../models';
+import { ContensisClient, EventSubscription, IEventOperations } from '../models';
 import { SSE } from '../vendor/sse';
 
 export class EventOperations implements IEventOperations {
@@ -7,20 +7,20 @@ export class EventOperations implements IEventOperations {
     }
 
     connectToEventsStream(
-        eventsSubscription: EventsSubscription,
-        eventsCallback: (eventsJSON: string, subscriptionId: string) => void): Promise<EventSource> {
+        eventSubscription: EventSubscription,
+        eventCallback: (message: any, subscriptionId: string) => void): Promise<EventSource> {
 
         this.ensureIsBrowser('connectToEventsStream');
-        if (!eventsSubscription) {
-            throw new Error('A valid events subscription needs to be specified.');
+        if (!eventSubscription) {
+            throw new Error('A valid event subscription needs to be specified.');
         }
 
-        if (!eventsSubscription.topics || eventsSubscription.topics.length === 0) {
-            throw new Error('Valid events subscription topics need to be specified.');
+        if (!eventSubscription.topics || eventSubscription.topics.length === 0) {
+            throw new Error('Valid event subscription topics need to be specified.');
         }
 
-        if (!eventsCallback) {
-            throw new Error('A valid events callback needs to be specified.');
+        if (!eventCallback) {
+            throw new Error('A valid event callback needs to be specified.');
         }
 
         let params = this.contensisClient.getParams();
@@ -33,7 +33,7 @@ export class EventOperations implements IEventOperations {
             EventSource = SSE as any;
             let eventSource = new SSE(`${params.rootUrl}${url}`,
                 {
-                    payload: JSON.stringify(eventsSubscription),
+                    payload: JSON.stringify(eventSubscription),
                     method: 'POST',
                     headers: this.contensisClient.getHeaders()
                 });
@@ -53,7 +53,7 @@ export class EventOperations implements IEventOperations {
                 }
 
                 if (doCallback) {
-                    eventsCallback(data, subscriptionId);
+                    eventCallback(data, subscriptionId);
                 }
             });
 
