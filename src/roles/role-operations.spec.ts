@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { Role } from '../models';
 import { PagedList } from 'contensis-core-api';
@@ -30,7 +30,7 @@ describe('Role Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/roles/RRRRRR',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(role).not.toBeNull();
@@ -65,7 +65,7 @@ describe('Role Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/roles?pageIndex=0&pageSize=25',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(roles).not.toBeNull();
@@ -81,7 +81,7 @@ describe('Role Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/roles?pageIndex=1&pageSize=50',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(roles).not.toBeNull();

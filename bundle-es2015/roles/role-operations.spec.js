@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -21,7 +21,7 @@ describe('Role Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/roles/RRRRRR',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(role).not.toBeNull();
             expect(role.name['en-GB']).toEqual('role1');
@@ -50,7 +50,7 @@ describe('Role Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/roles?pageIndex=0&pageSize=25',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(roles).not.toBeNull();
             expect(roles.items.length).toEqual(2);
@@ -62,7 +62,7 @@ describe('Role Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/roles?pageIndex=1&pageSize=50',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(roles).not.toBeNull();
             expect(roles.items.length).toEqual(2);

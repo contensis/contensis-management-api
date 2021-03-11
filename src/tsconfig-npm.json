@@ -15,7 +15,7 @@
         "experimentalDecorators": true,
         "removeComments": false,
         "noImplicitAny": false,
-        "suppressImplicitAnyIndexErrors": true,
+        "suppressImplicitAnyIndexErrors": true,        
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
         "outDir": "../lib",

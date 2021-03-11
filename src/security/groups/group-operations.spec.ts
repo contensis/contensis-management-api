@@ -1,5 +1,5 @@
 import * as Contensis from '../../index';
-import { defaultGroups, getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy, defaultUsers } from '../../specs-utils.spec';
+import { defaultGroups, getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy, defaultUsers } from '../../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { Group, User } from '../../models';
 import { PagedList } from 'contensis-core-api';
@@ -31,7 +31,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(group).not.toBeNull();
@@ -49,7 +49,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].name}`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(group).not.toBeNull();
@@ -80,7 +80,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/security/groups',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(groups).not.toBeNull();
@@ -100,7 +100,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/security/groups?order=name&pageIndex=1&pageSize=50&q=content',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(groups).not.toBeNull();
@@ -119,7 +119,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/security/groups?order=name&pageIndex=1&pageSize=50',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(groups).not.toBeNull();
@@ -149,7 +149,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups`,
-                getDefaultRequest('POST', null, JSON.stringify(defaultGroups[0]))
+                getDefaultFetchRequest('POST', null, JSON.stringify(defaultGroups[0]))
             ]);
 
             expect(group).not.toBeNull();
@@ -179,7 +179,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}`,
-                getDefaultRequest('PUT', null, JSON.stringify(defaultGroups[0]))
+                getDefaultFetchRequest('PUT', null, JSON.stringify(defaultGroups[0]))
             ]);
 
             expect(group).not.toBeNull();
@@ -209,7 +209,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}`,
-                getDefaultRequest('DELETE')
+                getDefaultFetchRequest('DELETE')
             ]);
 
             expect(result).toEqual(null);
@@ -238,7 +238,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users/${defaultUsers[0].id}`,
-                getDefaultRequest('PUT')
+                getDefaultFetchRequest('PUT')
             ]);
 
             expect(result).toEqual(null);
@@ -268,7 +268,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users`,
-                getDefaultRequest('POST', false, JSON.stringify(userIds))
+                getDefaultFetchRequest('POST', false, JSON.stringify(userIds))
             ]);
 
             expect(result).toEqual(null);
@@ -297,7 +297,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users/${defaultUsers[0].id}`,
-                getDefaultRequest('DELETE')
+                getDefaultFetchRequest('DELETE')
             ]);
 
             expect(result).toEqual(null);
@@ -328,7 +328,7 @@ describe('Group Operations', () => {
 
                 expect((global.fetch as any).calls.mostRecent().args).toEqual([
                     `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users/${defaultUsers[0].id}`,
-                    getDefaultRequest('HEAD')
+                    getDefaultFetchRequest('HEAD')
                 ]);
 
                 expect(result).toBeTrue();
@@ -357,7 +357,7 @@ describe('Group Operations', () => {
 
                 expect((global.fetch as any).calls.mostRecent().args).toEqual([
                     `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users/${defaultUsers[0].id}`,
-                    getDefaultRequest('HEAD')
+                    getDefaultFetchRequest('HEAD')
                 ]);
 
                 expect(result).toBeFalse();
@@ -386,7 +386,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups/${defaultGroups[1].id}`,
-                getDefaultRequest('PUT')
+                getDefaultFetchRequest('PUT')
             ]);
 
             expect(result).toEqual(null);
@@ -415,7 +415,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups/${defaultGroups[1].id}`,
-                getDefaultRequest('DELETE')
+                getDefaultFetchRequest('DELETE')
             ]);
 
             expect(result).toEqual(null);
@@ -446,7 +446,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(users).not.toBeNull();
@@ -462,7 +462,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].name}/users`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(users).not.toBeNull();
@@ -494,7 +494,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(groups).not.toBeNull();
@@ -510,7 +510,7 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups`,
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(users).not.toBeNull();

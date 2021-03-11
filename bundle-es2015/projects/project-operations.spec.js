@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 const Zengenti = { Contensis };
 const global = window || this;
@@ -21,7 +21,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(project).not.toBeNull();
             expect(project.name).toEqual('project1');
@@ -34,7 +34,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl(true));
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 '/api/management/projects/myProject',
-                getDefaultRequest(null, true)
+                getDefaultFetchRequest(null, true)
             ]);
             expect(project).not.toBeNull();
             expect(project.name).toEqual('project1');
@@ -58,7 +58,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
             expect(projects).not.toBeNull();
             expect(projects.length).toEqual(2);
@@ -93,7 +93,7 @@ describe('Project Operations', () => {
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects',
-                getDefaultRequest('POST', null, JSON.stringify(newProject))
+                getDefaultFetchRequest('POST', null, JSON.stringify(newProject))
             ]);
             expect(project).not.toBeNull();
             expect(project.id).toEqual(newProject.id);

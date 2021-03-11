@@ -1,6 +1,6 @@
 import * as Contensis from '../index';
 import { Node } from '../models';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 
 const Zengenti = { Contensis };
@@ -30,7 +30,7 @@ describe('Nodes Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/root',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(node).not.toBeNull();
@@ -46,7 +46,7 @@ describe('Nodes Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/NNNNNN',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(node).not.toBeNull();
@@ -78,7 +78,7 @@ describe('Nodes Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes?entryId=EEEEEE',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(nodes).not.toBeNull();
@@ -95,7 +95,7 @@ describe('Nodes Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children?language=en-US',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(nodes).not.toBeNull();
@@ -115,7 +115,7 @@ describe('Nodes Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children?language=fr-FR',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(nodes).not.toBeNull();

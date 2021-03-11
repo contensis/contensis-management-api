@@ -1,5 +1,5 @@
 import * as Contensis from '../index';
-import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultRequest, setDefaultSpy } from '../specs-utils.spec';
+import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 import fetch from 'cross-fetch';
 import { AllowedPermissions, PermissionGetOptions, Authorization, AuthorizationGetOptions } from '../models';
 
@@ -40,7 +40,7 @@ describe('Permission Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries/RRRRRR?language=en-GB&userId=UUUUUU',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(permissions).not.toBeNull();
@@ -66,7 +66,7 @@ describe('Permission Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries?language=en-GB&userId=UUUUUU',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(permissions).not.toBeNull();
@@ -108,7 +108,7 @@ describe('Permission Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries/RRRRRR/actions/sys.create?language=en-GB&userId=UUUUUU',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(authorization).not.toBeNull();
@@ -133,7 +133,7 @@ describe('Permission Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 'http://my-website.com/api/management/projects/myProject/security/permissions/entries/actions/sys.create?language=en-GB&userId=UUUUUU',
-                getDefaultRequest()
+                getDefaultFetchRequest()
             ]);
 
             expect(authorization).not.toBeNull();

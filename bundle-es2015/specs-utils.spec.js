@@ -37,7 +37,7 @@ export function getDefaultConfig() {
         }
     };
 }
-export function getDefaultRequest(method, isRelativeUrl, body) {
+export function getDefaultFetchRequest(method, isRelativeUrl, body) {
     let request = Object({
         method: !method ? 'GET' : method,
         mode: 'cors',
@@ -52,6 +52,20 @@ export function getDefaultRequest(method, isRelativeUrl, body) {
     }
     if (!!body) {
         request.body = body;
+    }
+    return request;
+}
+export function getDefaultXMLHttpRequest(method, body) {
+    let request = Object({
+        method: !method ? 'GET' : method,
+        requestHeaders: {
+            Authorization: 'bearer ZZZZZZ',
+            Accept: 'application/json',
+            'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
+        }
+    });
+    if (!!body) {
+        request.params = body;
     }
     return request;
 }

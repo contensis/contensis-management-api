@@ -1,6 +1,6 @@
 import {
 	Config, ContensisClient, IContentTypeOperations,
-	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations, ISecurityOperations
+	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations, ISecurityOperations, IEventOperations
 } from '../models';
 import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
@@ -13,6 +13,7 @@ import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
+import { EventOperations } from '../events/event-operations';
 
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 
@@ -32,6 +33,7 @@ export class Client implements ContensisClient {
 	components: IComponentOperations;
 	contentTypes: IContentTypeOperations;
 	entries: IEntryOperations;
+	events: IEventOperations;
 	nodes: INodeOperations;
 	permissions: IPermissionOperations;
 	projects: IProjectOperations;
@@ -71,6 +73,7 @@ export class Client implements ContensisClient {
 		this.components = new ComponentOperations(this.httpClient, this);
 		this.contentTypes = new ContentTypeOperations(this.httpClient, this);
 		this.entries = new EntryOperations(this.httpClient, this);
+		this.events = new EventOperations(this.httpClient, this);
 		this.nodes = new NodeOperations(this.httpClient, this);
 		this.permissions = new PermissionOperations(this.httpClient, this);
 		this.projects = new ProjectOperations(this.httpClient, this);
