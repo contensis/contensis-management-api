@@ -13,10 +13,10 @@ export interface UserStatus {
 }
 export interface User {
     id: string;
-    userName: string;
+    username: string;
     email: string;
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     avatarUrl: string;
     timezone: string;
     language: string;
