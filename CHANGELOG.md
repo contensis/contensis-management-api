@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0-beta.5] - 2021-04-01
 ### Changed
 - users: renamed user properties to 'username', 'firstname' and 'lastname'
-- roles: change role 'name' and 'description' properties to string
+- roles: changed role 'name' and 'description' properties type to string
 
 ## [1.0.2-beta.4] - 2021-03-12
 ### Changed
