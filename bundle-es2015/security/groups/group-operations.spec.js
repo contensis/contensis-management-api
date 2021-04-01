@@ -323,7 +323,7 @@ describe('Group Operations', () => {
             ]);
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
         });
         it('by group name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
@@ -335,7 +335,7 @@ describe('Group Operations', () => {
             ]);
             expect(users).not.toBeNull();
             expect(users.items.length).toEqual(2);
-            expect(users.items[1].userName).toEqual(defaultUsers[1].userName);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
         });
     });
     describe('Gets groups in group', () => {

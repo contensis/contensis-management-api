@@ -4,12 +4,12 @@ const defaultRootUrl = 'http://my-website.com/';
 
 export const defaultUsers = [{
     id: 'IIIIII1',
-    userName: 'UUUUUU1',
+    username: 'UUUUUU1',
     email: 'EEEEEE1@test.com'
 },
 {
     id: 'IIIIII2',
-    userName: 'UUUUUU2',
+    username: 'UUUUUU2',
     email: 'EEEEEE2@test.com'
 }] as Partial<User>[];
 

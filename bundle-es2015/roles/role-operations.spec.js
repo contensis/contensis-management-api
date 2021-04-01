@@ -8,7 +8,7 @@ describe('Role Operations', () => {
     describe('Get role', () => {
         beforeEach(() => {
             setDefaultSpy(global, {
-                name: { 'en-GB': 'role1' }
+                name: 'role1'
             });
             Zengenti.Contensis.Client.defaultClientConfig = null;
             Zengenti.Contensis.Client.configure({
@@ -24,7 +24,7 @@ describe('Role Operations', () => {
                 getDefaultFetchRequest()
             ]);
             expect(role).not.toBeNull();
-            expect(role.name['en-GB']).toEqual('role1');
+            expect(role.name).toEqual('role1');
         });
     });
     describe('List roles', () => {
@@ -34,9 +34,9 @@ describe('Role Operations', () => {
                 pageSize: 25,
                 totalCount: 2,
                 items: [{
-                        name: { 'en-GB': 'role1' }
+                        name: 'role1'
                     }, {
-                        name: { 'en-GB': 'role2' }
+                        name: 'role2'
                     }]
             });
             Zengenti.Contensis.Client.defaultClientConfig = null;
@@ -54,7 +54,7 @@ describe('Role Operations', () => {
             ]);
             expect(roles).not.toBeNull();
             expect(roles.items.length).toEqual(2);
-            expect(roles.items[1].name['en-GB']).toEqual('role2');
+            expect(roles.items[1].name).toEqual('role2');
         });
         it('with specific options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
@@ -66,7 +66,7 @@ describe('Role Operations', () => {
             ]);
             expect(roles).not.toBeNull();
             expect(roles.items.length).toEqual(2);
-            expect(roles.items[1].name['en-GB']).toEqual('role2');
+            expect(roles.items[1].name).toEqual('role2');
         });
     });
 });
