@@ -1,6 +1,6 @@
 {
     "name": "contensis-management-api",
-    "version": "2.0.0-beta.7",
+    "version": "2.0.1",
     "description": "Contensis Javascript Management API",
     "engines": {
         "node": ">=8"
