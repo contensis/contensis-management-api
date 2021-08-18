@@ -8,10 +8,12 @@ export interface EntrySys {
 	id: string;
 	isPublished: boolean;
 	language: string;
+	owner: string;
 	metadata: {
 		[key: string]: any;
 	};
 	projectId: string;
+	slug: string;
 	translationState: string;
 	unavailableLanguages: string[];
 	uri: string;
