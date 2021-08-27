@@ -42,7 +42,7 @@ export function getDefaultFetchRequest(method, isRelativeUrl, body) {
         method: !method ? 'GET' : method,
         mode: 'cors',
         headers: {
-            Authorization: 'bearer ZZZZZZ',
+            Authorization: 'Bearer ZZZZZZ',
             Accept: 'application/json',
             'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
         }
@@ -59,7 +59,7 @@ export function getDefaultXMLHttpRequest(method, body) {
     let request = Object({
         method: !method ? 'GET' : method,
         requestHeaders: {
-            Authorization: 'bearer ZZZZZZ',
+            Authorization: 'Bearer ZZZZZZ',
             Accept: 'application/json',
             'Content-Type': method === 'PATCH' ? 'application/merge-patch+json; charset=utf-8' : 'application/json'
         }

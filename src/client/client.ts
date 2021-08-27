@@ -87,7 +87,7 @@ export class Client implements ContensisClient {
 
 	public getHeaders(contentType: string = 'application/json'): { [key: string]: string } {
 		let headers = {
-			Authorization: `bearer ${this.bearerToken}`,
+			Authorization: `Bearer ${this.bearerToken}`,
 			Accept: 'application/json'
 		};
 

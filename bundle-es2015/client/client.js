@@ -51,7 +51,7 @@ export class Client {
     }
     getHeaders(contentType = 'application/json') {
         let headers = {
-            Authorization: `bearer ${this.bearerToken}`,
+            Authorization: `Bearer ${this.bearerToken}`,
             Accept: 'application/json'
         };
         if (!!contentType) {
