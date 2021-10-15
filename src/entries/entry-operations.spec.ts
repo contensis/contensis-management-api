@@ -4,6 +4,7 @@ import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, se
 import fetch from 'cross-fetch';
 import { Entry } from '../models';
 import { PagedList, toQuery } from 'contensis-core-api';
+import { FreeTextSearchOperatorTypeEnum } from 'contensis-core-api/lib/models/search/FreeTextSearchOperatorType';
 
 const Zengenti = { Contensis };
 const global = window || this;
@@ -329,7 +330,7 @@ describe('Entry Operations', () => {
 			expect(entries.items[1].title).toEqual('entry2');
 		});
 
-		it('with query as Query instance for distanceWithin operator', async () => {
+		it('with query as Query instance distanceWithin operator', async () => {
 			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
 			let query = new Contensis.Query(Contensis.Op.distanceWithin('authorLocation', 52.377, -2.749, '10mi'));
@@ -351,6 +352,164 @@ describe('Entry Operations', () => {
 						lat: 52.377,
 						lon: -2.749,
 						distance: '10mi'
+					}
+				}])
+			});
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				`http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
+				getDefaultFetchRequest()
+			]);
+
+			expect(entries).not.toBeNull();
+			expect(entries.items.length).toEqual(2);
+			expect(entries.items[1].title).toEqual('entry2');
+		});
+
+		it('with query as Object for freeText non-fuzzy  operator', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			let orderBy = [{
+				asc: 'authorName'
+			}];
+			let where = [{
+				field: 'authorLocation',
+				freeText: {
+					term: 'term1'
+				}
+			}];
+
+			let query = {
+				pageIndex: 1,
+				pageSize: 50,
+				orderBy,
+				where
+			};
+
+			let entries = await client.entries.search(query);
+
+			let expectedQueryString = toQuery({
+				...query,
+				orderBy: JSON.stringify(orderBy),
+				where: JSON.stringify(where)
+			});
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				`http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
+				getDefaultFetchRequest()
+			]);
+
+			expect(entries).not.toBeNull();
+			expect(entries.items.length).toEqual(2);
+			expect(entries.items[1].title).toEqual('entry2');
+		});
+
+		it('with query as Object for freeText fuzzy operator', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			let orderBy = [{
+				asc: 'authorName'
+			}];
+			let where = [{
+				field: 'authorLocation',
+				freeText: {
+					term: 'term1',
+					fuzzy: true,
+					operator: 'or'
+				}
+			}];
+
+			let query = {
+				pageIndex: 1,
+				pageSize: 50,
+				orderBy,
+				where
+			};
+
+			let entries = await client.entries.search(query);
+
+			let expectedQueryString = toQuery({
+				...query,
+				orderBy: JSON.stringify(orderBy),
+				where: JSON.stringify(where)
+			});
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				`http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
+				getDefaultFetchRequest()
+			]);
+
+			expect(entries).not.toBeNull();
+			expect(entries.items.length).toEqual(2);
+			expect(entries.items[1].title).toEqual('entry2');
+		});
+
+		it('with query as Query instance for freeText non-fuzzy operator', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			let query = new Contensis.Query(Contensis.Op.freeText('authorLocation', 'term1'));
+			query.orderBy = Contensis.OrderBy.asc('authorName');
+			query.pageIndex = 1;
+			query.pageSize = 50;
+
+			let entries = await client.entries.search(query);
+
+			let expectedQueryString = toQuery({
+				pageIndex: 1,
+				pageSize: 50,
+				orderBy: JSON.stringify([{
+					asc: 'authorName'
+				}]),
+				where: JSON.stringify([{
+					field: 'authorLocation',
+					freeText: {
+						term: 'term1',
+						fuzzy: false,
+						operator: FreeTextSearchOperatorTypeEnum.And
+					}
+				}])
+			});
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				`http://my-website.com/api/management/projects/myProject/entries/search${expectedQueryString}`,
+				getDefaultFetchRequest()
+			]);
+
+			expect(entries).not.toBeNull();
+			expect(entries.items.length).toEqual(2);
+			expect(entries.items[1].title).toEqual('entry2');
+		});
+
+		it('with query as Query instance for freeText fuzzy operator', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			let query = new Contensis.Query(Contensis.Op.freeText('authorLocation', 'term1', true, FreeTextSearchOperatorTypeEnum.Or));
+			query.orderBy = Contensis.OrderBy.asc('authorName');
+			query.pageIndex = 1;
+			query.pageSize = 50;
+
+			let entries = await client.entries.search(query);
+
+			let expectedQueryString = toQuery({
+				pageIndex: 1,
+				pageSize: 50,
+				orderBy: JSON.stringify([{
+					asc: 'authorName'
+				}]),
+				where: JSON.stringify([{
+					field: 'authorLocation',
+					freeText: {
+						term: 'term1',
+						fuzzy: true,
+						operator: FreeTextSearchOperatorTypeEnum.Or
 					}
 				}])
 			});
