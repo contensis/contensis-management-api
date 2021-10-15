@@ -40,6 +40,8 @@ module.exports = function (config) {
 		autoWatch: false,
 		autoWatchBatchDelay: 1000,
 		browsers: ['Chrome'],
+		// browserDisconnectTimeout : 0,
+		// browserNoActivityTimeout : 0,
 		singleRun: true,
 		concurrency: Infinity
 	};
