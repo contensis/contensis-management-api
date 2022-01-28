@@ -1,4 +1,4 @@
-import { ContensisClient, Group, GroupListOptions, IGroupOperations, User, UserListOptions } from '../../models';
+import { ContensisClient, Group, GroupListOptions, IGroupOperations, User, UserListOptions, GroupUserListOptions, GroupChildListOptions } from '../../models';
 import { IHttpClient, PagedList, UrlBuilder, MapperFn, ClientParams } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -257,14 +257,14 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    getUsersByGroupId(groupId: string, options?: UserListOptions): Promise<PagedList<User>> {
+    getUsersByGroupId(groupId: string, options?: GroupUserListOptions): Promise<PagedList<User>> {
         if (!groupId) {
             throw new Error('A valid group id value needs to be specified.');
         }
 
         return this.getUsersInGroup(groupId, options);
     }
-    getUsersByGroupName(groupName: string, options?: UserListOptions): Promise<PagedList<User>> {
+    getUsersByGroupName(groupName: string, options?: GroupUserListOptions): Promise<PagedList<User>> {
         if (!groupName) {
             throw new Error('A valid group name value needs to be specified.');
         }
@@ -272,14 +272,14 @@ export class GroupOperations implements IGroupOperations {
         return this.getUsersInGroup(groupName, options);
     }
 
-    getChildGroupsByGroupId(groupId: string, options?: GroupListOptions): Promise<PagedList<Group>> {
+    getChildGroupsByGroupId(groupId: string, options?: GroupChildListOptions): Promise<PagedList<Group>> {
         if (!groupId) {
             throw new Error('A valid group id value needs to be specified.');
         }
 
         return this.getChildGroups(groupId, options);
     }
-    getChildGroupsByGroupName(groupName: string, options?: GroupListOptions): Promise<PagedList<Group>> {
+    getChildGroupsByGroupName(groupName: string, options?: GroupChildListOptions): Promise<PagedList<Group>> {
         if (!groupName) {
             throw new Error('A valid group name value needs to be specified.');
         }
@@ -299,7 +299,7 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    private getUsersInGroup(idOrName: string, options?: UserListOptions) {
+    private getUsersInGroup(idOrName: string, options?: GroupUserListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/users',
             !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
@@ -314,7 +314,7 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    private getChildGroups(idOrName: string, options?: GroupListOptions) {
+    private getChildGroups(idOrName: string, options?: GroupChildListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/groups',
             !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
