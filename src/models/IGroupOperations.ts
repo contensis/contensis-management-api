@@ -2,7 +2,7 @@ import { Group } from './Group';
 import { PagedList } from 'contensis-core-api';
 import { GroupListOptions } from './GroupListOptions';
 import { User } from './User';
-import { UserListOptions, GroupUserListOptions, GroupChildListOptions } from '.';
+import { GroupUserListOptions, GroupChildListOptions } from '.';
 
 export interface IGroupOperations {
     getById(groupId: string): Promise<Group>;
