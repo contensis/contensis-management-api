@@ -4,6 +4,11 @@ let listMappers = {
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
 };
+let userListMappers = {
+    pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
+    pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
+    order: (value) => (value && value.length > 0) ? value : null,
+};
 export class GroupOperations {
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
@@ -199,29 +204,29 @@ export class GroupOperations {
             });
         });
     }
-    getUsersByGroupId(groupId) {
+    getUsersByGroupId(groupId, options) {
         if (!groupId) {
             throw new Error('A valid group id value needs to be specified.');
         }
-        return this.getUsersInGroup(groupId);
+        return this.getUsersInGroup(groupId, options);
     }
-    getUsersByGroupName(groupName) {
+    getUsersByGroupName(groupName, options) {
         if (!groupName) {
             throw new Error('A valid group name value needs to be specified.');
         }
-        return this.getUsersInGroup(groupName);
+        return this.getUsersInGroup(groupName, options);
     }
-    getChildGroupsByGroupId(groupId) {
+    getChildGroupsByGroupId(groupId, options) {
         if (!groupId) {
             throw new Error('A valid group id value needs to be specified.');
         }
-        return this.getChildGroups(groupId);
+        return this.getChildGroups(groupId, options);
     }
-    getChildGroupsByGroupName(groupName) {
+    getChildGroupsByGroupName(groupName, options) {
         if (!groupName) {
             throw new Error('A valid group name value needs to be specified.');
         }
-        return this.getChildGroups(groupName);
+        return this.getChildGroups(groupName, options);
     }
     getGroup(idOrName) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName', {})
@@ -234,10 +239,12 @@ export class GroupOperations {
             });
         });
     }
-    getUsersInGroup(idOrName) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', {})
+    getUsersInGroup(idOrName, options) {
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
+            .addOptions(options)
             .setParams(this.contensisClient.getParams())
+            .addMappers(userListMappers)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
@@ -245,10 +252,12 @@ export class GroupOperations {
             });
         });
     }
-    getChildGroups(idOrName) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', {})
+    getChildGroups(idOrName, options) {
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
+            .addOptions(options)
             .setParams(this.contensisClient.getParams())
+            .addMappers(listMappers)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
