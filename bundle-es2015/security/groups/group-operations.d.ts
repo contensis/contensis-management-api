@@ -1,4 +1,4 @@
-import { ContensisClient, Group, GroupListOptions, IGroupOperations, User } from '../../models';
+import { ContensisClient, Group, GroupListOptions, IGroupOperations, User, GroupUserListOptions, GroupChildListOptions } from '../../models';
 import { IHttpClient, PagedList } from 'contensis-core-api';
 export declare class GroupOperations implements IGroupOperations {
     private httpClient;
@@ -16,10 +16,10 @@ export declare class GroupOperations implements IGroupOperations {
     hasUser(groupId: string, userId: string): Promise<boolean>;
     addChildGroup(groupId: string, childGroupId: string): Promise<void>;
     removeChildGroup(groupId: string, childGroupId: string): Promise<void>;
-    getUsersByGroupId(groupId: string): Promise<PagedList<User>>;
-    getUsersByGroupName(groupName: string): Promise<PagedList<User>>;
-    getChildGroupsByGroupId(groupId: string): Promise<PagedList<Group>>;
-    getChildGroupsByGroupName(groupName: string): Promise<PagedList<Group>>;
+    getUsersByGroupId(groupId: string, options?: GroupUserListOptions): Promise<PagedList<User>>;
+    getUsersByGroupName(groupName: string, options?: GroupUserListOptions): Promise<PagedList<User>>;
+    getChildGroupsByGroupId(groupId: string, options?: GroupChildListOptions): Promise<PagedList<Group>>;
+    getChildGroupsByGroupName(groupName: string, options?: GroupChildListOptions): Promise<PagedList<Group>>;
     private getGroup;
     private getUsersInGroup;
     private getChildGroups;

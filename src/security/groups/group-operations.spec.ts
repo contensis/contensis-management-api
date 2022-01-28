@@ -454,6 +454,25 @@ describe('Group Operations', () => {
             expect(users.items[1].username).toEqual(defaultUsers[1].username);
         });
 
+        it('by group id with specific options', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id, {
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['username']
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users?order=username&pageIndex=1&pageSize=50`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+        });
+
         it('by group name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getUsersByGroupName(defaultGroups[0].name);
@@ -462,6 +481,25 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].name}/users`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+        });
+
+        it('by group name with specific options', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.groups.getUsersByGroupName(defaultGroups[0].name, {
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['username']
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/users?order=username&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
@@ -502,6 +540,25 @@ describe('Group Operations', () => {
             expect(groups.items[1].name).toEqual(defaultGroups[1].name);
         });
 
+        it('by group id with options', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let groups = await client.security.groups.getChildGroupsByGroupId(defaultGroups[0].id, {
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['name']
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?order=name&pageIndex=1&pageSize=50`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(groups).not.toBeNull();
+            expect(groups.items.length).toEqual(2);
+            expect(groups.items[1].name).toEqual(defaultGroups[1].name);
+        });
+
         it('by group name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getChildGroupsByGroupName(defaultGroups[0].name);
@@ -510,6 +567,25 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].name).toEqual(defaultGroups[1].name);
+        });
+
+        it('by group name with options', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.groups.getChildGroupsByGroupName(defaultGroups[0].name, {
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['name']
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 

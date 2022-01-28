@@ -1,4 +1,4 @@
-import { ContensisClient, Group, GroupListOptions, IGroupOperations, User } from '../../models';
+import { ContensisClient, Group, GroupListOptions, IGroupOperations, User, UserListOptions, GroupUserListOptions, GroupChildListOptions } from '../../models';
 import { IHttpClient, PagedList, UrlBuilder, MapperFn, ClientParams } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -7,6 +7,11 @@ let listMappers: { [key: string]: MapperFn } = {
     order: (value: string[]) => (value && value.length > 0) ? value : null,
 };
 
+let userListMappers: { [key: string]: MapperFn } = {
+    pageIndex: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
+    pageSize: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
+    order: (value: string[]) => (value && value.length > 0) ? value : null,
+};
 
 export class GroupOperations implements IGroupOperations {
 
@@ -252,34 +257,34 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    getUsersByGroupId(groupId: string): Promise<PagedList<User>> {
+    getUsersByGroupId(groupId: string, options?: GroupUserListOptions): Promise<PagedList<User>> {
         if (!groupId) {
             throw new Error('A valid group id value needs to be specified.');
         }
 
-        return this.getUsersInGroup(groupId);
+        return this.getUsersInGroup(groupId, options);
     }
-    getUsersByGroupName(groupName: string): Promise<PagedList<User>> {
+    getUsersByGroupName(groupName: string, options?: GroupUserListOptions): Promise<PagedList<User>> {
         if (!groupName) {
             throw new Error('A valid group name value needs to be specified.');
         }
 
-        return this.getUsersInGroup(groupName);
+        return this.getUsersInGroup(groupName, options);
     }
 
-    getChildGroupsByGroupId(groupId: string): Promise<PagedList<Group>> {
+    getChildGroupsByGroupId(groupId: string, options?: GroupChildListOptions): Promise<PagedList<Group>> {
         if (!groupId) {
             throw new Error('A valid group id value needs to be specified.');
         }
 
-        return this.getChildGroups(groupId);
+        return this.getChildGroups(groupId, options);
     }
-    getChildGroupsByGroupName(groupName: string): Promise<PagedList<Group>> {
+    getChildGroupsByGroupName(groupName: string, options?: GroupChildListOptions): Promise<PagedList<Group>> {
         if (!groupName) {
             throw new Error('A valid group name value needs to be specified.');
         }
 
-        return this.getChildGroups(groupName);
+        return this.getChildGroups(groupName, options);
     }
 
     private getGroup(idOrName: string) {
@@ -294,10 +299,13 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    private getUsersInGroup(idOrName: string) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', {})
+    private getUsersInGroup(idOrName: string, options?: GroupUserListOptions) {
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/users',
+            !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
+            .addOptions(options)
             .setParams(this.contensisClient.getParams())
+            .addMappers(userListMappers)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<PagedList<User>>(url, {
@@ -306,10 +314,13 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    private getChildGroups(idOrName: string) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', {})
+    private getChildGroups(idOrName: string, options?: GroupChildListOptions) {
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups',
+            !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
+            .addOptions(options)
             .setParams(this.contensisClient.getParams())
+            .addMappers(listMappers)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<PagedList<Group>>(url, {
