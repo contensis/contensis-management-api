@@ -30,7 +30,7 @@
   "homepage": "https://github.com/contensis/contensis-management-api#readme",
   "devDependencies": {
     "@types/jasmine": "^3.5.14",
-    "@types/node": "^12.12.54",
+    "@types/node": "14.14.20",
     "copy-webpack-plugin": "^6.4.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "jasmine-ajax": "^4.0.0",
