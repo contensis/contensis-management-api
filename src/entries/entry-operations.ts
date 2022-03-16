@@ -59,6 +59,7 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
+	// TODO: should query arg use ManagementQuery type from contensis-core-api?
 	search(query: any): Promise<PagedList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
@@ -70,10 +71,15 @@ export class EntryOperations implements IEntryOperations {
 
 		let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
 
+		let includeArchived = query.includeArchived ? true : null;
+		let includeDeleted = query.includeDeleted ? true : null;
+
 		let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
 			...requestParams,
+			includeArchived,
+			includeDeleted,
 			pageSize,
 			pageIndex,
 			where: JSON.stringify(query.where),
@@ -154,15 +160,19 @@ export class EntryOperations implements IEntryOperations {
 		throw new Error('This function can only be called in class EntryOperationsForServer.');
 	}
 
-	delete(id: string, languages: string[] = null): Promise<void> {
+	delete(id: string, languages: string[] = null, permanent = false): Promise<void> {
 		if (!id) {
 			throw new Error('A valid id needs to be specified.');
 		}
 
 		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id',
-			{ language: null })
+			{
+				language: null,
+				permanent: null,
+			})
 			.addOptions(id, 'id')
 			.addOptions(!!languages && languages.length > 0 ? languages.join(',') : null, 'language')
+			.addOptions(permanent ? 'true' : null, 'permanent')
 			.setParams(this.contensisClient.getParams())
 			.toUrl();
 

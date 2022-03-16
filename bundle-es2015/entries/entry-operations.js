@@ -119,13 +119,17 @@ export class EntryOperations {
     updateAsset(asset, assetFilePath) {
         throw new Error('This function can only be called in class EntryOperationsForServer.');
     }
-    delete(id, languages = null) {
+    delete(id, languages = null, permanent = false) {
         if (!id) {
             throw new Error('A valid id needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id', { language: null })
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id', {
+            language: null,
+            permanent: null
+        })
             .addOptions(id, 'id')
             .addOptions(!!languages && languages.length > 0 ? languages.join(',') : null, 'language')
+            .addOptions(permanent ? true : null, 'permanent')
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
