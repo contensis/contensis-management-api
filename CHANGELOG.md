@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.5] - 2022-03-16
+## [2.0.5] - 2022-04-14
 ### Added
 - add new options for handling entries in recycle bin supported in Contensis 15.2 onwards
 - search query accepts new parameters *includeDeleted* and *includeArchived*
