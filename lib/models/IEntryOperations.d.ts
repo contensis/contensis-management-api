@@ -11,7 +11,7 @@ export interface IEntryOperations {
     update(entry: Entry): Promise<Entry>;
     createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry>;
     updateAsset(asset: Entry, assetFilePath?: string): Promise<Entry>;
-    delete(id: string, languages?: string[]): Promise<void>;
+    delete(id: string, languages?: string[], permanent?: boolean): Promise<void>;
     invokeWorkflow(entry: Entry, event: string, data?: any): Promise<Entry>;
     invokeWorkflowByTrigger(entry: Entry, workflowTrigger: WorkflowTrigger): Promise<Entry>;
 }

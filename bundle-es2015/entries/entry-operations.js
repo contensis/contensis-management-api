@@ -44,6 +44,7 @@ export class EntryOperations {
             });
         });
     }
+    // TODO: should query arg use ManagementQuery type from contensis-core-api?
     search(query) {
         if (!query) {
             return new Promise((resolve) => { resolve(null); });
@@ -52,9 +53,13 @@ export class EntryOperations {
         let pageSize = query.pageSize || params.pageSize;
         let pageIndex = query.pageIndex || 0;
         let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
+        let includeArchived = query.includeArchived ? true : null;
+        let includeDeleted = query.includeDeleted ? true : null;
         let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            includeArchived,
+            includeDeleted,
             pageSize,
             pageIndex,
             where: JSON.stringify(query.where),
@@ -119,13 +124,17 @@ export class EntryOperations {
     updateAsset(asset, assetFilePath) {
         throw new Error('This function can only be called in class EntryOperationsForServer.');
     }
-    delete(id, languages = null) {
+    delete(id, languages = null, permanent = false) {
         if (!id) {
             throw new Error('A valid id needs to be specified.');
         }
-        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id', { language: null })
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id', {
+            language: null,
+            permanent: null,
+        })
             .addOptions(id, 'id')
             .addOptions(!!languages && languages.length > 0 ? languages.join(',') : null, 'language')
+            .addOptions(permanent ? 'true' : null, 'permanent')
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {

@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2022-03-16
+### Added
+- add new options for handling entries in recycle bin supported in Contensis 15.2 onwards
+- search query accepts new parameters *includeDeleted* and *includeArchived*
+- add new optional argument to delete entries *permanent* - default is false
+### Changed
+- updated @types/node package to be compatible with the installed TypeScript version
+
 ## [2.0.4] - 2022-01-28
 ### Added
 - add paging/search options to group "child group" and "user" listings
@@ -13,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.3] - 2021-10-15
 ### Added
-- added aditional parameters to *freeText* 
+- added additional parameters to *freeText* 
 
 ## [2.0.2] - 2021-08-19
 ### Added
