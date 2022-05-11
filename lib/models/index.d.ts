@@ -14,6 +14,8 @@ export * from './Entry';
 export * from './EntryGetOptions';
 export * from './EntryListOptions';
 export * from './EntrySys';
+export * from './EntryUsageInfo';
+export * from './EntryUsageOptions';
 export * from './EventSubscription';
 export * from './EventSubscriptionTopic';
 export * from './Group';

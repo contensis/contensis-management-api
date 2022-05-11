@@ -127,6 +127,57 @@ describe('Entry Operations', () => {
             expect(entries.items[1].title).toEqual('entry2');
         });
     });
+    describe('Get entry usage', () => {
+        beforeEach(() => {
+            setDefaultSpy(global, {
+                pageIndex: 0,
+                pageSize: 25,
+                totalCount: 2,
+                items: [{
+                        title: 'entry1'
+                    },
+                    {
+                        title: 'entry2'
+                    }
+                ]
+            });
+            Zengenti.Contensis.Client.defaultClientConfig = null;
+            Zengenti.Contensis.Client.configure({
+                fetchFn: global.fetch
+            });
+        });
+        it('by id', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let entries = await client.entries.usage('1');
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/management/projects/myProject/entries/1/usage?language=en-US&pageIndex=0&pageSize=25&versionStatus=published',
+                getDefaultFetchRequest()
+            ]);
+            expect(entries).not.toBeNull();
+            expect(entries.items.length).toEqual(2);
+            expect(entries.items[1].title).toEqual('entry2');
+        });
+        it('with options', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let entries = await client.entries.usage({
+                id: '1',
+                versionStatus: 'latest',
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                language: 'fr-FR',
+            });
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/management/projects/myProject/entries/1/usage?language=fr-FR&pageIndex=1&pageSize=50',
+                getDefaultFetchRequest()
+            ]);
+            expect(entries).not.toBeNull();
+            expect(entries.items.length).toEqual(2);
+            expect(entries.items[1].title).toEqual('entry2');
+        });
+    });
     describe('Search entries', () => {
         beforeEach(() => {
             setDefaultSpy(global, {

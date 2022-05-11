@@ -2,6 +2,8 @@ import { PagedList } from 'contensis-core-api';
 import { Entry } from './Entry';
 import { EntryGetOptions } from './EntryGetOptions';
 import { EntryListOptions } from './EntryListOptions';
+import { EntryUsageInfo } from './EntryUsageInfo';
+import { EntryUsageOptions } from './EntryUsageOptions';
 import { WorkflowTrigger } from './WorkflowTrigger';
 
 export interface IEntryOperations {
@@ -11,6 +13,7 @@ export interface IEntryOperations {
 	search(query: any): Promise<PagedList<Entry>>;
 	create(entry: Entry): Promise<Entry>;
 	update(entry: Entry): Promise<Entry>;
+	usage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>>;
 	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry>;
 	updateAsset(asset: Entry, assetFilePath?: string): Promise<Entry>;
 	delete(id: string, languages?: string[], permanent?: boolean): Promise<void>;

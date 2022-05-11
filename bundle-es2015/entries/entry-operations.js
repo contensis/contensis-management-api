@@ -11,6 +11,12 @@ let listMappers = {
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
 };
+const usageListMappers = {
+    language: defaultMapperForLanguage,
+    versionStatus: defaultMapperForLatestVersionStatus,
+    pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
+    pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
+};
 export class EntryOperations {
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
@@ -115,6 +121,18 @@ export class EntryOperations {
                 headers: this.contensisClient.getHeaders(),
                 method: 'PUT',
                 body: JSON.stringify(entry)
+            });
+        });
+    }
+    usage(idOrOptions) {
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/usage', { language: null, versionStatus: null, version: null, pageIndex: null, pageSize: null })
+            .addOptions(idOrOptions, 'id')
+            .setParams(this.contensisClient.getParams())
+            .addMappers(usageListMappers)
+            .toUrl();
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders()
             });
         });
     }
