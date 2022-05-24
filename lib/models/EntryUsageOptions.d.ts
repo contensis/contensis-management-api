@@ -4,4 +4,6 @@ export interface EntryUsageOptions {
     language?: string;
     versionStatus?: VersionStatus;
     pageOptions?: PageOptions;
+    contentTypeId?: string;
+    query?: string;
 }

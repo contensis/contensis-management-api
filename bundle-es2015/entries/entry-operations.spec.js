@@ -148,7 +148,7 @@ describe('Entry Operations', () => {
         });
         it('by id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let entries = await client.entries.usage('1');
+            let entries = await client.entries.getUsage('1');
             expect(global.fetch).toHaveBeenCalledTimes(2);
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
@@ -161,7 +161,7 @@ describe('Entry Operations', () => {
         });
         it('with options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
-            let entries = await client.entries.usage({
+            let entries = await client.entries.getUsage({
                 id: '1',
                 versionStatus: 'latest',
                 pageOptions: { pageIndex: 1, pageSize: 50 },

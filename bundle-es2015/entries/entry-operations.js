@@ -124,7 +124,7 @@ export class EntryOperations {
             });
         });
     }
-    usage(idOrOptions) {
+    getUsage(idOrOptions) {
         let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/usage', { language: null, versionStatus: null, version: null, pageIndex: null, pageSize: null })
             .addOptions(idOrOptions, 'id')
             .setParams(this.contensisClient.getParams())
