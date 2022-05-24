@@ -6,4 +6,5 @@ export interface EntryUsageInfo {
     contentTypeId: string;
     dataFormat: string;
     language: string;
+    workflowState: string;
 }
