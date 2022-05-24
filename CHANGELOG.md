@@ -5,52 +5,85 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.5] - 2022-04-14
+## [2.0.6] - 2022-05-11
+
 ### Added
+
+- entries: added usage operation to get the usage for a given entry
+
+## [2.0.5] - 2022-04-14
+
+### Added
+
 - add new options for handling entries in recycle bin supported in Contensis 15.2 onwards
-- search query accepts new parameters *includeDeleted* and *includeArchived*
-- add new optional argument to delete entries *permanent* - default is false
+- search query accepts new parameters _includeDeleted_ and _includeArchived_
+- add new optional argument to delete entries _permanent_ - default is false
+
 ### Changed
+
 - updated @types/node package to be compatible with the installed TypeScript version
 
 ## [2.0.4] - 2022-01-28
+
 ### Added
+
 - add paging/search options to group "child group" and "user" listings
+
 ### Changed
+
 - updated packages
 
 ## [2.0.3] - 2021-10-15
+
 ### Added
-- added additional parameters to *freeText* 
+
+- added additional parameters to _freeText_
 
 ## [2.0.2] - 2021-08-19
+
 ### Added
-- added *owner* and *slug* fields to *EntrySys* class
+
+- added _owner_ and _slug_ fields to _EntrySys_ class
+
 ### Changed
+
 - the "Authorization" header is using the correct prefix of "Bearer "
 
 ## [2.0.1] - 2021-05-26
+
 ### Changed
+
 - general release for version 2.0
+
 ## [2.0.0-beta.7] - 2021-05-24
+
 ### Changed
-- Query: removed *fields* property
+
+- Query: removed _fields_ property
 
 ## [2.0.0-beta.6] - 2021-04-08
+
 ### Changed
+
 - users: renamed user properties to 'firstName' and 'lastName'
 
 ## [2.0.0-beta.5] - 2021-04-01
+
 ### Changed
+
 - users: renamed user properties to 'username', 'firstname' and 'lastname'
 - roles: changed role 'name' and 'description' properties type to string
 
 ## [1.0.2-beta.4] - 2021-03-12
+
 ### Changed
+
 - updated reference to contensis-core-api
 
 ## [1.0.2-beta.4] - 2021-03-12
+
 ### Changed
+
 - updated reference to contensis-core-api
 
 ## [1.0.2-beta.3] - 2021-02-26

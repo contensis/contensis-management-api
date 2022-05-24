@@ -1,5 +1,5 @@
 import {
-	Entry, EntryGetOptions, EntryListOptions, IEntryOperations, ContensisClient, WorkflowTrigger
+	Entry, EntryGetOptions, EntryListOptions, EntryUsageInfo, EntryUsageOptions, IEntryOperations, ContensisClient, WorkflowTrigger
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
@@ -18,6 +18,13 @@ let listMappers: { [key: string]: MapperFn } = {
 	pageIndex: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
 	pageSize: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
 	order: (value: string[]) => (value && value.length > 0) ? value : null,
+};
+
+const usageListMappers: { [key: string]: MapperFn } = {
+	language: defaultMapperForLanguage,
+	versionStatus: defaultMapperForLatestVersionStatus,
+	pageIndex: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
+	pageSize: (value: number, options: EntryListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
 };
 
 export class EntryOperations implements IEntryOperations {
@@ -148,6 +155,21 @@ export class EntryOperations implements IEntryOperations {
 				headers: this.contensisClient.getHeaders(),
 				method: 'PUT',
 				body: JSON.stringify(entry)
+			});
+		});
+	}
+
+	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>> {
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/usage',
+			{ language: null, versionStatus: null, version: null, pageIndex: null, pageSize: null })
+			.addOptions(idOrOptions, 'id')
+			.setParams(this.contensisClient.getParams())
+			.addMappers(usageListMappers)
+			.toUrl();
+
+		return this.contensisClient.ensureBearerToken().then(() => {
+			return this.httpClient.request<PagedList<EntryUsageInfo>>(url, {
+				headers: this.contensisClient.getHeaders()
 			});
 		});
 	}

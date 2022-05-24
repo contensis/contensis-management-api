@@ -2,7 +2,7 @@ import * as Contensis from '../index';
 import { getDefaultAuthenticateUrl, getDefaultConfig, getDefaultFetchRequest, setDefaultSpy } from '../specs-utils.spec';
 // import { toQuery } from 'contensis-core-api';
 import fetch from 'cross-fetch';
-import { Entry } from '../models';
+import { Entry, EntryUsageInfo } from '../models';
 import { PagedList, toQuery } from 'contensis-core-api';
 import { FreeTextSearchOperatorTypeEnum } from 'contensis-core-api/lib/models/search/FreeTextSearchOperatorType';
 
@@ -155,6 +155,71 @@ describe('Entry Operations', () => {
 
 			expect((global.fetch as any).calls.mostRecent().args).toEqual([
 				'http://my-website.com/api/management/projects/myProject/contenttypes/movie/entries?language=fr-FR&order=title&pageIndex=1&pageSize=50',
+				getDefaultFetchRequest()
+			]);
+
+			expect(entries).not.toBeNull();
+			expect(entries.items.length).toEqual(2);
+			expect(entries.items[1].title).toEqual('entry2');
+		});
+	});
+
+	describe('Get entry usage', () => {
+		beforeEach(() => {
+			setDefaultSpy(global, {
+				pageIndex: 0,
+				pageSize: 25,
+				totalCount: 2,
+				items: [{
+					title: 'entry1'
+				}
+					, {
+					title: 'entry2'
+				}
+				]
+			} as PagedList<Partial<EntryUsageInfo>>);
+
+			Zengenti.Contensis.Client.defaultClientConfig = null;
+			Zengenti.Contensis.Client.configure({
+				fetchFn: global.fetch
+			});
+		});
+
+		it('by id', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			let entries = await client.entries.getUsage('1');
+
+			expect(global.fetch).toHaveBeenCalledTimes(2);
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/management/projects/myProject/entries/1/usage?language=en-US&pageIndex=0&pageSize=25&versionStatus=published',
+				getDefaultFetchRequest()
+			]);
+
+			expect(entries).not.toBeNull();
+			expect(entries.items.length).toEqual(2);
+			expect(entries.items[1].title).toEqual('entry2');
+		});
+
+		it('with options', async () => {
+			let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+			let entries = await client.entries.getUsage({
+				id: '1',
+				versionStatus: 'latest',
+				pageOptions: { pageIndex: 1, pageSize: 50 },
+				language: 'fr-FR',
+			});
+
+			expect(global.fetch).toHaveBeenCalledTimes(2);
+
+			expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+			expect((global.fetch as any).calls.mostRecent().args).toEqual([
+				'http://my-website.com/api/management/projects/myProject/entries/1/usage?language=fr-FR&pageIndex=1&pageSize=50',
 				getDefaultFetchRequest()
 			]);
 
