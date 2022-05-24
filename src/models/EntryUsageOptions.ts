@@ -6,4 +6,5 @@ export interface EntryUsageOptions {
 	versionStatus?: VersionStatus;
 	pageOptions?: PageOptions;
 	contentTypeId?: string;
+	query?: string;
 }
