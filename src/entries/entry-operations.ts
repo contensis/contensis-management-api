@@ -159,7 +159,7 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	usage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>> {
+	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>> {
 		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/usage',
 			{ language: null, versionStatus: null, version: null, pageIndex: null, pageSize: null })
 			.addOptions(idOrOptions, 'id')
