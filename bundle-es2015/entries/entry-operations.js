@@ -1,4 +1,5 @@
-import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder, isString, isBrowser, isIE } from 'contensis-core-api';
+import { defaultMapperForLanguage, defaultMapperForLatestVersionStatus, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery } from 'contensis-core-api';
+const defaultListUrl = '/api/management/projects/:projectId/entries';
 let getMappers = {
     language: defaultMapperForLanguage,
     versionStatus: defaultMapperForLatestVersionStatus,
@@ -37,7 +38,7 @@ export class EntryOperations {
     list(contentTypeIdOrOptions) {
         let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
         if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !contentTypeIdOrOptions.contentTypeId)) {
-            urlTemplate = '/api/management/projects/:projectId/entries';
+            urlTemplate = defaultListUrl;
         }
         let url = UrlBuilder.create(urlTemplate, { language: null, versionStatus: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(contentTypeIdOrOptions, 'contentTypeId')
@@ -50,17 +51,31 @@ export class EntryOperations {
             });
         });
     }
-    // TODO: should query arg use ManagementQuery type from contensis-core-api?
     search(query) {
         if (!query) {
             return new Promise((resolve) => { resolve(null); });
         }
+        let managementQuery = query instanceof ManagementQuery ? query : null;
+        // use duck-typing for backwards compatibility pre v2.0.7
+        if (managementQuery !== null || !!query.where || !!query.orderBy) {
+            return this.searchUsingManagementQuery(managementQuery || query);
+        }
+        let zenqlQuery = query instanceof ManagementZenqlQuery ? query : null;
+        if (zenqlQuery === null) {
+            if (typeof query === 'string') {
+                zenqlQuery = new ManagementZenqlQuery(query);
+            }
+            else {
+                throw new Error('A valid query needs to be specified.');
+            }
+        }
         let params = this.contensisClient.getParams();
-        let pageSize = query.pageSize || params.pageSize;
-        let pageIndex = query.pageIndex || 0;
-        let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
-        let includeArchived = query.includeArchived ? true : null;
-        let includeDeleted = query.includeDeleted ? true : null;
+        let pageSize = params.pageSize || 25;
+        let pageIndex = params.pageIndex || 0;
+        pageSize = zenqlQuery.pageSize || pageSize;
+        pageIndex = zenqlQuery.pageIndex || pageIndex;
+        let includeArchived = zenqlQuery.includeArchived ? true : null;
+        let includeDeleted = zenqlQuery.includeDeleted ? true : null;
         let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
@@ -68,18 +83,11 @@ export class EntryOperations {
             includeDeleted,
             pageSize,
             pageIndex,
-            where: JSON.stringify(query.where),
+            zenql: zenqlQuery.zenql
         };
-        if (orderBy && orderBy.length > 0) {
-            payload['orderBy'] = JSON.stringify(orderBy);
-        }
-        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search', { ...payload })
+        let url = UrlBuilder.create(defaultListUrl, { ...payload })
             .setParams({ ...payload, projectId })
             .toUrl();
-        let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
-        if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
-            return this.searchUsingPost(query);
-        }
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 method: 'GET',
@@ -205,6 +213,43 @@ export class EntryOperations {
                 headers: this.contensisClient.getHeaders(),
                 method: 'POST',
                 body: JSON.stringify(workflowTrigger)
+            });
+        });
+    }
+    searchUsingManagementQuery(query) {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+        let managementQuery = query;
+        let params = this.contensisClient.getParams();
+        let pageSize = query.pageSize || params.pageSize;
+        let pageIndex = query.pageIndex || 0;
+        let orderBy = (managementQuery.orderBy && (managementQuery.orderBy._items || managementQuery.orderBy));
+        let includeArchived = managementQuery.includeArchived ? true : null;
+        let includeDeleted = managementQuery.includeDeleted ? true : null;
+        let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+        let payload = {
+            ...requestParams,
+            includeArchived,
+            includeDeleted,
+            pageSize,
+            pageIndex,
+            where: JSON.stringify(query.where),
+        };
+        if (managementQuery.orderBy && (!Array.isArray(managementQuery.orderBy) || managementQuery.orderBy.length > 0)) {
+            payload['orderBy'] = JSON.stringify(orderBy);
+        }
+        let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search', { ...payload })
+            .setParams({ ...payload, projectId })
+            .toUrl();
+        let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
+        if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
+            return this.searchUsingPost(query);
+        }
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                method: 'GET',
+                headers: this.contensisClient.getHeaders(),
             });
         });
     }

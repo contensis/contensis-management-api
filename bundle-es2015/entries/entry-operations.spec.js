@@ -470,6 +470,68 @@ describe('Entry Operations', () => {
             expect(entries.items.length).toEqual(2);
             expect(entries.items[1].title).toEqual('entry2');
         });
+        it('with query as a ZenqlQuery instance ', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let zenqlQuery = new Contensis.ZenqlQuery('sys.version.modified > -30d');
+            zenqlQuery.pageIndex = 1;
+            zenqlQuery.pageSize = 50;
+            let entries = await client.entries.search(zenqlQuery);
+            let expectedQueryString = toQuery({
+                pageIndex: 1,
+                pageSize: 50,
+                zenql: zenqlQuery.zenql
+            });
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/management/projects/myProject/entries${expectedQueryString}`,
+                getDefaultFetchRequest()
+            ]);
+            expect(entries).not.toBeNull();
+            expect(entries.items.length).toEqual(2);
+            expect(entries.items[1].title).toEqual('entry2');
+        });
+        it('with query as a ZenqlQuery instance with all options', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let zenqlQuery = new Contensis.ZenqlQuery('sys.version.modified > -30d');
+            zenqlQuery.pageIndex = 1;
+            zenqlQuery.pageSize = 50;
+            zenqlQuery.includeArchived = true;
+            zenqlQuery.includeDeleted = true;
+            let entries = await client.entries.search(zenqlQuery);
+            let expectedQueryString = toQuery({
+                pageIndex: 1,
+                pageSize: 50,
+                zenql: zenqlQuery.zenql,
+                includeArchived: true,
+                includeDeleted: true
+            });
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/management/projects/myProject/entries${expectedQueryString}`,
+                getDefaultFetchRequest()
+            ]);
+            expect(entries).not.toBeNull();
+            expect(entries.items.length).toEqual(2);
+            expect(entries.items[1].title).toEqual('entry2');
+        });
+        it('with query as a ZenqlQuery string ', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let zenqlQueryString = 'sys.version.modified > -30d';
+            let entries = await client.entries.search(zenqlQueryString);
+            let expectedQueryString = toQuery({
+                pageIndex: 0,
+                pageSize: 20,
+                zenql: zenqlQueryString
+            });
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/management/projects/myProject/entries${expectedQueryString}`,
+                getDefaultFetchRequest()
+            ]);
+            expect(entries).not.toBeNull();
+            expect(entries.items.length).toEqual(2);
+            expect(entries.items[1].title).toEqual('entry2');
+        });
     });
     describe('Search entries in IE browser', () => {
         beforeEach(() => {
