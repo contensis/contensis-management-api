@@ -1,4 +1,4 @@
-import { PagedList } from 'contensis-core-api';
+import { PagedList, ManagementQuery, ManagementZenqlQuery } from 'contensis-core-api';
 import { Entry } from './Entry';
 import { EntryGetOptions } from './EntryGetOptions';
 import { EntryListOptions } from './EntryListOptions';
@@ -9,8 +9,7 @@ import { WorkflowTrigger } from './WorkflowTrigger';
 export interface IEntryOperations {
 	get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
 	list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>>;
-	// TODO: should query arg use ManagementQuery type from contensis-core-api?
-	search(query: any): Promise<PagedList<Entry>>;
+	search(query: string | ManagementQuery | ManagementZenqlQuery): Promise<PagedList<Entry>>;
 	create(entry: Entry): Promise<Entry>;
 	update(entry: Entry): Promise<Entry>;
 	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>>;

@@ -1,9 +1,9 @@
 {
   "name": "contensis-management-api",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Contensis Javascript Management API",
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@types/graceful-fs": "^4.1.3",
-    "contensis-core-api": "1.0.4",
+    "contensis-core-api": "1.0.5",
     "cross-fetch": "^3.0.6",
     "es6-promise": "^4.2.8",
     "form-data": "^3.0.0",

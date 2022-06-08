@@ -3,8 +3,10 @@ import {
 } from '../models';
 import {
 	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isString, isBrowser, isIE
+	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery
 } from 'contensis-core-api';
+
+const defaultListUrl = '/api/management/projects/:projectId/entries';
 
 let getMappers: { [key: string]: MapperFn } = {
 	language: defaultMapperForLanguage,
@@ -49,7 +51,7 @@ export class EntryOperations implements IEntryOperations {
 	list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>> {
 		let urlTemplate = '/api/management/projects/:projectId/contenttypes/:contentTypeId/entries';
 		if (!contentTypeIdOrOptions || (!isString(contentTypeIdOrOptions) && !(contentTypeIdOrOptions as EntryListOptions).contentTypeId)) {
-			urlTemplate = '/api/management/projects/:projectId/entries';
+			urlTemplate = defaultListUrl;
 		}
 
 		let url = UrlBuilder.create(urlTemplate,
@@ -66,20 +68,35 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	// TODO: should query arg use ManagementQuery type from contensis-core-api?
-	search(query: any): Promise<PagedList<Entry>> {
+	search(query: string | ManagementQuery | ManagementZenqlQuery): Promise<PagedList<Entry>> {
 		if (!query) {
 			return new Promise((resolve) => { resolve(null); });
 		}
 
+		let managementQuery = query instanceof ManagementQuery ? query as ManagementQuery : null;
+		// use duck-typing for backwards compatibility pre v2.0.7
+		if (managementQuery !== null || !!(query as any).where || !!(query as any).orderBy) {
+			return this.searchUsingManagementQuery(managementQuery || (query as any));
+		}
+
+		let zenqlQuery: ManagementZenqlQuery = query instanceof ManagementZenqlQuery ? query as ManagementZenqlQuery : null;
+		if (zenqlQuery === null) {
+			if (typeof query === 'string') {
+				zenqlQuery = new ManagementZenqlQuery(query);
+			} else {
+				throw new Error('A valid query needs to be specified.');
+			}
+		}
+
 		let params = this.contensisClient.getParams();
-		let pageSize = query.pageSize || params.pageSize;
-		let pageIndex = query.pageIndex || 0;
+		let pageSize = params.pageSize || 25;
+		let pageIndex = params.pageIndex || 0;
 
-		let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
+		pageSize = zenqlQuery.pageSize || pageSize;
+		pageIndex = zenqlQuery.pageIndex || pageIndex;
 
-		let includeArchived = query.includeArchived ? true : null;
-		let includeDeleted = query.includeDeleted ? true : null;
+		let includeArchived = zenqlQuery.includeArchived ? true : null;
+		let includeDeleted = zenqlQuery.includeDeleted ? true : null;
 
 		let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
@@ -89,21 +106,12 @@ export class EntryOperations implements IEntryOperations {
 			includeDeleted,
 			pageSize,
 			pageIndex,
-			where: JSON.stringify(query.where),
+			zenql: zenqlQuery.zenql
 		};
 
-		if (orderBy && orderBy.length > 0) {
-			payload['orderBy'] = JSON.stringify(orderBy);
-		}
-
-		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search', { ...payload })
+		let url = UrlBuilder.create(defaultListUrl, { ...payload })
 			.setParams({ ...(payload as any), projectId })
 			.toUrl();
-
-		let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
-		if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
-			return this.searchUsingPost(query);
-		}
 
 		return this.contensisClient.ensureBearerToken().then(() => {
 			return this.httpClient.request<PagedList<Entry>>(url, {
@@ -261,6 +269,53 @@ export class EntryOperations implements IEntryOperations {
 				headers: this.contensisClient.getHeaders(),
 				method: 'POST',
 				body: JSON.stringify(workflowTrigger)
+			});
+		});
+	}
+
+	private searchUsingManagementQuery(query: ManagementQuery): Promise<PagedList<Entry>> {
+		if (!query) {
+			return new Promise((resolve) => { resolve(null); });
+		}
+
+		let managementQuery = query as ManagementQuery;
+		let params = this.contensisClient.getParams();
+		let pageSize = query.pageSize || params.pageSize;
+		let pageIndex = query.pageIndex || 0;
+
+		let orderBy = (managementQuery.orderBy && ((managementQuery.orderBy as any)._items || managementQuery.orderBy));
+
+		let includeArchived = managementQuery.includeArchived ? true : null;
+		let includeDeleted = managementQuery.includeDeleted ? true : null;
+
+		let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+
+		let payload = {
+			...requestParams,
+			includeArchived,
+			includeDeleted,
+			pageSize,
+			pageIndex,
+			where: JSON.stringify(query.where),
+		};
+
+		if (managementQuery.orderBy && (!Array.isArray(managementQuery.orderBy) || (managementQuery.orderBy as any).length > 0)) {
+			payload['orderBy'] = JSON.stringify(orderBy);
+		}
+
+		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/search', { ...payload })
+			.setParams({ ...(payload as any), projectId })
+			.toUrl();
+
+		let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
+		if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
+			return this.searchUsingPost(query);
+		}
+
+		return this.contensisClient.ensureBearerToken().then(() => {
+			return this.httpClient.request<PagedList<Entry>>(url, {
+				method: 'GET',
+				headers: this.contensisClient.getHeaders(),
 			});
 		});
 	}

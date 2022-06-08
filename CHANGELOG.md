@@ -5,22 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.7] - 2022-06-07
+### Changed
+- entries: changed *entries.search* to use either a *string*, a *ManagementQuery* or a *ManagementZenqlQuery* type
+
 ## [2.0.6] - 2022-05-11
-
 ### Added
-
 - entries: added usage operation to get the usage for a given entry
 
 ## [2.0.5] - 2022-04-14
-
 ### Added
-
 - add new options for handling entries in recycle bin supported in Contensis 15.2 onwards
 - search query accepts new parameters _includeDeleted_ and _includeArchived_
 - add new optional argument to delete entries _permanent_ - default is false
-
 ### Changed
-
 - updated @types/node package to be compatible with the installed TypeScript version
 
 ## [2.0.4] - 2022-01-28
