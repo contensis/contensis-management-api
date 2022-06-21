@@ -240,7 +240,7 @@ export class GroupOperations {
         });
     }
     getUsersInGroup(idOrName, options) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -253,7 +253,7 @@ export class GroupOperations {
         });
     }
     getChildGroups(idOrName, options) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
