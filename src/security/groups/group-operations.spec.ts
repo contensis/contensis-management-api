@@ -457,6 +457,7 @@ describe('Group Operations', () => {
         it('by group id with specific options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id, {
+                includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
                 order: ['username']
             });
@@ -464,7 +465,7 @@ describe('Group Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users?order=username&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users?includeInherited=true&order=username&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
@@ -492,6 +493,7 @@ describe('Group Operations', () => {
         it('by group name with specific options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getUsersByGroupName(defaultGroups[0].name, {
+                includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
                 order: ['username']
             });
@@ -499,7 +501,7 @@ describe('Group Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/users?order=username&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/users?includeInherited=true&order=username&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
@@ -543,6 +545,7 @@ describe('Group Operations', () => {
         it('by group id with options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let groups = await client.security.groups.getChildGroupsByGroupId(defaultGroups[0].id, {
+                includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
                 order: ['name']
             });
@@ -550,7 +553,7 @@ describe('Group Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?order=name&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
@@ -578,6 +581,7 @@ describe('Group Operations', () => {
         it('by group name with options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getChildGroupsByGroupName(defaultGroups[0].name, {
+                includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
                 order: ['name']
             });
@@ -585,7 +589,7 @@ describe('Group Operations', () => {
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?order=name&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
