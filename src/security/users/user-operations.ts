@@ -62,7 +62,7 @@ export class UserOperations implements IUserOperations {
 
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>> {
         let url = UrlBuilder.create('/api/security/users/:userId/groups',
-            { includeInherited: null })
+            { order: null, pageIndex: null, pageSize: null, includeInherited: null })
             .addOptions(userIdOrOptions, 'userId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

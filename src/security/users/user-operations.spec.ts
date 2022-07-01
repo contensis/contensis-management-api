@@ -479,13 +479,15 @@ describe('User Operations', () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let groups = await client.security.users.getUserGroups({
                 userId: defaultUsers[0].id,
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['name'],
                 includeInherited: true
             });
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?includeInherited=true`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?order=name&pageIndex=1&pageSize=50&includeInherited=true`,
                 getDefaultFetchRequest()
             ]);
 
