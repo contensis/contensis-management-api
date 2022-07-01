@@ -1,4 +1,4 @@
-import { PageOptions } from "contensis-core-api";
+import { PageOptions } from 'contensis-core-api';
 
 export interface UserGroupsOptions {
 	userId: string;

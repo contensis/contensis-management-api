@@ -46,7 +46,7 @@ export class UserOperations {
         });
     }
     getUserGroups(userIdOrOptions) {
-        let url = UrlBuilder.create('/api/security/users/:userId/groups', { includeInherited: null })
+        let url = UrlBuilder.create('/api/security/users/:userId/groups', { order: null, pageIndex: null, pageSize: null, includeInherited: null })
             .addOptions(userIdOrOptions, 'userId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

@@ -333,7 +333,7 @@ describe('User Operations', () => {
             let groups = await client.security.users.getUserGroups(defaultUsers[0].id);
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?pageIndex=0&pageSize=25`,
                 getDefaultFetchRequest()
             ]);
             expect(groups).not.toBeNull();
@@ -344,11 +344,13 @@ describe('User Operations', () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let groups = await client.security.users.getUserGroups({
                 userId: defaultUsers[0].id,
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['name'],
                 includeInherited: true
             });
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?includeInherited=true`,
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
             expect(groups).not.toBeNull();
