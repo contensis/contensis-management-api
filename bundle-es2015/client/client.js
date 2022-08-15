@@ -19,9 +19,32 @@ const ContensisClassicTokenKey = 'x-contensis-classic-token';
  * If no fetchFn value is provided it will assume it runs in a modern browser and fetch is already available.
  */
 export class Client {
+    fetchFn;
+    static defaultClientConfig = null;
+    clientConfig = null;
+    components;
+    contentTypes;
+    entries;
+    events;
+    nodes;
+    permissions;
+    projects;
+    roles;
+    security;
+    bearerToken;
+    bearerTokenExpiryDate;
+    refreshToken;
+    refreshTokenExpiryDate;
+    httpClient;
+    contensisClassicToken;
+    static create(config = null, fetchFn = null) {
+        return new Client(config, fetchFn);
+    }
+    static configure(config) {
+        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
+    }
     constructor(config = null, fetchFn = null) {
         this.fetchFn = fetchFn;
-        this.clientConfig = null;
         if (!this.fetchFn && !!window) {
             this.fetchFn = window.fetch.bind(window);
         }
@@ -39,12 +62,6 @@ export class Client {
         this.projects = new ProjectOperations(this.httpClient, this);
         this.roles = new RoleOperations(this.httpClient, this);
         this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
-    }
-    static create(config = null, fetchFn = null) {
-        return new Client(config, fetchFn);
-    }
-    static configure(config) {
-        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
     }
     getParams() {
         return this.clientConfig.toParams();
@@ -161,4 +178,3 @@ export class Client {
         return payload;
     }
 }
-Client.defaultClientConfig = null;

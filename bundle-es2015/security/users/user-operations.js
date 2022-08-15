@@ -5,6 +5,8 @@ let listMappers = {
     order: (value) => (value && value.length > 0) ? value : null,
 };
 export class UserOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

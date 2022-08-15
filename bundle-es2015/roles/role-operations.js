@@ -4,6 +4,8 @@ let listMappers = {
     pageSize: (value, options, params) => (options && options.pageSize) || (params.pageSize)
 };
 export class RoleOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

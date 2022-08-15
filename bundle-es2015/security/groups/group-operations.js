@@ -10,6 +10,8 @@ let userListMappers = {
     order: (value) => (value && value.length > 0) ? value : null,
 };
 export class GroupOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

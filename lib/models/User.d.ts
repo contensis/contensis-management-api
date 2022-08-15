@@ -30,3 +30,4 @@ export interface User {
     lastLogin: Date;
     passwordChanged: Date;
 }
+export declare type UserCreate = Omit<User, 'id'> & Partial<Pick<User, 'id'>>;

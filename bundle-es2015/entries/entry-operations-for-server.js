@@ -3,6 +3,8 @@ import { isNodejs, UrlBuilder } from 'contensis-core-api';
 import * as FormData from 'form-data';
 import * as fs from 'graceful-fs';
 export class EntryOperationsForServer extends EntryOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         super(httpClient, contensisClient);
         this.httpClient = httpClient;
