@@ -1,18 +1,20 @@
 export class ClientConfig {
+    currentConfig;
+    previousConfig;
+    rootUrl = null;
+    clientType = null;
+    clientDetails = null;
+    defaultHeaders = null;
+    projectId = null;
+    language = null;
+    versionStatus = 'latest';
+    pageIndex = 0;
+    pageSize = 25;
+    responseHandler = null;
+    fetchFn = null;
     constructor(currentConfig, previousConfig) {
         this.currentConfig = currentConfig;
         this.previousConfig = previousConfig;
-        this.rootUrl = null;
-        this.clientType = null;
-        this.clientDetails = null;
-        this.defaultHeaders = null;
-        this.projectId = null;
-        this.language = null;
-        this.versionStatus = 'latest';
-        this.pageIndex = 0;
-        this.pageSize = 25;
-        this.responseHandler = null;
-        this.fetchFn = null;
         this.rootUrl = this.getValue((c) => c.rootUrl);
         this.clientType = this.getValue((c) => c.clientType);
         this.clientDetails = this.getValue((c) => c.clientDetails);

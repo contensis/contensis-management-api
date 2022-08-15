@@ -3,6 +3,8 @@ let nodeDefaultOptionsMappers = {
     language: defaultMapperForLanguage,
 };
 export class NodeOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

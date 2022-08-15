@@ -1,6 +1,8 @@
 import { isBrowser, UrlBuilder } from 'contensis-core-api';
 import { SSE } from '../vendor/sse';
 export class EventOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

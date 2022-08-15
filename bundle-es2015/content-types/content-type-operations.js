@@ -8,6 +8,8 @@ let listMappers = {
     versionStatus: defaultMapperForLatestVersionStatus
 };
 export class ContentTypeOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;

@@ -1,4 +1,4 @@
-import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions } from '../../models';
+import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions, UserCreate } from '../../models';
 import { IHttpClient, PagedList } from 'contensis-core-api';
 export declare class UserOperations implements IUserOperations {
     private httpClient;
@@ -10,7 +10,7 @@ export declare class UserOperations implements IUserOperations {
     getByEmail(email: string): Promise<User>;
     list(options?: UserListOptions): Promise<PagedList<User>>;
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>>;
-    create(user: User, suspended?: boolean): Promise<User>;
+    create(user: UserCreate, suspended?: boolean): Promise<User>;
     update(user: User): Promise<User>;
     updatePassword(options: UserUpdatePasswordOptions): Promise<void>;
     delete(id: string): Promise<void>;

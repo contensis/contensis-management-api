@@ -4,6 +4,8 @@ let getPermissionsMappers = {
     language: defaultMapperForLanguage
 };
 export class PermissionOperations {
+    httpClient;
+    contensisClient;
     constructor(httpClient, contensisClient) {
         this.httpClient = httpClient;
         this.contensisClient = contensisClient;
