@@ -58,7 +58,7 @@
     "form-data": "^3.0.0",
     "graceful-fs": "^4.2.4",
     "node-fetch": "^2.6.1",
-    "tslib": "^1.13.0",
+    "tslib": "^2.4.0",
     "whatwg-fetch": "^3.4.0"
   },
   "directories": {
