@@ -17,7 +17,7 @@ describe('Contensis Client', function () {
                             items: []
                         };
                     }
-                });
+                } as any);
             });
         });
     });

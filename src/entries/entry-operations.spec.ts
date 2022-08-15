@@ -695,7 +695,7 @@ describe('Entry Operations', () => {
 				fetchFn: global.fetch
 			});
 
-			global.document.documentMode = 11;
+			(global.document as any).documentMode = 11;
 		});
 
 		it('with query as Object and url length = 2083', async () => {
