@@ -1,4 +1,4 @@
-import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions, UserCreate } from '../../models';
+import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions, UserToCreate } from '../../models';
 import { ClientParams, IHttpClient, MapperFn, PagedList, UrlBuilder } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -75,7 +75,7 @@ export class UserOperations implements IUserOperations {
         });
     }
 
-    create(user: UserCreate, suspended?: boolean): Promise<User> {
+    create(user: UserToCreate, suspended?: boolean): Promise<User> {
         if (!user) {
             throw new Error('A valid user needs to be specified.');
         }

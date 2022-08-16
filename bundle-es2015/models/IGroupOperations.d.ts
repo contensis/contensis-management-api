@@ -1,4 +1,4 @@
-import { Group, GroupCreate } from './Group';
+import { Group, GroupToCreate } from './Group';
 import { PagedList } from 'contensis-core-api';
 import { GroupListOptions } from './GroupListOptions';
 import { User } from './User';
@@ -7,7 +7,7 @@ export interface IGroupOperations {
     getById(groupId: string): Promise<Group>;
     getByName(groupName: string): Promise<Group>;
     list(options?: GroupListOptions): Promise<PagedList<Group>>;
-    create(group: GroupCreate): Promise<Group>;
+    create(group: GroupToCreate): Promise<Group>;
     update(group: Group): Promise<Group>;
     delete(id: string): Promise<void>;
     addUser(groupId: string, userId: string): Promise<void>;

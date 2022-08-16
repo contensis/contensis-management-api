@@ -1,4 +1,4 @@
-import { ContensisClient, Group, GroupListOptions, IGroupOperations, User, UserListOptions, GroupUserListOptions, GroupChildListOptions, GroupCreate } from '../../models';
+import { ContensisClient, Group, GroupListOptions, IGroupOperations, User, UserListOptions, GroupUserListOptions, GroupChildListOptions, GroupToCreate } from '../../models';
 import { IHttpClient, PagedList, UrlBuilder, MapperFn, ClientParams } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
@@ -52,7 +52,7 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
-    create(group: GroupCreate): Promise<Group> {
+    create(group: GroupToCreate): Promise<Group> {
         if (!group) {
             throw new Error('A valid group needs to be specified.');
         }

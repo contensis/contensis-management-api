@@ -10,4 +10,4 @@ export interface Group {
     created: Date;
     modified: Date;
 }
-export declare type GroupCreate = Omit<Group, 'id'> & Partial<Pick<Group, 'id'>>;
+export declare type GroupToCreate = Omit<Group, 'id'> & Partial<Pick<Group, 'id'>>;
