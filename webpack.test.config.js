@@ -4,13 +4,14 @@ var rootDir = path.resolve(__dirname);
 
 
 module.exports = {	
-	node: {
-		fs: "empty"
-	},
+	mode: 'development',
 	devtool: 'eval-source-map',
 
 	resolve: {
-		extensions: ['.ts', '.js']
+		extensions: ['.ts', '.js'],
+		fallback: {
+			fs: false
+		}
 	},
 
 	module: {
