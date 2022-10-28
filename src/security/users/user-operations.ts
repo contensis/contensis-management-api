@@ -21,12 +21,12 @@ export class UserOperations implements IUserOperations {
         return this.getUser('@current');
     }
 
-    getById(userId: string): Promise<User> {
+    getById(userId: string, isClassic: boolean = false): Promise<User> {
         if (!userId) {
             throw new Error('A valid user id needs to be specified.');
         }
 
-        return this.getUser(userId);
+        return this.getUser(userId, isClassic);
     }
 
     getByUsername(username: string): Promise<User> {
@@ -222,9 +222,10 @@ export class UserOperations implements IUserOperations {
         });
     }
 
-    private getUser(idOrNameOrEmail: string) {
-        let url = UrlBuilder.create('/api/security/users/:idOrNameOrEmail', {})
+    private getUser(idOrNameOrEmail: string, isClassic: boolean = false) {
+        let url = UrlBuilder.create('/api/security/users/:idOrNameOrEmail', { classicUserId: null })
             .addOptions(idOrNameOrEmail, 'idOrNameOrEmail')
+            .addOptions(isClassic ? 'true' : null, 'classicUserId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
