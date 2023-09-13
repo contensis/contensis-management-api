@@ -1,5 +1,4 @@
-export interface Permission {
-    id: string;
+import { BasePermission } from './BasePermission';
+export interface Permission extends BasePermission {
     languages: string[];
-    actions: string[];
 }

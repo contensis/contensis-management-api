@@ -34,9 +34,7 @@ export class RoleOperations {
         });
     }
     create(role) {
-        if (!role) {
-            throw new Error('A valid role needs to be specified.');
-        }
+        this.ensureRoleIsValid(role);
         let url = UrlBuilder.create('/api/management/projects/:projectId/security/roles', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
@@ -49,12 +47,7 @@ export class RoleOperations {
         });
     }
     update(role) {
-        if (!role) {
-            throw new Error('A valid role needs to be specified.');
-        }
-        if (!role.id) {
-            throw new Error('A valid role id value needs to be specified.');
-        }
+        this.ensureRoleIsValid(role, true);
         let url = UrlBuilder.create('/api/management/projects/:projectId/security/roles/:id', {})
             .addOptions(role.id, 'id')
             .setParams(this.contensisClient.getParams())
@@ -81,5 +74,16 @@ export class RoleOperations {
                 method: 'DELETE'
             });
         });
+    }
+    ensureRoleIsValid(role, needsId = false) {
+        if (!role) {
+            throw new Error('A valid role needs to be specified.');
+        }
+        if (needsId && !role.id) {
+            throw new Error('A valid role id value needs to be specified.');
+        }
+        if (!role.assignments) {
+            role.assignments = {};
+        }
     }
 }

@@ -5,7 +5,7 @@ export declare class UserOperations implements IUserOperations {
     private contensisClient;
     constructor(httpClient: IHttpClient, contensisClient: ContensisClient);
     getCurrent(): Promise<User>;
-    getById(userId: string): Promise<User>;
+    getById(userId: string, isClassic?: boolean): Promise<User>;
     getByUsername(username: string): Promise<User>;
     getByEmail(email: string): Promise<User>;
     list(options?: UserListOptions): Promise<PagedList<User>>;

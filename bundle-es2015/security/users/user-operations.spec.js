@@ -37,6 +37,18 @@ describe('User Operations', () => {
             expect(user).not.toBeNull();
             expect(user.id).toEqual(defaultUsers[0].id);
         });
+        it('by classic id', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let user = await client.security.users.getById(defaultUsers[0].id, true);
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}?classicUserId=true`,
+                getDefaultFetchRequest()
+            ]);
+            expect(user).not.toBeNull();
+            expect(user.id).toEqual(defaultUsers[0].id);
+        });
         it('by username', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let user = await client.security.users.getByUsername(defaultUsers[0].username);

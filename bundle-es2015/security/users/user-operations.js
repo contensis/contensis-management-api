@@ -17,11 +17,11 @@ export class UserOperations {
     getCurrent() {
         return this.getUser('@current');
     }
-    getById(userId) {
+    getById(userId, isClassic = false) {
         if (!userId) {
             throw new Error('A valid user id needs to be specified.');
         }
-        return this.getUser(userId);
+        return this.getUser(userId, isClassic);
     }
     getByUsername(username) {
         if (!username) {
@@ -176,9 +176,10 @@ export class UserOperations {
             });
         });
     }
-    getUser(idOrNameOrEmail) {
-        let url = UrlBuilder.create('/api/security/users/:idOrNameOrEmail', {})
+    getUser(idOrNameOrEmail, isClassic = false) {
+        let url = UrlBuilder.create('/api/security/users/:idOrNameOrEmail', { classicUserId: null })
             .addOptions(idOrNameOrEmail, 'idOrNameOrEmail')
+            .addOptions(isClassic ? 'true' : null, 'classicUserId')
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
