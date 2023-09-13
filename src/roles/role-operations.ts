@@ -41,9 +41,7 @@ export class RoleOperations implements IRoleOperations {
     }
 
     create(role: Role): Promise<Role> {
-        if (!role) {
-            throw new Error('A valid role needs to be specified.');
-        }
+        this.ensureRoleIsValid(role);
 
         let url = UrlBuilder.create('/api/management/projects/:projectId/security/roles',
             {})
@@ -59,13 +57,7 @@ export class RoleOperations implements IRoleOperations {
     }
 
     update(role: Role): Promise<Role> {
-        if (!role) {
-            throw new Error('A valid role needs to be specified.');
-        }
-
-        if (!role.id) {
-            throw new Error('A valid role id value needs to be specified.');
-        }
+        this.ensureRoleIsValid(role, true);
 
         let url = UrlBuilder.create('/api/management/projects/:projectId/security/roles/:id',
             {})
@@ -99,5 +91,19 @@ export class RoleOperations implements IRoleOperations {
                 method: 'DELETE'
             });
         });
+    }
+
+    private ensureRoleIsValid(role: Role, needsId: boolean = false): void {
+        if (!role) {
+            throw new Error('A valid role needs to be specified.');
+        }
+
+        if (needsId && !role.id) {
+            throw new Error('A valid role id value needs to be specified.');
+        }
+
+        if (!role.assignments) {
+            role.assignments = {};
+        }
     }
 }

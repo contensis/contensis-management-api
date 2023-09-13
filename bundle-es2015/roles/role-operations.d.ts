@@ -9,4 +9,5 @@ export declare class RoleOperations implements IRoleOperations {
     create(role: Role): Promise<Role>;
     update(role: Role): Promise<Role>;
     delete(id: string): Promise<void>;
+    private ensureRoleIsValid;
 }
