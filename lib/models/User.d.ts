@@ -29,5 +29,6 @@ export interface User {
     modified: Date;
     lastLogin: Date;
     passwordChanged: Date;
+    optOutOfNotifications: boolean;
 }
 export declare type UserToCreate = Omit<User, 'id'> & Partial<Pick<User, 'id'>>;

@@ -2,7 +2,8 @@ const defaultRootUrl = 'http://my-website.com/';
 export const defaultUsers = [{
         id: 'IIIIII1',
         username: 'UUUUUU1',
-        email: 'EEEEEE1@test.com'
+        email: 'EEEEEE1@test.com',
+        optOutOfNotifications: true
     },
     {
         id: 'IIIIII2',

@@ -24,6 +24,7 @@ describe('User Operations', () => {
             ]);
             expect(user).not.toBeNull();
             expect(user.id).toEqual(defaultUsers[0].id);
+            expect(user.optOutOfNotifications).toBeTrue();
         });
         it('by id', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());

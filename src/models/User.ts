@@ -33,6 +33,7 @@ export interface User {
     modified: Date;
     lastLogin: Date;
     passwordChanged: Date;
+    optOutOfNotifications: boolean;
 }
 
 export type UserToCreate = Omit<User, 'id'> & Partial<Pick<User, 'id'>>;
