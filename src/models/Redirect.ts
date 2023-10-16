@@ -1,5 +1,5 @@
 interface RedirectMatch {
-    type: "beginsWith" | "exactMatch" | "regex";
+    type: 'beginsWith' | 'exactMatch' | 'regex';
     value: string;
 }
 
