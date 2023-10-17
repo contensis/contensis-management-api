@@ -7,6 +7,7 @@ require('../src/http/url-builder.spec');
 require('../src/nodes/node-operations.spec');
 require('../src/permissions/permission-operations.spec');
 require('../src/projects/project-operations.spec');
+require('../src/redirects/redirect-operations.spec');
 require('../src/roles/role-operations.spec');
 require('../src/security/groups/group-operations.spec');
 require('../src/security/users/user-operations.spec');

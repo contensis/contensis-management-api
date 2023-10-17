@@ -4,6 +4,7 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { HttpClient, ContensisAuthenticationError, ContensisApplicationError } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
+import { RedirectOperations } from '../redirects/redirect-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
@@ -29,6 +30,7 @@ export class Client {
     nodes;
     permissions;
     projects;
+    redirects;
     roles;
     security;
     bearerToken;
@@ -60,6 +62,7 @@ export class Client {
         this.nodes = new NodeOperations(this.httpClient, this);
         this.permissions = new PermissionOperations(this.httpClient, this);
         this.projects = new ProjectOperations(this.httpClient, this);
+        this.redirects = new RedirectOperations(this.httpClient, this);
         this.roles = new RoleOperations(this.httpClient, this);
         this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
     }

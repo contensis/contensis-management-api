@@ -7,6 +7,7 @@ require('../lib/http/url-builder.spec');
 require('../lib/nodes/node-operations.spec');
 require('../lib/permissions/permission-operations.spec');
 require('../lib/projects/project-operations.spec');
+require('../lib/redirects/redirect-operations.spec');
 require('../lib/roles/role-operations.spec');
 require('../lib/security/groups/group-operations.spec');
 require('../lib/security/users/user-operations.spec');

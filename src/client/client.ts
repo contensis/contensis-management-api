@@ -1,6 +1,6 @@
 import {
 	Config, ContensisClient, IContentTypeOperations,
-	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations, ISecurityOperations, IEventOperations
+	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations, ISecurityOperations, IEventOperations, IRedirectOperations
 } from '../models';
 import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
@@ -8,6 +8,7 @@ import { ClientConfig } from './client-config';
 import { NodeOperations } from '../nodes/node-operations';
 import { ClientParams, HttpClient, IHttpClient, ContensisAuthenticationError, ContensisApplicationError, ContensisClassicGrant, ClientCredentialsGrant, ContensisClassicResfreshTokenGrant } from 'contensis-core-api';
 import { ProjectOperations } from '../projects/project-operations';
+import { RedirectOperations } from '../redirects/redirect-operations';
 import { RoleOperations } from '../roles/role-operations';
 import { PermissionOperations } from '../permissions/permission-operations';
 import { ComponentOperations } from '../components/component-operations';
@@ -37,6 +38,7 @@ export class Client implements ContensisClient {
 	nodes: INodeOperations;
 	permissions: IPermissionOperations;
 	projects: IProjectOperations;
+	redirects: IRedirectOperations;
 	roles: IRoleOperations;
 	security: ISecurityOperations;
 
@@ -77,6 +79,7 @@ export class Client implements ContensisClient {
 		this.nodes = new NodeOperations(this.httpClient, this);
 		this.permissions = new PermissionOperations(this.httpClient, this);
 		this.projects = new ProjectOperations(this.httpClient, this);
+		this.redirects = new RedirectOperations(this.httpClient, this);
 		this.roles = new RoleOperations(this.httpClient, this);
 		this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
 	}
