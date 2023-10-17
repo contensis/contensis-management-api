@@ -83,7 +83,7 @@ describe('Redirect Operations', () => {
       );
 
       expect((global.fetch as any).calls.mostRecent().args).toEqual([
-        'http://my-website.com/api/management/projects/myProject/redirects?pageIndex=0&pageSize=25',
+        'http://my-website.com/api/management/projects/myProject/redirects/?pageIndex=0&pageSize=25',
         getDefaultFetchRequest(),
       ]);
 
@@ -104,7 +104,7 @@ describe('Redirect Operations', () => {
       );
 
       expect((global.fetch as any).calls.mostRecent().args).toEqual([
-        'http://my-website.com/api/management/projects/myProject/redirects?pageIndex=1&pageSize=50',
+        'http://my-website.com/api/management/projects/myProject/redirects/?pageIndex=1&pageSize=50',
         getDefaultFetchRequest(),
       ]);
 

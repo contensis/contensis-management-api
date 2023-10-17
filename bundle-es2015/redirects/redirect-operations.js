@@ -22,7 +22,7 @@ export class RedirectOperations {
         });
     }
     list(options = null) {
-        let url = UrlBuilder.create('/api/management/projects/:projectId/redirects', { pageIndex: null, pageSize: null })
+        let url = UrlBuilder.create('/api/management/projects/:projectId/redirects/', { pageIndex: null, pageSize: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
@@ -35,7 +35,7 @@ export class RedirectOperations {
     }
     create(redirect) {
         this.ensureRedirectIsValid(redirect);
-        let url = UrlBuilder.create('/api/management/projects/:projectId/redirects', {})
+        let url = UrlBuilder.create('/api/management/projects/:projectId/redirects/', {})
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {

@@ -60,7 +60,7 @@ describe('Redirect Operations', () => {
             let redirects = await client.redirects.list();
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                'http://my-website.com/api/management/projects/myProject/redirects?pageIndex=0&pageSize=25',
+                'http://my-website.com/api/management/projects/myProject/redirects/?pageIndex=0&pageSize=25',
                 getDefaultFetchRequest(),
             ]);
             expect(redirects).not.toBeNull();
@@ -75,7 +75,7 @@ describe('Redirect Operations', () => {
             });
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                'http://my-website.com/api/management/projects/myProject/redirects?pageIndex=1&pageSize=50',
+                'http://my-website.com/api/management/projects/myProject/redirects/?pageIndex=1&pageSize=50',
                 getDefaultFetchRequest(),
             ]);
             expect(redirects).not.toBeNull();

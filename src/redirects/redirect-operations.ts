@@ -39,7 +39,7 @@ export class RedirectOperations implements IRedirectOperations {
 
   list(options: PageOptions = null): Promise<PagedList<Redirect>> {
     let url = UrlBuilder.create(
-      '/api/management/projects/:projectId/redirects',
+      '/api/management/projects/:projectId/redirects/',
       { pageIndex: null, pageSize: null }
     )
       .addOptions(options)
@@ -58,7 +58,7 @@ export class RedirectOperations implements IRedirectOperations {
     this.ensureRedirectIsValid(redirect);
 
     let url = UrlBuilder.create(
-      '/api/management/projects/:projectId/redirects',
+      '/api/management/projects/:projectId/redirects/',
       {}
     )
       .setParams(this.contensisClient.getParams())
