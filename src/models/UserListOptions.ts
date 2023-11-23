@@ -3,4 +3,5 @@ export interface UserListOptions {
     q?: string;
     pageOptions?: PageOptions;
     order?: string[];
+    zenQL?: string;
 }

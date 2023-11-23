@@ -39,7 +39,7 @@ export class GroupOperations implements IGroupOperations {
 
     list(options?: GroupListOptions): Promise<PagedList<Group>> {
         let url = UrlBuilder.create('/api/security/groups',
-            !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
+            !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

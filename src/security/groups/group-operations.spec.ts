@@ -126,6 +126,24 @@ describe('Group Operations', () => {
             expect(groups.items.length).toEqual(2);
             expect(groups.items[1].name).toEqual(defaultGroups[1].name);
         });
+
+        it('with zenQL', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let groups = await client.security.groups.list({
+                zenQL: 'name="test"',
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/security/groups?pageIndex=0&pageSize=25&zenQL=name%3D%22test%22',
+                getDefaultFetchRequest()
+            ]);
+
+            expect(groups).not.toBeNull();
+            expect(groups.items.length).toEqual(2);
+            expect(groups.items[1].name).toEqual(defaultGroups[1].name);
+        });
     });
 
     describe('Create group', () => {

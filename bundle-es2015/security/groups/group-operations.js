@@ -32,7 +32,7 @@ export class GroupOperations {
         return this.getGroup(groupName);
     }
     list(options) {
-        let url = UrlBuilder.create('/api/security/groups', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
+        let url = UrlBuilder.create('/api/security/groups', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
