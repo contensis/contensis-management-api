@@ -36,7 +36,7 @@ export class UserOperations {
         return this.getUser(email);
     }
     list(options) {
-        let url = UrlBuilder.create('/api/security/users', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
+        let url = UrlBuilder.create('/api/security/users', !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

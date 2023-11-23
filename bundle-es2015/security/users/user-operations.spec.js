@@ -131,6 +131,20 @@ describe('User Operations', () => {
             expect(users.items.length).toEqual(2);
             expect(users.items[1].username).toEqual(defaultUsers[1].username);
         });
+        it('with zenQL', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.users.list({
+                zenQL: 'username="Geoff"'
+            });
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/security/users?pageIndex=0&pageSize=25&zenQL=username%3D%22Geoff%22',
+                getDefaultFetchRequest()
+            ]);
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+        });
     });
     describe('Create user', () => {
         beforeEach(() => {

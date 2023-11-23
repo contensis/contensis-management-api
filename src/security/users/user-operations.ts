@@ -47,7 +47,7 @@ export class UserOperations implements IUserOperations {
 
     list(options?: UserListOptions): Promise<PagedList<User>> {
         let url = UrlBuilder.create('/api/security/users',
-            !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null })
+            !options ? {} : { q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)
