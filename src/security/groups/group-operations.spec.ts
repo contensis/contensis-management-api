@@ -472,6 +472,22 @@ describe('Group Operations', () => {
             expect(users.items[1].username).toEqual(defaultUsers[1].username);
         });
 
+        it('by group id with zenQL', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id, { zenQL: 'username="Geoff"'});
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users?pageIndex=0&pageSize=25&zenQL=username%3D%22Geoff%22`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+        });
+
         it('by group id with specific options', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id, {
@@ -552,6 +568,22 @@ describe('Group Operations', () => {
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
                 `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(groups).not.toBeNull();
+            expect(groups.items.length).toEqual(2);
+            expect(groups.items[1].name).toEqual(defaultGroups[1].name);
+        });
+
+        it('by group id with zenQL', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let groups = await client.security.groups.getChildGroupsByGroupId(defaultGroups[0].id, { zenQL: 'name="Test"' });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?pageIndex=0&pageSize=25&zenQL=name%3D%22Test%22`,
                 getDefaultFetchRequest()
             ]);
 
