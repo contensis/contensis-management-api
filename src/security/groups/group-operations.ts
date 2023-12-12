@@ -301,7 +301,7 @@ export class GroupOperations implements IGroupOperations {
 
     private getUsersInGroup(idOrName: string, options?: GroupUserListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/users',
-            !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null })
+            !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -316,7 +316,7 @@ export class GroupOperations implements IGroupOperations {
 
     private getChildGroups(idOrName: string, options?: GroupChildListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/groups',
-            !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null })
+            !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
