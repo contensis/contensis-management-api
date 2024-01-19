@@ -5,6 +5,7 @@ let listMappers: { [key: string]: MapperFn } = {
     pageIndex: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value: string[]) => (value && value.length > 0) ? value : null,
+    excludedGroups: (value: string[]) => (value && value.length > 0) ? value.join(',') : null,
 };
 
 type UserActionType = 'suspend' | 'unlock' | 'unsuspend';
@@ -62,7 +63,7 @@ export class UserOperations implements IUserOperations {
 
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>> {
         let url = UrlBuilder.create('/api/security/users/:userId/groups',
-            { order: null, pageIndex: null, pageSize: null, includeInherited: null })
+            { order: null, pageIndex: null, pageSize: null, includeInherited: null, excludedGroups: null })
             .addOptions(userIdOrOptions, 'userId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

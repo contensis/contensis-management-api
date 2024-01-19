@@ -367,6 +367,40 @@ describe('Group Operations', () => {
             expect(users.items.length).toEqual(2);
             expect(users.items[1].username).toEqual(defaultUsers[1].username);
         });
+        it('by group id with an exclusion group', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id, {
+                includeInherited: true,
+                excludedGroups: ['abc'],
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['username']
+            });
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users?excludedGroups=abc&includeInherited=true&order=username&pageIndex=1&pageSize=50`,
+                getDefaultFetchRequest()
+            ]);
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+        });
+        it('by group id with many exclusion groups', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let users = await client.security.groups.getUsersByGroupId(defaultGroups[0].id, {
+                includeInherited: true,
+                excludedGroups: ['abc', 'def', 'hij'],
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['username']
+            });
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/users?excludedGroups=abc%2Cdef%2Chij&includeInherited=true&order=username&pageIndex=1&pageSize=50`,
+                getDefaultFetchRequest()
+            ]);
+            expect(users).not.toBeNull();
+            expect(users.items.length).toEqual(2);
+            expect(users.items[1].username).toEqual(defaultUsers[1].username);
+        });
         it('by group name', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
             let users = await client.security.groups.getUsersByGroupName(defaultGroups[0].name);

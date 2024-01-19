@@ -3,11 +3,13 @@ let listMappers = {
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
+    excludedGroups: (value) => (value && value.length > 0) ? value.join(',') : null,
 };
 let userListMappers = {
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
+    excludedGroups: (value) => (value && value.length > 0) ? value.join(',') : null,
 };
 export class GroupOperations {
     httpClient;
@@ -242,7 +244,7 @@ export class GroupOperations {
         });
     }
     getUsersInGroup(idOrName, options) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/users', !options ? {} : { includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -255,7 +257,7 @@ export class GroupOperations {
         });
     }
     getChildGroups(idOrName, options) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())

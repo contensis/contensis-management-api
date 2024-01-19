@@ -3,6 +3,7 @@ let listMappers = {
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
+    excludedGroups: (value) => (value && value.length > 0) ? value.join(',') : null,
 };
 export class UserOperations {
     httpClient;
@@ -48,7 +49,7 @@ export class UserOperations {
         });
     }
     getUserGroups(userIdOrOptions) {
-        let url = UrlBuilder.create('/api/security/users/:userId/groups', { order: null, pageIndex: null, pageSize: null, includeInherited: null })
+        let url = UrlBuilder.create('/api/security/users/:userId/groups', { order: null, pageIndex: null, pageSize: null, includeInherited: null, excludedGroups: null })
             .addOptions(userIdOrOptions, 'userId')
             .setParams(this.contensisClient.getParams())
             .addMappers(listMappers)

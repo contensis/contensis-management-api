@@ -532,6 +532,50 @@ describe('User Operations', () => {
             expect(groups.items.length).toEqual(2);
             expect(groups.items[1].name).toEqual(defaultGroups[1].name);
         });
+
+        it('with specific options and an exclusion group.', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let groups = await client.security.users.getUserGroups({
+                userId: defaultUsers[0].id,
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['name'],
+                includeInherited: true,
+                excludedGroups: ['abc']
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?excludedGroups=abc&includeInherited=true&order=name&pageIndex=1&pageSize=50`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(groups).not.toBeNull();
+            expect(groups.items.length).toEqual(2);
+            expect(groups.items[1].name).toEqual(defaultGroups[1].name);
+        });
+
+        it('with specific options and many exclusion groups.', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let groups = await client.security.users.getUserGroups({
+                userId: defaultUsers[0].id,
+                pageOptions: { pageIndex: 1, pageSize: 50 },
+                order: ['name'],
+                includeInherited: true,
+                excludedGroups: ['abc', 'def', 'hij']
+            });
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/groups?excludedGroups=abc%2Cdef%2Chij&includeInherited=true&order=name&pageIndex=1&pageSize=50`,
+                getDefaultFetchRequest()
+            ]);
+
+            expect(groups).not.toBeNull();
+            expect(groups.items.length).toEqual(2);
+            expect(groups.items[1].name).toEqual(defaultGroups[1].name);
+        });
     });
 
     describe('Perform user actions', () => {

@@ -5,12 +5,14 @@ let listMappers: { [key: string]: MapperFn } = {
     pageIndex: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value: string[]) => (value && value.length > 0) ? value : null,
+    excludedGroups: (value: string[]) => (value && value.length > 0) ? value.join(',') : null,
 };
 
 let userListMappers: { [key: string]: MapperFn } = {
     pageIndex: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value: string[]) => (value && value.length > 0) ? value : null,
+    excludedGroups: (value: string[]) => (value && value.length > 0) ? value.join(',') : null,
 };
 
 export class GroupOperations implements IGroupOperations {
@@ -301,7 +303,7 @@ export class GroupOperations implements IGroupOperations {
 
     private getUsersInGroup(idOrName: string, options?: GroupUserListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/users',
-            !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
+            !options ? {} : { includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
@@ -316,7 +318,7 @@ export class GroupOperations implements IGroupOperations {
 
     private getChildGroups(idOrName: string, options?: GroupChildListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/groups',
-            !options ? {} : { includeInherited: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
+            !options ? {} : { includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
