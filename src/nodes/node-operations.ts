@@ -1,5 +1,5 @@
 import {
-    ContensisClient, INodeOperations, Node, NodeGetChildrenOptions
+    ContensisClient, ICreateNode, INodeOperations, IUpdateNode, Node, NodeGetChildrenOptions
 } from '../models';
 import {
     defaultMapperForLanguage, IHttpClient, UrlBuilder
@@ -76,7 +76,7 @@ export class NodeOperations implements INodeOperations {
         });
     }
 
-    create(node: Node): Promise<Node> {
+    create(node: ICreateNode): Promise<Node> {
         if (!node) {
             throw new Error('A valid node needs to be specified.');
         }
@@ -100,7 +100,7 @@ export class NodeOperations implements INodeOperations {
         });
     }
 
-    update(node: Node): Promise<Node> {
+    update(node: IUpdateNode): Promise<Node> {
         if (!node) {
             throw new Error('A valid node needs to be specified.');
         }
