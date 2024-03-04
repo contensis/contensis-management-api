@@ -1,4 +1,6 @@
-import { ICreateNode, IUpdateNode, Node } from './Node';
+import { ICreateNode } from './ICreateNode';
+import { IUpdateNode } from './IUpdateNode';
+import { Node } from './Node';
 import { NodeGetChildrenOptions } from './NodeGetChildrenOptions';
 export interface INodeOperations {
     getRoot(): Promise<Node>;
