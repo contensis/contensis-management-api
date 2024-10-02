@@ -31,7 +31,7 @@ npm install --save contensis-management-api
 
 # Import the correct client
 
-Depending on how and where your code is used you may need to find the right Client flavour to import to create the Management Client best suited to your use case
+Depending on how and where your code is used you may need to find the right Client flavour to import that creates the Management Client best suited to your use case
 
 ## Browser app
 
