@@ -9,7 +9,7 @@
 [![Contensis](https://img.shields.io/badge/Contensis-00304d?style=for-the-badge)](https://www.contensis.com)
 [![Contensis Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://contensis.slack.com)
 
-Create a Contensis client that allows you to manage various aspects of your Contensis instance, project or content. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
+Create a Contensis client that allows you to manage various aspects of your Contensis instance, project, content or deployments. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
 
 Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a [contensis-management-api-examples](https://github.com/contensis/contensis-management-api-examples) repo containing Express and React examples.
 
