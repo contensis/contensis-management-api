@@ -11,7 +11,7 @@
 
 Create a Contensis client that allows you to manage various aspects of your Contensis instance, project, content or deployments. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
 
-Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/delivery-js) and there is a [contensis-management-api-examples](https://github.com/contensis/contensis-management-api-examples) repo containing Express and React examples.
+Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/management-js) and there is a [contensis-management-api-examples](https://github.com/contensis/contensis-management-api-examples) repo containing Express and React examples.
 
 Use with Contensis version 14.0 and above. This library requires Node.js 14 or above.
 
