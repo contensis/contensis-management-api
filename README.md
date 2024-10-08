@@ -15,7 +15,7 @@ Read our documentation on [contensis.com](https://www.contensis.com/help-and-doc
 
 Use with Contensis version 14.0 and above. This library requires Node.js 14 or above.
 
-# Installation
+## Installation
 
 Install the package to your project `dependencies` using npm, or your preferred Node.js package manager.
 
@@ -29,11 +29,11 @@ npm install --save contensis-management-api
 >
 > To get started with a new Node.js app, inside a terminal, `cd` to your chosen directory and run `npm init`
 
-# Import the correct client
+## Import the correct client
 
 Depending on how and where your code is used you may need to find the right Client flavour to import that creates the Management Client best suited to your use case
 
-## Browser app
+### Browser app
 
 The default `Client` import targets primarily a modern browser and assumes the `fetch` API is already available.
 
@@ -45,7 +45,7 @@ import { Client } from "contensis-management-api";
 const Client = require("contensis-management-api").Client;
 ```
 
-## Universal JS app
+### Universal JS app
 
 Universal JavaScript describes a JavaScript application which runs both on the client and the server.
 
@@ -59,7 +59,7 @@ import { UniversalClient } from "contensis-management-api";
 const UniversalClient = require("contensis-management-api").UniversalClient;
 ```
 
-## Node.js app
+### Node.js app
 
 For applications that run exclusively on a server, or via a terminal script you will likely want to import and use the `NodejsClient`
 
@@ -74,7 +74,7 @@ const NodejsClient =
   require("contensis-management-api/lib/client").NodejsClient;
 ```
 
-# Configure and create a client
+## Configure and create a client
 
 The `config` argument passed to the `Client.create(...)` method represents the shared configuration that will be used by all Management API calls
 
@@ -106,7 +106,7 @@ const client = UniversalClient.create(config);
 const client = NodejsClient.create(config);
 ```
 
-# Using the client
+## Using the client
 
 All of the API operations are available under the `client` instance returned by `Client.create({ ...options })`
 
@@ -145,21 +145,21 @@ function listContentTypes() {
 listContentTypes();
 ```
 
-# Fetch API
+## Fetch API
 
 This library uses the `fetch` API and relies on it being available at runtime.
 
-## Browser support
+### Browser support
 
 In modern browsers `fetch` is available natively, a polyfill is provided for older browsers.
 
-## Node.js support
+### Node.js support
 
 When using this library in Node.js the `fetch` API is already polyfilled with [`cross-fetch`](https://www.npmjs.com/package/cross-fetch) package (which uses [`node-fetch`](https://www.npmjs.com/package/node-fetch) when used with a Node.js runtime).
 
 Node.js [version 16](https://nodejs.org/docs/latest-v16.x/api/globals.html#fetch) introduced experimental support for a native global `fetch` API and shipped as standard with Node.js versions [18](https://nodejs.org/docs/latest-v18.x/api/globals.html#fetch) and [20](https://nodejs.org/docs/latest-v20.x/api/globals.html#fetch). The global `fetch` support in Node.js [version 21](https://nodejs.org/docs/latest-v21.x/api/globals.html#fetch) and greater is marked as stable.
 
-## Use your own fetch
+### Use your own fetch
 
 You can override the built-in fetch API by providing your own `fetchFn` method when creating the Client.
 
