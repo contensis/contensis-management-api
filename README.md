@@ -9,9 +9,9 @@
 [![Contensis](https://img.shields.io/badge/Contensis-00304d?style=for-the-badge&logoColor=white&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MiA2NCIgaGVpZ2h0PSIxOCIgZmlsbD0ibm9uZSI+PHBhdGggZmlsbD0iI2ZmZiIgZD0ibTQ3Ljc2MiAxOC40OTQtMy42MTItMi4wNmMuMzU4IDEuNjU1LjYzMSAzLjI5Ljc5OSA0Ljg1OS4xNDQgMS4zNTMuMzU4IDQuMzA5LjM1OCA0LjQ1djE5Ljk3NWMwIC40MjctLjUxOCAxLjMxMS0uODkyIDEuNTI2TDI2Ljg5MyA1Ny4yM2MtLjEwOS4wNjEtLjQ0OC4xNi0uODkxLjE2LS40NDUgMC0uNzg0LS4wOTktLjg5Mi0uMTZMNy41ODYgNDcuMjQ0Yy0uMzc2LS4yMTUtLjg5Mi0xLjA5OS0uODkyLTEuNTI2VjI1Ljc0NGMwLS40MjguNTE4LTEuMzEzLjg5Mi0xLjUyNWw5LjczMS01LjU0NmMxLjEzNC0xLjU0NSAyLjQzMy0zLjE4OSAzLjgyNy00Ljk1MSAxLjU0Ni0xLjk1NSAzLjE4OC00LjAzNiA0LjgzMy02LjI1OC0xLjU0Mi4wMDMtMy4wMzcuMzc0LTQuMjE2IDEuMDQ1TDQuMjM4IDE4LjQ5N0MxLjc4MyAxOS44OTUgMCAyMi45NDUgMCAyNS43NDR2MTkuOTc0YzAgMi43OTkgMS43ODMgNS44NDkgNC4yMzggNy4yNDlsMTcuNTIzIDkuOTg4YzEuMTgyLjY3NSAyLjY4OCAxLjA0NSA0LjI0IDEuMDQ1IDEuNTUgMCAzLjA1NC0uMzcgNC4yMzgtMS4wNDZsMTcuNTIzLTkuOTg3YzIuNDU2LTEuNCA0LjIzOC00LjQ1IDQuMjM4LTcuMjQ4VjI1Ljc0NGMwLTIuOC0xLjc4Mi01Ljg0OC00LjIzOC03LjI1WiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0yMS41NzEgNTIuNzEzYzUuMDk0LTcuNDM4IDcuODYyLTE4LjcwOSA5LjE4NC0yNS43NzYtMy4zNDggNi4xNi05LjIyOSAxNS42NjYtMTYuNCAyMS42NzgtLjAzOC0uMDYzLS4wNjItLjAzOSA3LjIxNiA0LjA5OFoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMzMuMjAyLjQxMUMyNS43NDUgMTMuMDIgMTUuNzIzIDIxLjcyMiAxNS4wOTEgMjcuNDljLS41OSA1LjM4OCAxLjM2IDkuODM3IDQuNTU0IDEyLjYwNGE4MS4wODYgODEuMDg2IDAgMCAwIDMuNjE0LTQuODhjLS4wNTgtMS4xMTQtLjQ4Mi05LjgxNS40NC0xMi4yNjQuNTI3IDMuNzc4IDEuNjE2IDcuMjY1IDIuMDIgOC40ODNhMTEzLjk0OCAxMTMuOTQ4IDAgMCAwIDIuNzQ2LTQuNjg1Yy0uMDgzLTIuMjEzLS4zMTMtMTAuMDA4LjQ2LTExLjc5NC4yMDUgMi41NzUgMS4xNjMgNS44NTIgMS43MzggNy42MzcuNzY0LTEuNTIzIDEuMTgzLTIuNDUgMS4xOTMtMi40NzJsMi43MDUtNi4wMTYtLjcxIDYuNTQ1Yy0uMDA0LjAzNC0uMjQyIDIuMTkzLS44MiA1LjQ3OCAxLjU4Ni0xLjI4OSA0LjEwNC0zLjQ1NyA1LjMyOC01LjE2LjEwNSAyLjA1NC00LjQ0NCA3LjU1Ni02LjE5MyA5LjU5NC0uMTgzLjg0OS0uMzgyIDEuNzMtLjYgMi42MzUtLjE1NC42NC0uMzEyIDEuMjctLjQ3MyAxLjg5IDEuNTE3LS44NDIgNC45OTItMi44NiA2LjkzMi00LjY5Ny0uMjk0IDIuMDk1LTYuNDYgNy40MTktOC4wOSA4Ljc5NGE4MC4xNjEgODAuMTYxIDAgMCAxLTEuMzM2IDMuOThjMy43NDQtLjIxMyA3LjY3Ni0yLjEgMTAuOTY4LTYuMTM2QzQ5LjQwNyAyNC45NiAzNS42NzItMy43NjUgMzMuMjAyLjQxMVoiLz48L3N2Zz4=)](https://www.contensis.com)
 [![Contensis Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)](https://contensis.slack.com)
 
-Create a Contensis client that allows you to manage various aspects of your Contensis instance, project, content or deployments. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
+Create a Contensis client that allows you to manage various aspects of your Contensis environment, content or deployments. It can be used in all your JavaScript / TypeScript projects, whether it runs in a browser, Node.js app, or both.
 
-Read our documentation on [contensis.com](https://www.contensis.com/help-and-docs/apis/management-js) and there is a [contensis-management-api-examples](https://github.com/contensis/contensis-management-api-examples) repo containing Express and React examples.
+[**Explore the docs on contensis.com**](https://www.contensis.com/help-and-docs/apis/management-js) and the [contensis-management-api-examples](https://github.com/contensis/contensis-management-api-examples) repository containing Express.js and React examples.
 
 Use with Contensis version 14.0 and above. This library requires Node.js 14 or above.
 
@@ -144,6 +144,8 @@ function listContentTypes() {
 
 listContentTypes();
 ```
+
+_For more examples refer to our [documentation on contensis.com](https://www.contensis.com/help-and-docs/apis/management-js)_
 
 ## Fetch API
 
