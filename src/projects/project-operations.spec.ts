@@ -114,7 +114,8 @@ describe('Project Operations', () => {
 				name: 'Project 2',
 				description: 'Project 2 description',
 				primaryLanguage: 'en-GB',
-				supportedLanguages: ['fr-FR', 'de-DE']
+				supportedLanguages: ['fr-FR', 'de-DE'],
+				deliverySysExclusions: [],
 			};
 			let project = await client.projects.create(newProject);
 

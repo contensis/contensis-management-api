@@ -70,6 +70,7 @@ describe('Entry Operations', () => {
 	describe('List entries', () => {
 		beforeEach(() => {
 			setDefaultSpy(global, {
+				pageCount: 1,
 				pageIndex: 0,
 				pageSize: 25,
 				totalCount: 2,
@@ -232,6 +233,7 @@ describe('Entry Operations', () => {
 	describe('Search entries', () => {
 		beforeEach(() => {
 			setDefaultSpy(global, {
+				pageCount: 1,
 				pageIndex: 0,
 				pageSize: 25,
 				totalCount: 2,
@@ -678,6 +680,7 @@ describe('Entry Operations', () => {
 	describe('Search entries in IE browser', () => {
 		beforeEach(() => {
 			setDefaultSpy(global, {
+				pageCount: 1,
 				pageIndex: 0,
 				pageSize: 25,
 				totalCount: 2,
