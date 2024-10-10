@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - groups: add child groups to a group in bulk with *addChildGroups* in group operations
 - groups: added *includeSelf* option when getting child groups of a group
 
+### Changed
+- updated project README
+
 ## [2.1.9] - 2024-03-04
 
 ### Changed
