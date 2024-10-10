@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2024-10-10
+### Added
+- groups: add child groups to a group in bulk with *addChildGroups* in group operations
+- groups: added *includeSelf* option when getting child groups of a group
+
 ## [2.1.9] - 2024-03-04
 
 ### Changed
