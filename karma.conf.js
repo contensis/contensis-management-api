@@ -39,7 +39,13 @@ module.exports = function (config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
 		autoWatchBatchDelay: 1000,
-		browsers: ['Chrome'],
+		browsers: ['ChromeDebugging'],
+        customLaunchers: {
+            ChromeDebugging: {
+                base: 'Chrome',
+                flags: [ '--remote-debugging-port=9333' ]
+            }
+        },
 		// browserDisconnectTimeout : 0,
 		// browserNoActivityTimeout : 0,
 		singleRun: true,
