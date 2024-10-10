@@ -245,6 +245,30 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
+    addChildGroups(groupId: string, childGroupIds: string[]): Promise<void> {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+
+        if (!childGroupIds || childGroupIds.length === 0) {
+            throw new Error('At least one valid child group id needs to be specified.');
+        }
+
+        let url = UrlBuilder.create('/api/security/groups/:groupId/groups',
+            {})
+            .addOptions(groupId, 'groupId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request<void>(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify(childGroupIds)
+            });
+        });
+    }
+
     removeChildGroup(groupId: string, childGroupId: string): Promise<void> {
         if (!groupId) {
             throw new Error('A valid group id needs to be specified.');

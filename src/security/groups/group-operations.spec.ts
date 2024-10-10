@@ -412,6 +412,39 @@ describe('Group Operations', () => {
 
     });
 
+    describe('Add child groups to group', () => {
+      beforeEach(() => {
+        setDefaultSpy(global, null);
+
+        Zengenti.Contensis.Client.defaultClientConfig = null;
+        Zengenti.Contensis.Client.configure({
+          fetchFn: global.fetch,
+        });
+      });
+
+      it('for valid group and child groups', async () => {
+        let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+        let result = await client.security.groups.addChildGroups(
+          defaultGroups[0].id,
+          [defaultGroups[1].id]
+        );
+
+        expect(global.fetch).toHaveBeenCalledTimes(2);
+
+        expect((global.fetch as any).calls.first().args[0]).toEqual(
+          getDefaultAuthenticateUrl()
+        );
+
+        expect((global.fetch as any).calls.mostRecent().args).toEqual([
+          `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups`,
+          getDefaultFetchRequest('POST', false, JSON.stringify([defaultGroups[1].id])),
+        ]);
+
+        expect(result).toEqual(null);
+      });
+    });
+
     describe('Remove child group from group', () => {
         beforeEach(() => {
             setDefaultSpy(global, null);
