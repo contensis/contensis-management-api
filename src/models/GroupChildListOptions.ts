@@ -1,10 +1,5 @@
-import { PageOptions } from 'contensis-core-api';
+import { GroupUserListOptions } from './GroupUserListOptions';
 
-
-export interface GroupChildListOptions {
-    includeInherited?: boolean;
-    excludedGroups?: string[];
-    pageOptions?: PageOptions;
-    order?: string[];
-    zenQL?: string;
+export interface GroupChildListOptions extends GroupUserListOptions {
+    includeSelf?: boolean;
 }

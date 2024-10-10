@@ -5,7 +5,16 @@ let listMappers: { [key: string]: MapperFn } = {
     pageIndex: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value: string[]) => (value && value.length > 0) ? value : null,
+    q: (value: string) => (!!value) ? value : null,
+    zenql: (value: string) => (!!value) ? value : null,
+};
+
+let childListMappers: { [key: string]: MapperFn } = {
+    pageIndex: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
+    pageSize: (value: number, options: GroupListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
+    order: (value: string[]) => (value && value.length > 0) ? value : null,
     excludedGroups: (value: string[]) => (value && value.length > 0) ? value.join(',') : null,
+    includeSelf: (value: boolean) => (!!value) ? value : null,
 };
 
 let userListMappers: { [key: string]: MapperFn } = {
@@ -13,6 +22,7 @@ let userListMappers: { [key: string]: MapperFn } = {
     pageSize: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value: string[]) => (value && value.length > 0) ? value : null,
     excludedGroups: (value: string[]) => (value && value.length > 0) ? value.join(',') : null,
+    includeInherited: (value: boolean) => (!!value) ? value : null,
 };
 
 export class GroupOperations implements IGroupOperations {
@@ -235,6 +245,30 @@ export class GroupOperations implements IGroupOperations {
         });
     }
 
+    addChildGroups(groupId: string, childGroupIds: string[]): Promise<void> {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+
+        if (!childGroupIds || childGroupIds.length === 0) {
+            throw new Error('At least one valid child group id needs to be specified.');
+        }
+
+        let url = UrlBuilder.create('/api/security/groups/:groupId/groups',
+            {})
+            .addOptions(groupId, 'groupId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request<void>(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify(childGroupIds)
+            });
+        });
+    }
+
     removeChildGroup(groupId: string, childGroupId: string): Promise<void> {
         if (!groupId) {
             throw new Error('A valid group id needs to be specified.');
@@ -318,11 +352,11 @@ export class GroupOperations implements IGroupOperations {
 
     private getChildGroups(idOrName: string, options?: GroupChildListOptions) {
         let url = UrlBuilder.create('/api/security/groups/:idOrName/groups',
-            !options ? {} : { includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
+            !options ? {} : { includeSelf: null, includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
-            .addMappers(listMappers)
+            .addMappers(childListMappers)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<PagedList<Group>>(url, {
