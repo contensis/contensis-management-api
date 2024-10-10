@@ -639,13 +639,14 @@ describe('Group Operations', () => {
             let groups = await client.security.groups.getChildGroupsByGroupId(defaultGroups[0].id, {
                 includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
-                order: ['name']
+                order: ['name'],
+                includeSelf: true
             });
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?includeInherited=true&includeSelf=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
@@ -675,13 +676,14 @@ describe('Group Operations', () => {
             let users = await client.security.groups.getChildGroupsByGroupName(defaultGroups[0].name, {
                 includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
-                order: ['name']
+                order: ['name'],
+                includeSelf: true
             });
 
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
 
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?includeInherited=true&includeSelf=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
 
