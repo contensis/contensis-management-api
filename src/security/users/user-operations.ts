@@ -1,5 +1,5 @@
 import { ContensisClient, IUserOperations, User, UserListOptions, Group, UserGroupsOptions, UserUpdatePasswordOptions, UserToCreate } from '../../models';
-import { ClientParams, IHttpClient, MapperFn, PagedList, UrlBuilder } from 'contensis-core-api';
+import { ClientParams, IHttpClient, isBrowser, isIE, ManagementQuery, MapperFn, PagedList, UrlBuilder } from 'contensis-core-api';
 
 let listMappers: { [key: string]: MapperFn } = {
     pageIndex: (value: number, options: UserListOptions, params: ClientParams) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
@@ -59,6 +59,14 @@ export class UserOperations implements IUserOperations {
                 headers: this.contensisClient.getHeaders()
             });
         });
+    }
+
+    search(query: ManagementQuery): Promise<PagedList<User>> {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+
+        return this.searchUsingManagementQuery(query);
     }
 
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>> {
@@ -236,6 +244,57 @@ export class UserOperations implements IUserOperations {
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request<User>(url, {
                 headers: this.contensisClient.getHeaders()
+            });
+        });
+    }
+
+    private searchUsingManagementQuery(query: ManagementQuery): Promise<PagedList<User>> {
+        let params = this.contensisClient.getParams();
+        let pageSize = query.pageSize || params.pageSize;
+        let pageIndex = query.pageIndex || 0;
+
+        let orderBy = (query.orderBy && ((query.orderBy as any)._items || query.orderBy));
+
+        let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+
+        let payload = {
+            ...requestParams,
+            pageSize,
+            pageIndex,
+            where: JSON.stringify(query.where),
+        };
+
+        if (query.orderBy && (!Array.isArray(query.orderBy) || (query.orderBy as any).length > 0)) {
+            payload['orderBy'] = JSON.stringify(orderBy);
+        }
+
+        let url = UrlBuilder.create('/api/security/users/search', { ...payload })
+            .setParams(payload as any)
+            .toUrl();
+
+        let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
+        if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
+            return this.searchUsingPost(query);
+        }
+
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request<PagedList<User>>(url, {
+                method: 'GET',
+                headers: this.contensisClient.getHeaders(),
+            });
+        });
+    }
+
+    private searchUsingPost(query: any): Promise<PagedList<User>> {
+        let url = UrlBuilder.create('/api/security/users/search')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request<PagedList<User>>(url, {
+                method: 'POST',
+                headers: this.contensisClient.getHeaders(),
+                body: JSON.stringify(query)
             });
         });
     }

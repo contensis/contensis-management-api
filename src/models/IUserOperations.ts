@@ -1,5 +1,5 @@
 import { User, UserToCreate } from './User';
-import { PagedList } from 'contensis-core-api';
+import { ManagementQuery, PagedList } from 'contensis-core-api';
 import { UserListOptions } from './UserListOptions';
 import { Group } from './Group';
 import { UserGroupsOptions } from './UserGroupsOptions';
@@ -11,6 +11,7 @@ export interface IUserOperations {
     getByUsername(username: string): Promise<User>;
     getByEmail(email: string): Promise<User>;
     list(options?: UserListOptions): Promise<PagedList<User>>;
+    search(query: ManagementQuery): Promise<PagedList<User>>;
     getUserGroups(userIdOrOptions: string | UserGroupsOptions): Promise<PagedList<Group>>;
     create(user: UserToCreate, suspended?: boolean): Promise<User>;
     update(user: User): Promise<User>;
