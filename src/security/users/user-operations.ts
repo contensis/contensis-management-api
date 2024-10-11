@@ -8,7 +8,7 @@ let listMappers: { [key: string]: MapperFn } = {
     excludedGroups: (value: string[]) => (value && value.length > 0) ? value.join(',') : null,
 };
 
-type UserActionType = 'suspend' | 'unlock' | 'unsuspend';
+type UserActionType = 'suspend' | 'unlock' | 'unsuspend' | 'setPasswordToExpirable';
 
 export class UserOperations implements IUserOperations {
 
@@ -189,6 +189,10 @@ export class UserOperations implements IUserOperations {
                 method: 'HEAD'
             }).then(() => true, () => false);
         });
+    }
+
+    setPasswordToExpirable(userId: string): Promise<void> {
+        return this.performUserAction(userId, 'setPasswordToExpirable');
     }
 
     suspendUser(userId: string): Promise<void> {

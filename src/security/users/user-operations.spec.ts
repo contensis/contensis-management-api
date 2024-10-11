@@ -588,6 +588,23 @@ describe('User Operations', () => {
             });
         });
 
+        it('setPasswordToExpirable', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            let result = await client.security.users.setPasswordToExpirable(defaultUsers[0].id);
+
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/users/${defaultUsers[0].id}/actions`,
+                getDefaultFetchRequest('POST', false, JSON.stringify({ type: 'setPasswordToExpirable' }))
+            ]);
+
+            expect(result).toEqual(null);
+        });
+
         it('suspend', async () => {
             let client = Zengenti.Contensis.Client.create(getDefaultConfig());
 
