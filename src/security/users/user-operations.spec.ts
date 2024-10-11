@@ -367,7 +367,7 @@ describe('User Operations', () => {
             });
 
             let url = `http://my-website.com/api/security/users/search${expectedQueryString}`;
-            console.log(url)
+
             expect(url.length).toEqual(2083);
             expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect((global.fetch as any).calls.mostRecent().args).toEqual([
