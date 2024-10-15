@@ -15,6 +15,7 @@ export interface IGroupOperations {
     removeUser(groupId: string, userId: string): Promise<void>;
     hasUser(groupId: string, userId: string): Promise<boolean>;
     addChildGroup(groupId: string, childGroupId: string): Promise<void>;
+    addChildGroups(groupId: string, childGroupIds: string[]): Promise<void>;
     removeChildGroup(groupId: string, childGroupId: string): Promise<void>;
     getUsersByGroupId(groupId: string, options?: GroupUserListOptions): Promise<PagedList<User>>;
     getUsersByGroupName(groupName: string, options?: GroupUserListOptions): Promise<PagedList<User>>;

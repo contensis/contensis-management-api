@@ -1,4 +1,4 @@
-import { UrlBuilder } from 'contensis-core-api';
+import { isBrowser, isIE, UrlBuilder } from 'contensis-core-api';
 let listMappers = {
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
@@ -47,6 +47,12 @@ export class UserOperations {
                 headers: this.contensisClient.getHeaders()
             });
         });
+    }
+    search(query) {
+        if (!query) {
+            return new Promise((resolve) => { resolve(null); });
+        }
+        return this.searchUsingManagementQuery(query);
     }
     getUserGroups(userIdOrOptions) {
         let url = UrlBuilder.create('/api/security/users/:userId/groups', { order: null, pageIndex: null, pageSize: null, includeInherited: null, excludedGroups: null })
@@ -152,6 +158,9 @@ export class UserOperations {
             }).then(() => true, () => false);
         });
     }
+    setPasswordToExpirable(userId) {
+        return this.performUserAction(userId, 'setPasswordToExpirable');
+    }
     suspendUser(userId) {
         return this.performUserAction(userId, 'suspend');
     }
@@ -186,6 +195,47 @@ export class UserOperations {
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
                 headers: this.contensisClient.getHeaders()
+            });
+        });
+    }
+    searchUsingManagementQuery(query) {
+        let params = this.contensisClient.getParams();
+        let pageSize = query.pageSize || params.pageSize;
+        let pageIndex = query.pageIndex || 0;
+        let orderBy = (query.orderBy && (query.orderBy._items || query.orderBy));
+        let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
+        let payload = {
+            ...requestParams,
+            pageSize,
+            pageIndex,
+            where: JSON.stringify(query.where),
+        };
+        if (query.orderBy && (!Array.isArray(query.orderBy) || query.orderBy.length > 0)) {
+            payload['orderBy'] = JSON.stringify(orderBy);
+        }
+        let url = UrlBuilder.create('/api/security/users/search', { ...payload })
+            .setParams(payload)
+            .toUrl();
+        let absoluteUrl = (!params.rootUrl || params.rootUrl === '/') ? url : params.rootUrl + url;
+        if (isBrowser() && isIE() && absoluteUrl.length > 2083) {
+            return this.searchUsingPost(query);
+        }
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                method: 'GET',
+                headers: this.contensisClient.getHeaders(),
+            });
+        });
+    }
+    searchUsingPost(query) {
+        let url = UrlBuilder.create('/api/security/users/search')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                method: 'POST',
+                headers: this.contensisClient.getHeaders(),
+                body: JSON.stringify(query)
             });
         });
     }

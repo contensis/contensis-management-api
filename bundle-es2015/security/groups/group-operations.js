@@ -3,13 +3,22 @@ let listMappers = {
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
+    q: (value) => (!!value) ? value : null,
+    zenql: (value) => (!!value) ? value : null,
+};
+let childListMappers = {
+    pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
+    pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
+    order: (value) => (value && value.length > 0) ? value : null,
     excludedGroups: (value) => (value && value.length > 0) ? value.join(',') : null,
+    includeSelf: (value) => (!!value) ? value : null,
 };
 let userListMappers = {
     pageIndex: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageIndex) || (params.pageIndex),
     pageSize: (value, options, params) => (options && options.pageOptions && options.pageOptions.pageSize) || (params.pageSize),
     order: (value) => (value && value.length > 0) ? value : null,
     excludedGroups: (value) => (value && value.length > 0) ? value.join(',') : null,
+    includeInherited: (value) => (!!value) ? value : null,
 };
 export class GroupOperations {
     httpClient;
@@ -189,6 +198,25 @@ export class GroupOperations {
             });
         });
     }
+    addChildGroups(groupId, childGroupIds) {
+        if (!groupId) {
+            throw new Error('A valid group id needs to be specified.');
+        }
+        if (!childGroupIds || childGroupIds.length === 0) {
+            throw new Error('At least one valid child group id needs to be specified.');
+        }
+        let url = UrlBuilder.create('/api/security/groups/:groupId/groups', {})
+            .addOptions(groupId, 'groupId')
+            .setParams(this.contensisClient.getParams())
+            .toUrl();
+        return this.contensisClient.ensureBearerToken().then(() => {
+            return this.httpClient.request(url, {
+                headers: this.contensisClient.getHeaders(),
+                method: 'POST',
+                body: JSON.stringify(childGroupIds)
+            });
+        });
+    }
     removeChildGroup(groupId, childGroupId) {
         if (!groupId) {
             throw new Error('A valid group id needs to be specified.');
@@ -257,11 +285,11 @@ export class GroupOperations {
         });
     }
     getChildGroups(idOrName, options) {
-        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
+        let url = UrlBuilder.create('/api/security/groups/:idOrName/groups', !options ? {} : { includeSelf: null, includeInherited: null, excludedGroups: null, q: null, pageIndex: null, pageSize: null, order: null, zenQL: null })
             .addOptions(idOrName, 'idOrName')
             .addOptions(options)
             .setParams(this.contensisClient.getParams())
-            .addMappers(listMappers)
+            .addMappers(childListMappers)
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
             return this.httpClient.request(url, {
