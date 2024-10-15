@@ -294,6 +294,26 @@ describe('Group Operations', () => {
             expect(result).toEqual(null);
         });
     });
+    describe('Add child groups to group', () => {
+        beforeEach(() => {
+            setDefaultSpy(global, null);
+            Zengenti.Contensis.Client.defaultClientConfig = null;
+            Zengenti.Contensis.Client.configure({
+                fetchFn: global.fetch,
+            });
+        });
+        it('for valid group and child groups', async () => {
+            let client = Zengenti.Contensis.Client.create(getDefaultConfig());
+            let result = await client.security.groups.addChildGroups(defaultGroups[0].id, [defaultGroups[1].id]);
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+            expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+            expect(global.fetch.calls.mostRecent().args).toEqual([
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups`,
+                getDefaultFetchRequest('POST', false, JSON.stringify([defaultGroups[1].id])),
+            ]);
+            expect(result).toEqual(null);
+        });
+    });
     describe('Remove child group from group', () => {
         beforeEach(() => {
             setDefaultSpy(global, null);
@@ -472,11 +492,12 @@ describe('Group Operations', () => {
             let groups = await client.security.groups.getChildGroupsByGroupId(defaultGroups[0].id, {
                 includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
-                order: ['name']
+                order: ['name'],
+                includeSelf: true
             });
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].id}/groups?includeInherited=true&includeSelf=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
             expect(groups).not.toBeNull();
@@ -500,11 +521,12 @@ describe('Group Operations', () => {
             let users = await client.security.groups.getChildGroupsByGroupName(defaultGroups[0].name, {
                 includeInherited: true,
                 pageOptions: { pageIndex: 1, pageSize: 50 },
-                order: ['name']
+                order: ['name'],
+                includeSelf: true
             });
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
             expect(global.fetch.calls.mostRecent().args).toEqual([
-                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?includeInherited=true&order=name&pageIndex=1&pageSize=50`,
+                `http://my-website.com/api/security/groups/${defaultGroups[0].name}/groups?includeInherited=true&includeSelf=true&order=name&pageIndex=1&pageSize=50`,
                 getDefaultFetchRequest()
             ]);
             expect(users).not.toBeNull();
