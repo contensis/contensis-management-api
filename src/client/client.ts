@@ -51,14 +51,6 @@ export class Client implements ContensisClient {
 
 	private contensisClassicToken: string;
 
-	static create(config: Config = null, fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null): Client {
-		return new Client(config, fetchFn);
-	}
-
-	static configure(config: Config) {
-		Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
-	}
-
 	constructor(config: Config = null, protected fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null) {
 		if (!this.fetchFn && !!window) {
 			this.fetchFn = window.fetch.bind(window);
@@ -82,6 +74,14 @@ export class Client implements ContensisClient {
 		this.redirects = new RedirectOperations(this.httpClient, this);
 		this.roles = new RoleOperations(this.httpClient, this);
 		this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
+	}
+
+	static create(config: Config = null, fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null): Client {
+		return new Client(config, fetchFn);
+	}
+
+	static configure(config: Config) {
+		Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
 	}
 
 	public getParams(): ClientParams {
