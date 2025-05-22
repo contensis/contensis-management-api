@@ -2,8 +2,8 @@ import {
 	Entry, EntryGetOptions, EntryListOptions, EntryUsageInfo, EntryUsageOptions, IEntryOperations, ContensisClient, WorkflowTrigger
 } from '../models';
 import {
-	AssetUpload, ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, SysAssetFile, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery
+	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
+	IHttpClient, MapperFn, PagedList, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery
 } from 'contensis-core-api';
 
 const defaultListUrl = '/api/management/projects/:projectId/entries';
@@ -274,10 +274,6 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	private searchUsingManagementQuery(query: ManagementQuery): Promise<PagedList<Entry>> {
-		if (!query) {
-			return new Promise((resolve) => { resolve(null); });
-		}
-
 		let managementQuery = query as ManagementQuery;
 		let params = this.contensisClient.getParams();
 		let pageSize = query.pageSize || params.pageSize;
@@ -321,10 +317,6 @@ export class EntryOperations implements IEntryOperations {
 	}
 
 	private searchUsingPost(query: any): Promise<PagedList<Entry>> {
-		if (!query) {
-			return new Promise((resolve) => { resolve(null); });
-		}
-
 		let params = this.contensisClient.getParams();
 		query.pageSize = query.pageSize || params.pageSize;
 		query.pageIndex = query.pageIndex || 0;
