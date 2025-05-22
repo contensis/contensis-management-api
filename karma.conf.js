@@ -10,7 +10,7 @@ module.exports = function (config) {
 
 		basePath: '',
 
-		frameworks: ['jasmine'],
+		frameworks: ['webpack', 'jasmine'],
 
 		files: [{
 			pattern: './testing/karma-test-shim.js',
