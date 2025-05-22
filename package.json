@@ -32,7 +32,7 @@
     "@types/graceful-fs": "^4.1.9",
     "@types/jasmine": "^5.1.8",
     "@types/node": "^20.17.50",
-    "istanbul-instrumenter-loader": "^3.0.1",
+    "coverage-istanbul-loader": "^3.0.5",
     "jasmine-ajax": "^4.0.0",
     "jasmine-core": "^5.7.1",
     "karma": "^6.4.4",

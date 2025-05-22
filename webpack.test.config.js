@@ -26,7 +26,7 @@ module.exports = {
         test: /\.tsx?$/,
         enforce: "post",
         use: {
-          loader: "istanbul-instrumenter-loader",
+          loader: "@jsdevtools/coverage-istanbul-loader",
           options: { esModules: true },
         },
         include: path.resolve(__dirname, "./src"),
