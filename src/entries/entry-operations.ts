@@ -3,7 +3,7 @@ import {
 } from '../models';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery
+	IHttpClient, MapperFn, PagedList, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery, PagedSearchList, ContensisQueryAggregations
 } from 'contensis-core-api';
 
 const defaultListUrl = '/api/management/projects/:projectId/entries';
@@ -68,9 +68,9 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	search(query: string | ManagementQuery | ManagementZenqlQuery): Promise<PagedList<Entry>> {
+	search<Q extends string | ManagementQuery | ManagementZenqlQuery>(query: Q) {
 		if (!query) {
-			return new Promise((resolve) => { resolve(null); });
+			return new Promise((resolve) => { resolve(null); }) as Promise<PagedList<Entry> | PagedSearchList<Entry>>;;
 		}
 
 		let managementQuery = query instanceof ManagementQuery ? query as ManagementQuery : null;
@@ -97,11 +97,14 @@ export class EntryOperations implements IEntryOperations {
 
 		let includeArchived = zenqlQuery.includeArchived ? true : null;
 		let includeDeleted = zenqlQuery.includeDeleted ? true : null;
+		let aggregations = Object.keys(zenqlQuery.aggregations || {}).length ? JSON.stringify(zenqlQuery.aggregations) : null;
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
 			...requestParams,
+			aggregations,
 			includeArchived,
 			includeDeleted,
 			pageSize,
@@ -114,7 +117,7 @@ export class EntryOperations implements IEntryOperations {
 			.toUrl();
 
 		return this.contensisClient.ensureBearerToken().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'GET',
 				headers: this.contensisClient.getHeaders(),
 			});
@@ -273,7 +276,7 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	private searchUsingManagementQuery(query: ManagementQuery): Promise<PagedList<Entry>> {
+	private searchUsingManagementQuery(query: ManagementQuery): Promise<PagedSearchList<Entry>> {
 		let managementQuery = query as ManagementQuery;
 		let params = this.contensisClient.getParams();
 		let pageSize = query.pageSize || params.pageSize;
@@ -283,11 +286,14 @@ export class EntryOperations implements IEntryOperations {
 
 		let includeArchived = managementQuery.includeArchived ? true : null;
 		let includeDeleted = managementQuery.includeDeleted ? true : null;
+		let aggregations = Object.keys(managementQuery.aggregations || {}).length ? JSON.stringify(managementQuery.aggregations) : null;
 
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
 
 		let payload = {
 			...requestParams,
+			aggregations,
 			includeArchived,
 			includeDeleted,
 			pageSize,
@@ -309,7 +315,7 @@ export class EntryOperations implements IEntryOperations {
 		}
 
 		return this.contensisClient.ensureBearerToken().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'GET',
 				headers: this.contensisClient.getHeaders(),
 			});
@@ -326,7 +332,7 @@ export class EntryOperations implements IEntryOperations {
 			.toUrl();
 
 		return this.contensisClient.ensureBearerToken().then(() => {
-			return this.httpClient.request<PagedList<Entry>>(url, {
+			return this.httpClient.request<PagedSearchList<Entry>>(url, {
 				method: 'POST',
 				headers: this.contensisClient.getHeaders(),
 				body: JSON.stringify(query)
