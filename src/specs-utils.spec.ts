@@ -45,7 +45,7 @@ export function getDefaultConfig(): Config {
     };
 }
 
-export function getDefaultFetchRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): Object {
+export function getDefaultFetchRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', isRelativeUrl?: boolean, body?: string): object {
     let request = Object({
         method: !method ? 'GET' : method,
         mode: 'cors',
@@ -67,7 +67,7 @@ export function getDefaultFetchRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH'
     return request;
 }
 
-export function getDefaultXMLHttpRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', body?: string): Object {
+export function getDefaultXMLHttpRequest(method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'HEAD' | 'DELETE', body?: string): object {
     let request = Object({
         method: !method ? 'GET' : method,
         requestHeaders: {
