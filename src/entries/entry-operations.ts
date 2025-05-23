@@ -3,7 +3,7 @@ import {
 } from '../models';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
-	IHttpClient, MapperFn, PagedList, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery, PagedSearchList, ContensisQueryAggregations
+	IHttpClient, MapperFn, PagedList, UrlBuilder, isString, isBrowser, isIE, ManagementQuery, ManagementZenqlQuery, PagedSearchList
 } from 'contensis-core-api';
 
 const defaultListUrl = '/api/management/projects/:projectId/entries';
