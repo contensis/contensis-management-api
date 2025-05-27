@@ -1,4 +1,4 @@
-export declare type GroupType = 'sys' | 'contensis' | 'external';
+export type GroupType = 'sys' | 'contensis' | 'external';
 export interface Group {
     id: string;
     name: string;
@@ -10,4 +10,4 @@ export interface Group {
     created: Date;
     modified: Date;
 }
-export declare type GroupToCreate = Omit<Group, 'id'> & Partial<Pick<Group, 'id'>>;
+export type GroupToCreate = Omit<Group, 'id'> & Partial<Pick<Group, 'id'>>;

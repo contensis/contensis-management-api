@@ -2,7 +2,7 @@
  * Copyright (C) 2016 Maxime Petazzoni <maxime.petazzoni@bulix.org>.
  * All rights reserved.
  */
-/* tslint:disable */
+/* eslint-disable */
 var SSE = function (url, options) {
     if (!(this instanceof SSE)) {
         return new SSE(url, options);

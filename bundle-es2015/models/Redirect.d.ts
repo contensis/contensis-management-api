@@ -16,5 +16,5 @@ export interface Redirect {
         modifiedBy: string;
     };
 }
-export declare type RedirectToCreate = Omit<Redirect, 'id'> & Partial<Pick<Redirect, 'id'>>;
+export type RedirectToCreate = Omit<Redirect, 'id'> & Partial<Pick<Redirect, 'id'>>;
 export {};

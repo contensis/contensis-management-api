@@ -28,9 +28,9 @@ export declare class Client implements ContensisClient {
     refreshTokenExpiryDate?: Date;
     protected httpClient: IHttpClient;
     private contensisClassicToken;
+    constructor(config?: Config, fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>);
     static create(config?: Config, fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>): Client;
     static configure(config: Config): void;
-    constructor(config?: Config, fetchFn?: (input: RequestInfo, init?: RequestInit) => Promise<Response>);
     getParams(): ClientParams;
     getHeaders(contentType?: string): {
         [key: string]: string;
