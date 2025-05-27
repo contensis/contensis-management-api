@@ -1,1 +1,1 @@
-export declare type ResourceType = 'entries' | 'assets';
+export type ResourceType = 'entries' | 'assets';

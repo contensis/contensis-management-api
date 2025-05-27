@@ -1,6 +1,6 @@
 import { VersionInfo } from 'contensis-core-api';
-declare type Proxy = any | null;
-declare type Renderer = any | null;
+type Proxy = any | null;
+type Renderer = any | null;
 /**
  * A Node as it is returned from the Management API
  */

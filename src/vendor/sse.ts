@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-/* tslint:disable */
+/* eslint-disable */
 
 var SSE = function (url: any, options: any): void {
     if (!(this instanceof SSE)) {

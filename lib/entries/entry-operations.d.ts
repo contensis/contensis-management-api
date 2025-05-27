@@ -1,12 +1,12 @@
 import { Entry, EntryGetOptions, EntryListOptions, EntryUsageInfo, EntryUsageOptions, IEntryOperations, ContensisClient, WorkflowTrigger } from '../models';
-import { IHttpClient, PagedList, ManagementQuery, ManagementZenqlQuery } from 'contensis-core-api';
+import { IHttpClient, PagedList, ManagementQuery, ManagementZenqlQuery, PagedSearchList } from 'contensis-core-api';
 export declare class EntryOperations implements IEntryOperations {
     protected httpClient: IHttpClient;
     protected contensisClient: ContensisClient;
     constructor(httpClient: IHttpClient, contensisClient: ContensisClient);
     get(idOrOptions: string | EntryGetOptions): Promise<Entry>;
     list(contentTypeIdOrOptions?: string | EntryListOptions): Promise<PagedList<Entry>>;
-    search(query: string | ManagementQuery | ManagementZenqlQuery): Promise<PagedList<Entry>>;
+    search<Q extends string | ManagementQuery | ManagementZenqlQuery>(query: Q): Promise<PagedList<Entry> | PagedSearchList<Entry>>;
     create(entry: Entry): Promise<Entry>;
     update(entry: Entry): Promise<Entry>;
     getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>>;

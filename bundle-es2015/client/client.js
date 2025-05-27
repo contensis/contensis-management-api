@@ -39,12 +39,6 @@ export class Client {
     refreshTokenExpiryDate;
     httpClient;
     contensisClassicToken;
-    static create(config = null, fetchFn = null) {
-        return new Client(config, fetchFn);
-    }
-    static configure(config) {
-        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
-    }
     constructor(config = null, fetchFn = null) {
         this.fetchFn = fetchFn;
         if (!this.fetchFn && !!window) {
@@ -65,6 +59,12 @@ export class Client {
         this.redirects = new RedirectOperations(this.httpClient, this);
         this.roles = new RoleOperations(this.httpClient, this);
         this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
+    }
+    static create(config = null, fetchFn = null) {
+        return new Client(config, fetchFn);
+    }
+    static configure(config) {
+        Client.defaultClientConfig = new ClientConfig(config, Client.defaultClientConfig);
     }
     getParams() {
         return this.clientConfig.toParams();

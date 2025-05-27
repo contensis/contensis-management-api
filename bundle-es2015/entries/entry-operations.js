@@ -56,6 +56,7 @@ export class EntryOperations {
     search(query) {
         if (!query) {
             return new Promise((resolve) => { resolve(null); });
+            ;
         }
         let managementQuery = query instanceof ManagementQuery ? query : null;
         // use duck-typing for backwards compatibility pre v2.0.7
@@ -78,9 +79,12 @@ export class EntryOperations {
         pageIndex = zenqlQuery.pageIndex || pageIndex;
         let includeArchived = zenqlQuery.includeArchived ? true : null;
         let includeDeleted = zenqlQuery.includeDeleted ? true : null;
+        let aggregations = Object.keys(zenqlQuery.aggregations || {}).length ? JSON.stringify(zenqlQuery.aggregations) : null;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            aggregations,
             includeArchived,
             includeDeleted,
             pageSize,
@@ -219,9 +223,6 @@ export class EntryOperations {
         });
     }
     searchUsingManagementQuery(query) {
-        if (!query) {
-            return new Promise((resolve) => { resolve(null); });
-        }
         let managementQuery = query;
         let params = this.contensisClient.getParams();
         let pageSize = query.pageSize || params.pageSize;
@@ -229,9 +230,12 @@ export class EntryOperations {
         let orderBy = (managementQuery.orderBy && (managementQuery.orderBy._items || managementQuery.orderBy));
         let includeArchived = managementQuery.includeArchived ? true : null;
         let includeDeleted = managementQuery.includeDeleted ? true : null;
+        let aggregations = Object.keys(managementQuery.aggregations || {}).length ? JSON.stringify(managementQuery.aggregations) : null;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let { clientType, clientDetails, projectId, language, responseHandler, rootUrl, versionStatus, ...requestParams } = params;
         let payload = {
             ...requestParams,
+            aggregations,
             includeArchived,
             includeDeleted,
             pageSize,
@@ -256,9 +260,6 @@ export class EntryOperations {
         });
     }
     searchUsingPost(query) {
-        if (!query) {
-            return new Promise((resolve) => { resolve(null); });
-        }
         let params = this.contensisClient.getParams();
         query.pageSize = query.pageSize || params.pageSize;
         query.pageIndex = query.pageIndex || 0;
