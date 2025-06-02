@@ -1,6 +1,7 @@
 import {
 	Config, ContensisClient, IContentTypeOperations,
-	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations, ISecurityOperations, IEventOperations, IRedirectOperations
+	IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, IGroupOperations, IUserOperations, ISecurityOperations, IEventOperations, IRedirectOperations,
+	ITagOperations
 } from '../models';
 import { EntryOperations } from '../entries/entry-operations';
 import { ContentTypeOperations } from '../content-types/content-type-operations';
@@ -15,6 +16,7 @@ import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
 import { EventOperations } from '../events/event-operations';
+import { TagOperations } from '../tags/tag-operations';
 
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 
@@ -41,6 +43,7 @@ export class Client implements ContensisClient {
 	redirects: IRedirectOperations;
 	roles: IRoleOperations;
 	security: ISecurityOperations;
+	tags: ITagOperations;
 
 	bearerToken: string;
 	bearerTokenExpiryDate: Date;
@@ -74,6 +77,7 @@ export class Client implements ContensisClient {
 		this.redirects = new RedirectOperations(this.httpClient, this);
 		this.roles = new RoleOperations(this.httpClient, this);
 		this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
+		this.tags = new TagOperations(this.httpClient, this);
 	}
 
 	static create(config: Config = null, fetchFn: (input: RequestInfo, init?: RequestInit) => Promise<Response> = null): Client {
