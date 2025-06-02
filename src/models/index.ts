@@ -43,6 +43,7 @@ export * from './NodeGetChildrenOptions';
 export * from './NodeGetParentOptions';
 export * from './NodeIdOptions';
 export * from './NodePermission';
+export * from './PagedUsageList';
 export * from './Permission';
 export * from './PermissionGetOptions';
 export * from './Permissions';

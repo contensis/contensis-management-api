@@ -16,7 +16,7 @@ export default tseslint.config(
   {
     rules: {
       "no-extra-boolean-cast": "warn",
-      "prefer-const": "off",
+      "prefer-const": "warn",
       "@typescript-eslint/ban-ts-comment": "warn",
       "@typescript-eslint/no-empty-object-type": "warn",
       "@typescript-eslint/no-explicit-any": "off",
