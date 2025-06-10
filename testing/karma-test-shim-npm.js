@@ -11,3 +11,5 @@ require('../lib/redirects/redirect-operations.spec');
 require('../lib/roles/role-operations.spec');
 require('../lib/security/groups/group-operations.spec');
 require('../lib/security/users/user-operations.spec');
+require('../src/tags/tag-operations.spec');
+require('../src/tags/tag-group-operations.spec');

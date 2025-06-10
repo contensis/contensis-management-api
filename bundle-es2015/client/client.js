@@ -11,6 +11,7 @@ import { ComponentOperations } from '../components/component-operations';
 import { GroupOperations, UserOperations, SecurityOperations } from '../security';
 import * as Scopes from './scopes';
 import { EventOperations } from '../events/event-operations';
+import { TagOperations } from '../tags/tag-operations';
 const ContensisClassicTokenKey = 'x-contensis-classic-token';
 /**
  * The core client class is designed to be used in modern browsers with minimal dpendencies, optimised for bundling.
@@ -33,6 +34,7 @@ export class Client {
     redirects;
     roles;
     security;
+    tags;
     bearerToken;
     bearerTokenExpiryDate;
     refreshToken;
@@ -59,6 +61,7 @@ export class Client {
         this.redirects = new RedirectOperations(this.httpClient, this);
         this.roles = new RoleOperations(this.httpClient, this);
         this.security = new SecurityOperations(new UserOperations(this.httpClient, this), new GroupOperations(this.httpClient, this));
+        this.tags = new TagOperations(this.httpClient, this);
     }
     static create(config = null, fetchFn = null) {
         return new Client(config, fetchFn);

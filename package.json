@@ -1,6 +1,6 @@
 {
   "name": "contensis-management-api",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Client for managing content using the Contensis Management API",
   "engines": {
     "node": ">=14"
@@ -52,7 +52,7 @@
     "webpack": "^5.99.9"
   },
   "dependencies": {
-    "contensis-core-api": "^1.2.0",
+    "contensis-core-api": "^1.2.1",
     "cross-fetch": "^3.2.0",
     "es6-promise": "^4.2.8",
     "form-data": "^4.0.2",

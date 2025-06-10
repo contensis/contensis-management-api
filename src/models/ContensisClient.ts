@@ -1,15 +1,13 @@
-import { IEntryOperations } from './IEntryOperations';
-import { IContentTypeOperations } from './IContentTypeOperations';
-
 import { IParamsProvider } from 'contensis-core-api';
-import { INodeOperations } from './INodeOperations';
-import { IRoleOperations } from './IRoleOperations';
-import { IProjectOperations } from './IProjectOperations';
-import { IPermissionOperations } from './IPermissionOperations';
 import { IComponentOperations } from './IComponentOperations';
-import { IGroupOperations } from './IGroupOperations';
-import { IUserOperations } from './IUserOperations';
+import { IContentTypeOperations } from './IContentTypeOperations';
+import { IEntryOperations } from './IEntryOperations';
+import { INodeOperations } from './INodeOperations';
+import { IPermissionOperations } from './IPermissionOperations';
+import { IProjectOperations } from './IProjectOperations';
+import { IRoleOperations } from './IRoleOperations';
 import { ISecurityOperations } from './ISecurityOperations';
+import { ITagOperations } from './ITagOperations';
 
 export interface ContensisClient extends IParamsProvider {
 
@@ -21,6 +19,7 @@ export interface ContensisClient extends IParamsProvider {
 	projects: IProjectOperations;
 	roles: IRoleOperations;
 	security: ISecurityOperations;
+	tags: ITagOperations;
 
 	getHeaders: (contentType?: string) => { [key: string]: string };
 	ensureBearerToken: () => Promise<string>;

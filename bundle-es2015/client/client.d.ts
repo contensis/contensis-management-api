@@ -1,4 +1,4 @@
-import { Config, ContensisClient, IContentTypeOperations, IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, ISecurityOperations, IEventOperations, IRedirectOperations } from '../models';
+import { Config, ContensisClient, IContentTypeOperations, IEntryOperations, INodeOperations, IProjectOperations, IRoleOperations, IPermissionOperations, IComponentOperations, ISecurityOperations, IEventOperations, IRedirectOperations, ITagOperations } from '../models';
 import { ClientConfig } from './client-config';
 import { ClientParams, IHttpClient } from 'contensis-core-api';
 /**
@@ -22,6 +22,7 @@ export declare class Client implements ContensisClient {
     redirects: IRedirectOperations;
     roles: IRoleOperations;
     security: ISecurityOperations;
+    tags: ITagOperations;
     bearerToken: string;
     bearerTokenExpiryDate: Date;
     refreshToken?: string;

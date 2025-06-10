@@ -1,5 +1,6 @@
 import {
-	Entry, EntryGetOptions, EntryListOptions, EntryUsageInfo, EntryUsageOptions, IEntryOperations, ContensisClient, WorkflowTrigger
+	Entry, EntryGetOptions, EntryListOptions, EntryUsageInfo, EntryUsageOptions, IEntryOperations, ContensisClient, WorkflowTrigger,
+	PagedUsageList
 } from '../models';
 import {
 	ClientParams, defaultMapperForLanguage, defaultMapperForLatestVersionStatus,
@@ -170,7 +171,7 @@ export class EntryOperations implements IEntryOperations {
 		});
 	}
 
-	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>> {
+	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedUsageList<EntryUsageInfo>> {
 		let url = UrlBuilder.create('/api/management/projects/:projectId/entries/:id/usage',
 			{ language: null, versionStatus: null, version: null, pageIndex: null, pageSize: null })
 			.addOptions(idOrOptions, 'id')
@@ -179,7 +180,7 @@ export class EntryOperations implements IEntryOperations {
 			.toUrl();
 
 		return this.contensisClient.ensureBearerToken().then(() => {
-			return this.httpClient.request<PagedList<EntryUsageInfo>>(url, {
+			return this.httpClient.request<PagedUsageList<EntryUsageInfo>>(url, {
 				headers: this.contensisClient.getHeaders()
 			});
 		});

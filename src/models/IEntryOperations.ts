@@ -4,6 +4,7 @@ import { EntryGetOptions } from './EntryGetOptions';
 import { EntryListOptions } from './EntryListOptions';
 import { EntryUsageInfo } from './EntryUsageInfo';
 import { EntryUsageOptions } from './EntryUsageOptions';
+import { PagedUsageList } from './PagedUsageList';
 import { WorkflowTrigger } from './WorkflowTrigger';
 
 export interface IEntryOperations {
@@ -13,7 +14,7 @@ export interface IEntryOperations {
 	search(query: ManagementQuery | ManagementZenqlQuery): Promise<PagedSearchList<Entry>>;
 	create(entry: Entry): Promise<Entry>;
 	update(entry: Entry): Promise<Entry>;
-	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedList<EntryUsageInfo>>;
+	getUsage(idOrOptions: string | EntryUsageOptions): Promise<PagedUsageList<EntryUsageInfo>>;
 	createAsset(asset: Entry, assetFilePath: string, parentNodePath: string): Promise<Entry>;
 	updateAsset(asset: Entry, assetFilePath?: string): Promise<Entry>;
 	delete(id: string, languages?: string[], permanent?: boolean): Promise<void>;
