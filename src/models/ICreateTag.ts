@@ -8,5 +8,5 @@ import { Tag } from './Tag';
 export interface ICreateTag
     extends Optional<
         Omit<Tag, 'usageCount' | 'version'>,
-        | 'id'
+        | 'id' | 'value'
     > { }
