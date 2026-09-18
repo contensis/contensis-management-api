@@ -1,5 +1,6 @@
-import { ContensisClient, ComponentGetOptions, IComponentOperations, WorkflowTrigger } from '../models';
-import { Component, defaultMapperForLatestVersionStatus, IHttpClient, MapperFn, UrlBuilder, VersionStatus } from 'contensis-core-api';
+import { ContensisClient, Component, ComponentGetOptions, IComponentOperations, WorkflowTrigger } from '../models';
+import { Component as ComponentBase, defaultMapperForLatestVersionStatus, IHttpClient, MapperFn, UrlBuilder, VersionStatus } from 'contensis-core-api';
+
 
 let getMappers: { [key: string]: MapperFn } = {
     versionStatus: defaultMapperForLatestVersionStatus,
@@ -31,7 +32,7 @@ export class ComponentOperations implements IComponentOperations {
         });
     }
 
-    list(versionStatus: VersionStatus = null): Promise<Component[]> {
+    list(versionStatus?: VersionStatus): Promise<Component[]> {
         let url = UrlBuilder.create('/api/management/projects/:projectId/components',
             { versionStatus: null })
             .addOptions(versionStatus, 'versionStatus')
@@ -46,7 +47,7 @@ export class ComponentOperations implements IComponentOperations {
         });
     }
 
-    create(component: Component): Promise<Component> {
+    create(component: ComponentBase): Promise<Component> {
         if (!component) {
             throw new Error('A valid component needs to be specified.');
         }
@@ -65,7 +66,7 @@ export class ComponentOperations implements IComponentOperations {
         });
     }
 
-    update(component: Component): Promise<Component> {
+    update(component: ComponentBase): Promise<Component> {
         if (!component) {
             throw new Error('A valid component needs to be specified.');
         }
@@ -108,7 +109,7 @@ export class ComponentOperations implements IComponentOperations {
         });
     }
 
-    invokeWorkflow(component: Component, event: string, data: any = null): Promise<Component> {
+    invokeWorkflow(component: ComponentBase, event: string, data: any = null): Promise<Component> {
         if (!component) {
             throw new Error('A valid component needs to be specified.');
         }
