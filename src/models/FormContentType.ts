@@ -1,12 +1,4 @@
-import { Field } from 'contensis-core-api';
-// TEMPORARY SHIM: core-api does not yet export ContentTypeBase/ContentTypeGroup
-// from its root index (expected in core-api v1.2.3). Once that version is
-// available, replace the deep import above with:
-//   import { ContentTypeBase, ContentTypeGroup } from 'contensis-core-api';
-import {
-  ContentTypeBase,
-  ContentTypeGroup,
-} from 'contensis-core-api/lib/models/ContentTypeBase';
+import { ContentTypeBase, ContentTypeGroup, Field } from 'contensis-core-api';
 
 /**
  * A form content type as managed through the Management API.
