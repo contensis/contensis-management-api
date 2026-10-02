@@ -12,10 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - missing types in *EntrySys*: *properties*, *review*, *schedules* and *versionStatus*
 
 ### Changed
-- return *Component* type with appended metadata in component operations
+- return *Component* type with appended metadata in component operations and *IComponentOperations*
 - restrict *EntrySys.metadata* properties to string type only as complex types are not supported by the API and silently break
 - make *EntrySys.uri* optional - present on *entries.get()*, absent on *search()*/*list()*, set in site view via discrete *nodes* operations.
 - *EntrySys.slug* added null union which applies for asset entry types
+- narrow *EntrySys.versionStatus* to the core-api *VersionStatus* union (`'published' | 'latest'`)
+- bump *contensis-core-api* to ^1.2.5, making *Project.color* required
 
 ## [2.4.0] - 2025-06-02
 
