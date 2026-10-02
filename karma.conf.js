@@ -7,7 +7,7 @@ var webpackConfig = require('./webpack.test.config');
 // Switch explicitly with KARMA_HEADLESS=true, or implicitly via the standard
 // CI variable (GitHub Actions, GitLab CI, Jenkins, ...). Everything else is
 // treated as a desktop dev machine and gets the debugging launcher.
-var isHeadless = process.env.KARMA_HEADLESS === 'true' || /^(1|true)$/.test(process.env.CI || '');
+var isHeadless = process.env.KARMA_HEADLESS === 'true' || /^(1|true|yes|on)$/.test((process.env.CI || '').toLowerCase());
 
 module.exports = function (config) {
 	let originalConfig = {
