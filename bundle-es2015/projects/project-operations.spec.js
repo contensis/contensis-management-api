@@ -89,6 +89,7 @@ describe('Project Operations', () => {
                 primaryLanguage: 'en-GB',
                 supportedLanguages: ['fr-FR', 'de-DE'],
                 deliverySysExclusions: [],
+                color: 'blue',
             };
             let project = await client.projects.create(newProject);
             expect(global.fetch.calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
