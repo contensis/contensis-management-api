@@ -1,12 +1,11 @@
-import { ContentTypeBase, ContentTypeGroup, Field } from 'contensis-core-api';
+import { ContentTypeBase, ContentTypeGroup, Field, LocalisedString, LocalisedValue } from 'contensis-core-api';
 
 /**
- * A form content type as managed through the Management API.
- * A form is a content type (`ContentTypeBase<'form'>`) with forms-specific
- * field and payload shapes. Forms are created/updated via the content-type
- * API methods.
+ * A form content type managed through the Management API. Forms are content
+ * types (`dataFormat: 'form'`) created and updated via the content-type
+ * operations.
  */
-export interface FormContentType extends ContentTypeBase<'form'> {
+export interface FormContentType extends Omit<ContentTypeBase<'form'>, 'fields'> {
   defaultLanguage?: string;
   entryTitleField?: string;
   supportedLanguages?: string[];
@@ -14,8 +13,24 @@ export interface FormContentType extends ContentTypeBase<'form'> {
   fields: FormField[];
   properties?: Nullable<FormProperties>;
   dataFormat: 'form';
+  includeInDelivery?: boolean;
+  workflowId?: string;
+  versionHistory?: {
+    enabled?: boolean;
+  };
+  reviews?: {
+    onDemand?: {
+      enabled?: boolean;
+    };
+    schedule?: {
+      enabled?: boolean;
+      intervalDays?: number;
+      windowDays?: number;
+    };
+  };
 }
 
+/** A value that may be absent, `null` or set. */
 export type Nullable<T> = undefined | null | T;
 
 export type FormFieldDataType =
@@ -34,12 +49,10 @@ export type FormFieldDataFormat =
   | 'url';
 
 /**
- * A form field. Intersects core-api `Field` so `id`, `name`, `groupId` and
- * `description` keep their core types; the intersections below narrow
- * `dataType`/`dataFormat` and swap in the forms-specific validation and
- * editor shapes.
+ * A form field. `name` is a localised object; `validations` and `editor` use
+ * the forms-specific shapes below rather than the canvas shapes in core-api.
  */
-export type FormField = Field & {
+export type FormField = Omit<Field, 'validations' | 'editor'> & {
   dataType: FormFieldDataType;
   dataFormat?: FormFieldDataFormat;
   validations?: Nullable<FormFieldValidations>;
@@ -53,30 +66,40 @@ export type CaptchaSettings = {
 
 export type FormProperties = {
   captcha: CaptchaSettings;
-  localizations: Nullable<{
-    submit?: Nullable<string>;
-    next?: Nullable<string>;
-    previous?: Nullable<string>;
-    errorSummaryTitle?: Nullable<string>;
-  }>;
-  confirmationRules: FormRule<ConfirmationRuleReturn>[];
-  autoSaveProgress: boolean;
+  localizations?: Nullable<FormLocalizations>;
+  confirmationRules?: FormRule<ConfirmationRuleReturn>[];
+  autoSaveProgress?: boolean;
   mode?: 'survey';
+  requirePermissionToPost?: boolean;
+  autoCloseForm?: boolean;
+  autoCloseDateTime?: Nullable<string>;
+  context?: Nullable<{
+    enabled?: boolean;
+  }>;
 };
 
-export type FormFieldValidation = { message?: Nullable<string> };
+/**
+ * Localisation strings for gated form states. Rendered-form strings such as
+ * `submit` or `next` are a delivery concern and not part of this type.
+ */
+export type FormLocalizations = {
+  closedReasonMessage?: Nullable<LocalisedString>;
+  disabledReasonMessage?: Nullable<LocalisedString>;
+  requirePermissionToPostMessage?: Nullable<LocalisedString>;
+};
+
+export type FormFieldValidation = { message?: Nullable<LocalisedString> };
 export type FormFieldValidationWithValue<T> =
   FormFieldValidation & { value: T };
 
 export type AllowedValues = {
-  values?: Nullable<string[]>;
-  labeledValues?: Nullable<{ value: string; label: string }[]>;
+  values?: Nullable<LocalisedString[]>;
+  labeledValues?: Nullable<{ value: string; label: LocalisedString }[]>;
 };
 
 /**
- * Forms-specific field validations. Deliberately distinct from core-api
- * canvas `Validations<Field>` — form field validations use the
- * message-based shape below.
+ * Forms-specific field validations. Messages are localised objects, e.g.
+ * `{ "en-GB": "Please enter your name" }`.
  */
 export type FormFieldValidations = {
   required?: Nullable<FormFieldValidation>;
@@ -94,9 +117,16 @@ export type FormFieldValidations = {
 
 export type FormFieldEditorId =
   | 'datetime'
+  | 'datetimeparts'
   | 'date'
+  | 'dateparts'
+  | 'time'
+  | 'timeparts'
   | 'decimal'
   | 'integer'
+  | 'boolean'
+  | 'reference'
+  | 'url'
   | 'list-dropdown'
   | 'list'
   | 'multiline'
@@ -104,19 +134,31 @@ export type FormFieldEditorId =
 
 export type FieldLabelPosition = 'top' | 'leftAligned';
 
+export type FormFieldDateInputFormat = 'dd-mm-yyyy' | 'mm-dd-yyyy' | 'yyyy-mm-dd';
+export type FormFieldTimeInputFormat = '12h' | '24h';
+
 export type FormFieldEditorProperties = {
   autoFill?: string;
   rows?: number;
   labelPosition?: FieldLabelPosition;
   cssClass?: string;
   hidden?: boolean;
-  placeholderText?: string;
+  /** Localised, e.g. `{ "en-GB": "Enter your name" }`. */
+  placeholderText?: Nullable<LocalisedString | string>;
+  prefix?: Nullable<string>;
+  suffix?: Nullable<string>;
+  /** Options for the part-based date/time editors. */
+  dateFormat?: FormFieldDateInputFormat;
+  dateSeparator?: string;
+  timeFormat?: FormFieldTimeInputFormat;
+  timeSeparator?: string;
 };
 
+/** `label` and `instructions` are localised objects. */
 export type FormFieldEditor = {
   id?: Nullable<FormFieldEditorId>;
-  instructions?: Nullable<string>;
-  label?: Nullable<string>;
+  instructions?: Nullable<LocalisedString>;
+  label?: Nullable<LocalisedString>;
   properties?: FormFieldEditorProperties;
 };
 
@@ -124,24 +166,31 @@ export type FormRule<TReturn = ConfirmationRuleReturn> = {
   return: TReturn;
 };
 
-/** Management-API confirmation rule target: a link resolved by node id. */
-export type ConfirmationRuleReturnNodeId = {
+/**
+ * A link confirmation rule. "Redirect to URL" rules store a localised `uri`;
+ * "Redirect to site view location" rules store the selected `node`.
+ */
+export type ConfirmationRuleReturnLink = {
   link: {
     sys: {
-      node: { id: string };
+      uri?: LocalisedString;
+      node?: { id: string };
     };
   };
 };
 
+/**
+ * A content confirmation rule. `content` is a localised canvas block
+ * document, e.g. `{ "en-GB": [{ "type": "_paragraph", "value": "…" }] }`.
+ */
 export type ConfirmationRuleReturnContent = {
-  content: string;
+  content: LocalisedValue<any[]>;
 };
 
 /**
- * Management-API confirmation rule returns. The rendered-form
- * `link.sys.uri` variant is a delivery concern and is intentionally not
- * part of this type.
+ * Confirmation rule return. Rules are evaluated server-side on submit; the
+ * submit response resolves values for the requested language.
  */
 export type ConfirmationRuleReturn =
-  | ConfirmationRuleReturnNodeId
+  | ConfirmationRuleReturnLink
   | ConfirmationRuleReturnContent;
