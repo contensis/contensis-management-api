@@ -3,7 +3,7 @@ import { Component as ComponentBase } from 'contensis-core-api';
 export interface Component extends ComponentBase {
     /** Indicates if this component is a child component.
      *  Only applicable for fetched components has no effect when creating or updating. */
-    isChild?: boolean;   
+    isChild?: boolean;
     /** Indicates if this component has child components.
      *  Only applicable for fetched components has no effect when creating or updating. */
     hasChildren?: boolean;
