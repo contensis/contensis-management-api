@@ -72,6 +72,12 @@ describe('FormContentType / Component / EntrySys types', () => {
                     dataFormat: 'url',
                     editor: { id: 'url' },
                 },
+                {
+                    id: 'interests',
+                    name: { 'en-GB': 'Interests' },
+                    dataType: 'stringArray',
+                    editor: { id: 'list', properties: { repeatableItemDefault: {} } },
+                },
             ],
             properties: {
                 captcha: { enabled: false },
@@ -88,7 +94,10 @@ describe('FormContentType / Component / EntrySys types', () => {
                             },
                         },
                     },
-                    { return: { link: { sys: { uri: { 'en-GB': '/thanks' } } } } },
+                    {
+                        when: { and: [{ field: 'fullName', equalTo: 'Neil' }] },
+                        return: { link: { sys: { uri: { 'en-GB': '/thanks' } } } },
+                    },
                     // "Redirect to site view location" variant (management UI option;
                     // shape not yet captured in a live payload)
                     { return: { link: { sys: { node: { id: 'thanks-page' } } } } },
@@ -106,7 +115,7 @@ describe('FormContentType / Component / EntrySys types', () => {
                 versionNo: '1.0.0',
             },
         };
-        expect(form.fields.length).toBe(5);
+        expect(form.fields.length).toBe(6);
     });
     it('rejects canvas-only field shapes', () => {
         // @ts-expect-error 'object' is not a forms dataType

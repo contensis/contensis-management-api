@@ -111,7 +111,7 @@ export type FormFieldEditorProperties = {
     cssClass?: string;
     hidden?: boolean;
     /** Localised, e.g. `{ "en-GB": "Enter your name" }`. */
-    placeholderText?: Nullable<LocalisedString | string>;
+    placeholderText?: Nullable<LocalisedString>;
     prefix?: Nullable<string>;
     suffix?: Nullable<string>;
     /** Options for the part-based date/time editors. */
@@ -119,6 +119,8 @@ export type FormFieldEditorProperties = {
     dateSeparator?: string;
     timeFormat?: FormFieldTimeInputFormat;
     timeSeparator?: string;
+    /** Default value for a new item in a repeatable (array) field. */
+    repeatableItemDefault?: LocalisedValue<any>;
 };
 /** `label` and `instructions` are localised objects. */
 export type FormFieldEditor = {
@@ -127,7 +129,22 @@ export type FormFieldEditor = {
     label?: Nullable<LocalisedString>;
     properties?: FormFieldEditorProperties;
 };
+/**
+ * A condition on a submitted field value. Only `equalTo` has been observed
+ * in payloads so far.
+ */
+export type FormRuleCondition = {
+    field: string;
+    equalTo?: any;
+};
+/**
+ * A confirmation rule. `when` is absent for unconditional rules; only `and`
+ * groups have been observed in payloads so far.
+ */
 export type FormRule<TReturn = ConfirmationRuleReturn> = {
+    when?: Nullable<{
+        and?: FormRuleCondition[];
+    }>;
     return: TReturn;
 };
 /**
