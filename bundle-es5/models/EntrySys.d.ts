@@ -1,4 +1,4 @@
-import { VersionInfo } from 'contensis-core-api';
+import { VersionInfo, VersionStatus } from 'contensis-core-api';
 import { Workflow } from './Workflow';
 export interface EntrySys {
     availableLanguages: string[];
@@ -35,7 +35,7 @@ export interface EntrySys {
         };
     };
     /** `null` for assets, string for entries. */
-    slug: string;
+    slug: string | null;
     translationState: string;
     unavailableLanguages: string[];
     /** Present on single-entry GET responses; absent on search/list results.
@@ -43,6 +43,6 @@ export interface EntrySys {
      * create/update callers — optional, not deprecated. */
     uri?: string;
     version: VersionInfo;
-    versionStatus: string;
+    versionStatus: VersionStatus;
     workflow: Workflow;
 }
