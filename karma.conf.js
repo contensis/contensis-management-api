@@ -2,6 +2,13 @@
 // Generated on Tue Jun 27 2017 13:36:04 GMT+0100 (GMT Daylight Time)
 var webpackConfig = require('./webpack.test.config');
 
+// Headless environments (containers, CI agents) have no desktop Chrome and no
+// usable remote debugging port, so they must use the headless launcher.
+// Switch explicitly with KARMA_HEADLESS=true, or implicitly via the standard
+// CI variable (GitHub Actions, GitLab CI, Jenkins, ...). Everything else is
+// treated as a desktop dev machine and gets the debugging launcher.
+var isHeadless = process.env.KARMA_HEADLESS === 'true' || /^(1|true)$/.test(process.env.CI || '');
+
 module.exports = function (config) {
 	let originalConfig = {
 		client: {
@@ -39,13 +46,17 @@ module.exports = function (config) {
 		logLevel: config.LOG_INFO,
 		autoWatch: false,
 		autoWatchBatchDelay: 1000,
-		browsers: ['ChromeDebugging'],
-        customLaunchers: {
-            ChromeDebugging: {
-                base: 'Chrome',
-                flags: [ '--remote-debugging-port=9333' ]
-            }
-        },
+		browsers: [isHeadless ? 'ChromeHeadlessNoSandbox' : 'ChromeDebugging'],
+		customLaunchers: {
+			ChromeDebugging: {
+				base: 'Chrome',
+				flags: ['--remote-debugging-port=9333'],
+			},
+			ChromeHeadlessNoSandbox: {
+				base: 'ChromeHeadless',
+				flags: ['--no-sandbox', '--disable-dev-shm-usage'],
+			},
+		},
 		// browserDisconnectTimeout : 0,
 		// browserNoActivityTimeout : 0,
 		singleRun: true,
