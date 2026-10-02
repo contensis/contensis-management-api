@@ -4,6 +4,7 @@ require('../lib/content-types/content-type-operations.spec');
 require('../lib/entries/entry-operations.spec');
 require('../lib/events/event-operations.spec');
 require('../lib/http/url-builder.spec');
+require('../lib/models/FormContentType.spec');
 require('../lib/nodes/node-operations.spec');
 require('../lib/permissions/permission-operations.spec');
 require('../lib/projects/project-operations.spec');
