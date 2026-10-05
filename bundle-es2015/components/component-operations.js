@@ -26,7 +26,7 @@ export class ComponentOperations {
             });
         });
     }
-    list(versionStatus = null) {
+    list(versionStatus) {
         let url = UrlBuilder.create('/api/management/projects/:projectId/components', { versionStatus: null })
             .addOptions(versionStatus, 'versionStatus')
             .setParams(this.contensisClient.getParams())
