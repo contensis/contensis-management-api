@@ -185,14 +185,24 @@ export type FormRule<TReturn = ConfirmationRuleReturn> = {
 };
 
 /**
- * A link confirmation rule. "Redirect to URL" rules store a localised `uri`;
- * "Redirect to site view location" rules store the selected `node`.
+ * A link confirmation rule. "Redirect to URL" rules store a localised `uri`.
  */
-export type ConfirmationRuleReturnLink = {
+export type ConfirmationRuleReturnUri = {
   link: {
     sys: {
-      uri?: LocalisedString;
-      node?: { id: string };
+      uri: LocalisedString;
+    };
+  };
+};
+
+/**
+ * A link confirmation rule. "Redirect to site view location" rules store the
+ * selected `node`.
+ */
+export type ConfirmationRuleReturnNodeId = {
+  link: {
+    sys: {
+      node: { id: string };
     };
   };
 };
@@ -210,5 +220,6 @@ export type ConfirmationRuleReturnContent = {
  * submit response resolves values for the requested language.
  */
 export type ConfirmationRuleReturn =
-  | ConfirmationRuleReturnLink
+  | ConfirmationRuleReturnUri
+  | ConfirmationRuleReturnNodeId
   | ConfirmationRuleReturnContent;
