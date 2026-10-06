@@ -2,6 +2,6 @@
 # emits LF, but the checked-in trees were previously stored CRLF, so every
 # rebuild flipped ~180 files (see PR #69). Pinning eol=lf here stops that
 # line-ending churn from recurring.
-/lib/ text eol=lf
-/bundle-es5/ text eol=lf
-/bundle-es2015/ text eol=lf
+/lib/** text eol=lf
+/bundle-es5/** text eol=lf
+/bundle-es2015/** text eol=lf
