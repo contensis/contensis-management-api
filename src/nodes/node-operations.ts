@@ -154,7 +154,7 @@ export class NodeOperations implements INodeOperations {
 
         let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/:id/children/order',
             { language: null })
-            .addOptions(id, 'id')
+            .addOptions({ id, language })
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
@@ -174,7 +174,7 @@ export class NodeOperations implements INodeOperations {
 
         let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/:id/children/order',
             { language: null })
-            .addOptions(id, 'id')
+            .addOptions({ id, language })
             .setParams(this.contensisClient.getParams())
             .toUrl();
 
