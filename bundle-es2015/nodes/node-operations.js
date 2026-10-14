@@ -117,7 +117,7 @@ export class NodeOperations {
             throw new Error('The children ids need to be specified.');
         }
         let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/:id/children/order', { language: null })
-            .addOptions(id, 'id')
+            .addOptions({ id, language })
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
@@ -133,7 +133,7 @@ export class NodeOperations {
             throw new Error('A valid id needs to be specified.');
         }
         let url = UrlBuilder.create('/api/management/projects/:projectId/nodes/:id/children/order', { language: null })
-            .addOptions(id, 'id')
+            .addOptions({ id, language })
             .setParams(this.contensisClient.getParams())
             .toUrl();
         return this.contensisClient.ensureBearerToken().then(() => {
