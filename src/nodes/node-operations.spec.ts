@@ -123,4 +123,78 @@ describe('Nodes Operations', () => {
             expect(nodes[0].slug['en-GB']).toEqual('node1');
         });
     });
+
+    describe('Set children order', () => {
+        beforeEach(() => {
+            setDefaultSpy(global, null);
+
+            Zengenti.Contensis.Client.defaultClientConfig = null;
+            Zengenti.Contensis.Client.configure({
+                fetchFn: global.fetch
+            });
+        });
+
+        it('in the client language by default', async () => {
+            const client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            await client.nodes.setChildrenOrder('PPPPPP', ['CCCCC1', 'CCCCC2']);
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children/order?language=en-US',
+                getDefaultFetchRequest('PUT', null, JSON.stringify(['CCCCC1', 'CCCCC2']))
+            ]);
+        });
+
+        it('in a specific language', async () => {
+            const client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            await client.nodes.setChildrenOrder('PPPPPP', ['CCCCC1', 'CCCCC2'], 'fr-FR');
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children/order?language=fr-FR',
+                getDefaultFetchRequest('PUT', null, JSON.stringify(['CCCCC1', 'CCCCC2']))
+            ]);
+        });
+    });
+
+    describe('Delete children order', () => {
+        beforeEach(() => {
+            setDefaultSpy(global, null);
+
+            Zengenti.Contensis.Client.defaultClientConfig = null;
+            Zengenti.Contensis.Client.configure({
+                fetchFn: global.fetch
+            });
+        });
+
+        it('in the client language by default', async () => {
+            const client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            await client.nodes.deleteChildrenOrder('PPPPPP');
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children/order?language=en-US',
+                getDefaultFetchRequest('DELETE')
+            ]);
+        });
+
+        it('in a specific language', async () => {
+            const client = Zengenti.Contensis.Client.create(getDefaultConfig());
+
+            await client.nodes.deleteChildrenOrder('PPPPPP', 'fr-FR');
+
+            expect((global.fetch as any).calls.first().args[0]).toEqual(getDefaultAuthenticateUrl());
+
+            expect((global.fetch as any).calls.mostRecent().args).toEqual([
+                'http://my-website.com/api/management/projects/myProject/nodes/PPPPPP/children/order?language=fr-FR',
+                getDefaultFetchRequest('DELETE')
+            ]);
+        });
+    });
 });
